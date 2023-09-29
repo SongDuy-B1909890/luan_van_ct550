@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 const RegisterPage = () =>{
     return ( 
-        <div className="min-h-screen bg-gray-100 flex flex-col justify-center  py-12 sm:px-6 lg:px-8 fixed inset-0  bg-opacity-30 backdrop-blur-sm z-50  ">
-          <div className=" sm:mx-auto sm:w-full sm:max-w-md mt-8 mb-28">
-            <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="min-h-screen bg-gray-300 flex flex-col justify-center  py-12 sm:px-6 lg:px-8 fixed inset-0  bg-opacity-30 backdrop-blur-sm z-50  ">
+          <div className="bg-white sm:mx-auto sm:rounded-lg sm:w-full sm:max-w-md mt-8 mb-28">
+            <div className=" py-8 px-4 shadow sm:rounded-lg sm:px-10">
                 
                 <div className="sm:mx-auto sm:w-full sm:max-w-md mb-6">
                     <h2 className=" text-center text-3xl font-extrabold text-gray-900">
@@ -14,7 +14,7 @@ const RegisterPage = () =>{
                     <p className="mt-2 text-center text-sm text-gray-600">
                 <Link
                   className="font-medium text-indigo-600 hover:text-indigo-500 text-red-300"
-                  to="/login"
+                  to="/"
                 >
                   <b>Quay lại</b>
                 </Link>
