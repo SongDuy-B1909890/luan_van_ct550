@@ -5,6 +5,7 @@ import Home from './components/layout/index';
 import LoginPage from './components/auth/login';
 import RegisterPage from './components/auth/register';
 import ForgotPasswordPage from './components/auth/forgotPassword';
+import MenuPage from './components/layout/menu';
 // import './App.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<LoginPage />}></Route>
         <Route path="/register" element={<RegisterPage />}></Route>
         <Route path="/forgotPassword" element={<ForgotPasswordPage />}></Route>
+        <Route path="/menu" element={<MenuPage />}></Route>
       </Routes>
     </BrowserRouter>
   );
