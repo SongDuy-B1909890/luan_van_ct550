@@ -26,7 +26,7 @@ const LoginPage = () =>{
                 <div className="rounded-md py-6 shadow-sm -space-y-px-10">
                   <div className="form-outline mb-4">
                     <label
-                      htmlFor="email"
+                      htmlFor="email" 
                       className="block text-sm font-medium text-gray-700"
                     >
                       Tài khoản đăng nhập
