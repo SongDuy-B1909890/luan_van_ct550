@@ -1,23 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const LoginPage = () =>{
+const LoginPage = ({ closeModal }) =>{
   
+  const handleBackdropClick = (event) => {
+    if (event.target === event.currentTarget) {
+      closeModal(); // Gọi hàm closeModal khi nhấp vào nền
+    }
+  };
+
     return ( 
-        <div className="min-h-screen bg-black flex flex-col justify-center  py-12 sm:px-6 lg:px-8 fixed inset-0  bg-opacity-30 backdrop-blur-sm z-50  ">
+        <div className="min-h-screen bg-black flex flex-col justify-center  py-12 sm:px-6 lg:px-8 fixed inset-0  bg-opacity-25  z-50  " onClick={handleBackdropClick}> {/* backdrop-blur-sm */}
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md mb-28 bg-white py-1 px-4 shadow sm:rounded-lg sm:px-10 mb-26 ">
             
             <div className="sm:mx-auto sm:w-full sm:max-w-md ">
               <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                 Đăng Nhập Tài Khoản
               </h2>
-              <p className="mt-2 text-center text-sm text-gray-600">
-                <Link to="/"
-                  className="font-medium text-indigo-600 hover:text-indigo-500 text-red-300"
-                >
-                  <b>Quay lại</b>
-                </Link>
-              </p>
             </div>
 
             <div>
@@ -97,7 +96,7 @@ const LoginPage = () =>{
                       className="font-medium text-indigo-600 hover:text-indigo-500"
                     
                     >
-                      <b>Bạn chưa đăng ký tài khoản?</b>
+                      <b>Đăng ký tài khoản</b>
                     </Link>
                   </div>
 
@@ -113,12 +112,6 @@ const LoginPage = () =>{
                 </div>
 
                 <div className="py-6 w-full flex justify-center  space-x-36 ">
-                  <Link to="/"
-                    type="submit"
-                    className="py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-gray-200 hover:bg-gray-300 mr-5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  >
-                    Thoát ra
-                  </Link>
                   <button
                     type="submit"
                     className=" py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

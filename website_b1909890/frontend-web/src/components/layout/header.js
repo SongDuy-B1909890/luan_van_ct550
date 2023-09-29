@@ -5,17 +5,28 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import SearchIcon from '@mui/icons-material/Search';
 import LoginPage from '../auth/login'
-
+import MenuPage from './menu';
 //import { Link } from 'react-router-dom';
 const HeaderPage = () =>{
-    const [isModal, setModal] = useState(false);
-    const handleModalOpenClick = () => {
-        setModal(true);
+    const [isLoginModal, setIsLoginModal] = useState(false);
+    const openLoginModal = () => {
+        setIsLoginModal(true);
+    };
+    const closeLoginModal = () => {
+        setIsLoginModal(false);
+    };
+
+    const [isMenuModal, setIsMenuModal] = useState(false);
+    const openMenuModal = () => {
+        setIsMenuModal(true);
+    };
+    const closeMenuModal = () => {
+        setIsMenuModal(false);
     };
     
     // const closeModal = () => {
-    //     if (isModal===true) {
-    //       setModal(false);
+    //     if (isMenuModal===true) {
+    //         setIsMenuModal(false);
     //     }
     // };
  return ( 
@@ -29,9 +40,12 @@ const HeaderPage = () =>{
             <button 
                 className="flex justify-center items-center ml-5 mt-1 
                 w-10 h-10 hover:bg-gray-100 rounded-full"
+                onClick={openMenuModal}
+                
             >
                 <DensityMediumIcon />
             </button>
+            {isMenuModal && <MenuPage closeModal={closeMenuModal} />}
             
         </div>
 
@@ -62,7 +76,7 @@ const HeaderPage = () =>{
                 className="flex justify-center items-center mr-4 mt-1
                 w-10 h-10 hover:bg-gray-100 rounded-full" 
                 title="Tạo video"
-                onClick={handleModalOpenClick}
+                onClick={openLoginModal}
             > 
                 <VideoCallOutlinedIcon />
             </button>
@@ -71,7 +85,7 @@ const HeaderPage = () =>{
                 className="flex justify-center items-center mr-6 mt-1 
                 w-10 h-10 hover:bg-gray-100 rounded-full" 
                 title="Thông báo"
-                onClick={handleModalOpenClick}
+                onClick={openLoginModal}
             > 
                 <NotificationsNoneIcon />
             </button>
@@ -82,17 +96,19 @@ const HeaderPage = () =>{
                 mt-1 w-[100px] h-10 hover:bg-blue-100 rounded-full border 
                 border-blue-500" 
                 title="Đăng nhập"
-                onClick={handleModalOpenClick}
+                onClick={openLoginModal}
             >   
                 <div className="mr-2"> <AccountCircleIcon/> </div>
                     
                 Sign in
             </button>
-            {isModal && (
+
+            {isLoginModal && <LoginPage closeModal={closeLoginModal} />}
+            {/* {isLoginModal && (
                 
                 <LoginPage />
                 
-            )}
+            )} */}
             
         </div>
         
