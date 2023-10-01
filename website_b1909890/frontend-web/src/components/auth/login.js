@@ -10,7 +10,7 @@ const LoginPage = ({ closeModal }) =>{
   };
 
     return ( 
-        <div className="min-h-screen bg-black flex flex-col justify-center  py-12 sm:px-6 lg:px-8 fixed inset-0  bg-opacity-50 z-50  " onClick={handleBackdropClick}> {/* backdrop-blur-sm */}
+        <div className="min-h-screen bg-black bg-opacity-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 fixed inset-0 z-50" onClick={handleBackdropClick}> {/* backdrop-blur-sm */}
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md mb-28 bg-white py-1 px-4 shadow sm:rounded-lg sm:px-10 mb-26 ">
             
             <div className="sm:mx-auto sm:w-full sm:max-w-md ">

@@ -8,7 +8,6 @@ import ForgotPasswordPage from './components/auth/forgotPassword';
 import MenuPage from './components/layout/menu';
 import MyChannel from './components/layout/myChannel';
 import FooterPage from './components/layout/footer';
-// import './App.css';
 
 function App() {
   return (
