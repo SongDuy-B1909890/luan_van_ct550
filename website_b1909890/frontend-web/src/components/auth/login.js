@@ -111,10 +111,10 @@ const LoginPage = ({ closeModal }) =>{
                   </div>
                 </div>
 
-                <div className="py-6 w-full flex justify-center  space-x-36 ">
+                <div className="py-6 flex justify-center  space-x-36 ">
                   <button
                     type="submit"
-                    className=" py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className=" py-2 px-4 w-full border border-transparent text-sm font-medium rounded-md text-black bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     Đăng nhập
                   </button>

@@ -39,43 +39,61 @@ const MenuPage = ({ closeModal }) => {
                     
                     <div>
                         <ul className="mb-2">
+
                             <Link to="/">
-                            <li className="hover:bg-gray-200 py-2 px-2 rounded-xl cursor-pointer"> 
-                                <HomeOutlinedIcon className="mr-4"/> 
-                                Trang Chủ
-                            </li>
+                                <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"> 
+                                    <HomeOutlinedIcon className="mr-4"/> 
+                                    Trang Chủ
+                                </li>
                             </Link>
-                            <li className="hover:bg-gray-200 py-2 px-2 rounded-xl cursor-pointer">
-                                <LiveTvOutlinedIcon className="mr-4"/>
-                                Kênh Của Tôi
-                            </li>
-                            <li className="hover:bg-gray-200 py-2 px-2 rounded-xl cursor-pointer">
-                                <SubscriptionsOutlinedIcon className="mr-4"/>
-                                Kênh Đăng Ký
-                            </li>
+
+                            <Link to="/">
+                                <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"> 
+                                    <LiveTvOutlinedIcon className="mr-4"/>
+                                    Kênh Của Tôi
+                                </li>
+                            </Link>
+
+                            <Link to="/">
+                                <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"> 
+                                    <SubscriptionsOutlinedIcon className="mr-4"/>
+                                    Kênh Đăng Ký
+                                </li>
+                            </Link>
+
                         </ul>
 
                         <hr/>
 
                         <ul className="mt-2">
-                            <li className="hover:bg-gray-200 py-2 px-2 rounded-xl cursor-pointer"> 
-                                <RemoveRedEyeOutlinedIcon className="mr-4"/> 
-                                Video Đã Xem
-                            </li>
-                            <li className="hover:bg-gray-200 py-2 px-2 rounded-xl cursor-pointer">
-                                <FavoriteBorderOutlinedIcon className="mr-4"/>
-                                Video Yêu Thích
-                            </li>
-                            <li className="hover:bg-gray-200 py-2 px-2 rounded-xl cursor-pointer"> 
-                                <FlagOutlinedIcon className="mr-4"/> 
-                                Video Vi Phạm
-                            </li>
-                        </ul>
-                    </div>
+                            <Link to="/">
+                                <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"> 
+                                    <RemoveRedEyeOutlinedIcon className="mr-4"/> 
+                                    Video Đã Xem
+                                </li>
+                            </Link>
 
-                    <div className="absolute bottom-0">
-                        <FooterPage/>
+                            <Link to="/">
+                                <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"> 
+                                    <FavoriteBorderOutlinedIcon className="mr-4"/>
+                                    Video Yêu Thích
+                                </li>
+                            </Link>
+
+                            <Link to="/">
+                                <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"> 
+                                    <FlagOutlinedIcon className="mr-4"/> 
+                                    Video Vi Phạm
+                                </li>
+                            </Link>
+                        </ul>
+        
+                       <div className="absolute bottom-0">
+                            <FooterPage/>
+                        </div> 
                     </div>
+                    
+                    
 
                 </div>
 

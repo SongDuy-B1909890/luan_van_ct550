@@ -2,6 +2,13 @@ import React, { useRef, useState, useCallback } from 'react';
 import ReactPlayer from 'react-player/lazy';
 import { InView } from 'react-intersection-observer';
 
+import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
+import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
+import ShareIcon from '@mui/icons-material/Share';
+import BlockIcon from '@mui/icons-material/Block';
+
+import Avatar from '@mui/material/Avatar';
+
 const WatchPage = () => {
 
   const videoRefs = useRef([]);
@@ -134,35 +141,99 @@ const WatchPage = () => {
   );
   return (
     <div className="w-full h-full overflow-auto">
+
       <div className="flex flex-wrap justify-center items-center mt-[105px]">
         {videos.map((video) => (
           <div
             key={video.id}
-            className="flex justify-center items-center mb-[45px] rounded-2xl overflow-hidden"
-            
+            className="flex justify-center items-center"
           >
-            <ReactPlayer
-              ref={(ref) => (videoRefs.current[video.id] = ref)}
-              data-id={video.id}
-              url={video.url}
-              playing={playingVideos.includes(video.id)}
-              onPlay={() => handleVideoChange(video.id)}
-              autoPlay={false}
-              width="960px"
-              height="540px"
-              controls
-              allowFullScreen={true}
-              config={{
-                youtube: {
-                  playerVars: { showinfo: 1 },
-                },
-              }}
-              loading="lazy"
-              preload="true"
-            />
+            <div className=" mb-[45px] rounded-2xl overflow-hidden">
+              <ReactPlayer
+                ref={(ref) => (videoRefs.current[video.id] = ref)}
+                data-id={video.id}
+                url={video.url}
+                playing={playingVideos.includes(video.id)}
+                onPlay={() => handleVideoChange(video.id)}
+                autoPlay={false}
+                width="960px"
+                height="540px"
+                controls
+                allowFullScreen={true}
+                config={{
+                  youtube: {
+                    playerVars: { showinfo: 1 },
+                  },
+                }}
+                loading="lazy"
+                preload="true"
+              />
+            </div>
+
+            <div className="ml-4">
+           
+              <ul>
+
+                <li className="mb-16 text-center">
+                  <button >
+                    <Avatar 
+                      alt="Remy Sharp" 
+                      src="https://vapa.vn/wp-content/uploads/2022/12/hinh-nen-dep-ngau-nu-001.jpg" 
+                      sx={{ width: 50, height: 50 }}
+                    />
+                  </button>
+                  <button className="block w-[75px] h-[30px] bg-black text-white rounded-full px-2">
+                    Đăng ký
+                  </button>
+                </li>
+
+                <li className="mb-3 text-center"> 
+                  <button className="w-[50px] h-[50px] bg-gray-100 rounded-full">
+                    <FavoriteRoundedIcon/>
+                  </button>
+                  <span className="block">
+                    200k
+                  </span>
+                </li>
+                
+                <li className="mb-3 text-center"> 
+                  <button className="w-[50px] h-[50px] bg-gray-100 rounded-full">
+                    <ChatRoundedIcon/>
+                  </button>
+                  <span className="block">
+                    2k
+                  </span> 
+                </li>
+
+                <li className="mb-3 text-center"> 
+                  <button className="w-[50px] h-[50px] bg-gray-100 rounded-full">
+                    <ShareIcon/>
+                  </button>
+                  <span className="block">
+                    2k
+                  </span>
+ 
+                </li>
+
+                <li className="mb-3 text-center"> 
+                  <button className="w-[50px] h-[50px] bg-gray-100 rounded-full">
+                    <BlockIcon/>
+                  </button>
+                  {/* <span className="block">
+                    2k
+                  </span> */}
+ 
+                </li>
+              </ul>
+
+            </div>
+
           </div>
+          
         ))}
+       
       </div>
+
       {videoRefs.current.length > 0 && (
         <InView
           rootMargin="0px"

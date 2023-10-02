@@ -2,16 +2,9 @@ import React from 'react';
 
 const FooterPage = () => {
     return (
-        <div>hlo llllll
-            llllllll
-            llllllll
-            llllllll
-            lllllllll
-            llllllll
-
-
-            llllllll
-            lllllll</div>
+        <div  className=" w-[208px] border-t">
+           <span className="text-gray-500">Bản quyền © 2023 B1909890</span>
+        </div>
     );
 };
 
