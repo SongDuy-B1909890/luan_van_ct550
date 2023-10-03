@@ -25,5 +25,10 @@ code {
 }
 
 .slide-in {
-  animation: slideIn 0.5s forwards;
+  animation: slideIn 0.9s forwards;
+}
+
+/* Xuất hiện mục comment */
+.modal-comment {
+  display: none;
 }

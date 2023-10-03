@@ -9,6 +9,8 @@ import BlockIcon from '@mui/icons-material/Block';
 
 import Avatar from '@mui/material/Avatar';
 
+import '../../index.css';
+
 const WatchPage = () => {
 
   const videoRefs = useRef([]);
@@ -139,8 +141,41 @@ const WatchPage = () => {
     },
     [playingVideos]
   );
+
+  const [isChatModal, setIsChatModal] = useState(false);
+
+  // const openChatModal = () => {
+  //   setIsChatModal(true);
+  // };
+
+  // const closeChatModal = () => {
+  //   if (isChatModal===true) {
+  //     setIsChatModal(false);
+  //   }
+  // };
+
+  const [chatModalStates, setChatModalStates] = useState({});
+
+  const openChatModal = (videoId) => {
+    setIsChatModal(true);
+    setChatModalStates((prevChatModalStates) => ({
+      ...prevChatModalStates,
+      [videoId]: true,
+    }));
+  };
+  
+  const closeChatModal = (videoId) => {
+    if (isChatModal === true) {
+      setIsChatModal(false);
+      setChatModalStates((prevChatModalStates) => ({
+        ...prevChatModalStates,
+        [videoId]: false,
+      }));
+    }
+  };
+  
   return (
-    <div className="w-full h-full overflow-auto">
+    <div className="w-full h-full bg-gray-50 overflow-auto ">
 
       <div className="flex flex-wrap justify-center items-center mt-[105px]">
         {videos.map((video) => (
@@ -170,62 +205,75 @@ const WatchPage = () => {
               />
             </div>
 
-            <div className="ml-4">
-           
-              <ul>
+           <div className=" flex justify-center ml-1">   
+              <div className="h-[540px] mb-[45px] pr-3 bg-white rounded-l-2xl shadow border border-gray-300">
+                <ul className="ml-3 mt-10">
 
-                <li className="mb-16 text-center">
-                  <button >
-                    <Avatar 
-                      alt="Remy Sharp" 
-                      src="https://vapa.vn/wp-content/uploads/2022/12/hinh-nen-dep-ngau-nu-001.jpg" 
-                      sx={{ width: 50, height: 50 }}
-                    />
-                  </button>
-                  <button className="block w-[75px] h-[30px] bg-black text-white rounded-full px-2">
-                    Đăng ký
-                  </button>
-                </li>
+                  <li className="mb-16 text-center">
+                    <button >
+                      <Avatar 
+                        alt="Remy Sharp" 
+                        src="https://vapa.vn/wp-content/uploads/2022/12/hinh-nen-dep-ngau-nu-001.jpg" 
+                        sx={{ width: 50, height: 50 }}
+                      />
+                    </button>
+                    <button className="block w-[75px] h-[30px] bg-gray-200 text-black rounded-full px-2">
+                      Đăng ký
+                    </button>
+                  </li>
 
-                <li className="mb-3 text-center"> 
-                  <button className="w-[50px] h-[50px] bg-gray-100 rounded-full">
-                    <FavoriteRoundedIcon/>
-                  </button>
-                  <span className="block">
-                    200k
-                  </span>
-                </li>
-                
-                <li className="mb-3 text-center"> 
-                  <button className="w-[50px] h-[50px] bg-gray-100 rounded-full">
-                    <ChatRoundedIcon/>
-                  </button>
-                  <span className="block">
-                    2k
-                  </span> 
-                </li>
+                  <li className="mb-3 text-center"> 
+                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full">
+                      <FavoriteRoundedIcon/>
+                    </button>
+                    <span className="block">
+                      200k
+                    </span>
+                  </li>
+                  
+                  <li 
+                    className="mb-3 text-center" 
+                    onClick={() => closeChatModal(video.id)}
+                  > 
+                    <button 
+                      className="w-[50px] h-[50px] bg-gray-100 rounded-full" 
+                      onClick={() => openChatModal(video.id)}
+                    >
+                        <ChatRoundedIcon/>
+                    </button>
+                    <span className="block">
+                      2k
+                    </span> 
+                  </li>
 
-                <li className="mb-3 text-center"> 
-                  <button className="w-[50px] h-[50px] bg-gray-100 rounded-full">
-                    <ShareIcon/>
-                  </button>
-                  <span className="block">
-                    2k
-                  </span>
- 
-                </li>
+                  <li className="mb-3 text-center"> 
+                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full">
+                      <ShareIcon/>
+                    </button>
+                    <span className="block">
+                      2k
+                    </span>
+  
+                  </li>
 
-                <li className="mb-3 text-center"> 
-                  <button className="w-[50px] h-[50px] bg-gray-100 rounded-full">
-                    <BlockIcon/>
-                  </button>
-                  {/* <span className="block">
-                    2k
-                  </span> */}
- 
-                </li>
-              </ul>
+                  <li className="mb-3 text-center bg-white"> 
+                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full">
+                      <BlockIcon/>
+                    </button>
+                    {/* <span className="block">
+                      2k
+                    </span> */}
+  
+                  </li>
+                  
+                </ul>
+              </div>
+                {/* Phần comment */}
+                {isChatModal && chatModalStates[video.id] && (
+              <div className="w-[430px] h-[540px] bg-white rounded-r-2xl shadow border border-gray-300">
 
+              </div>
+                )}
             </div>
 
           </div>

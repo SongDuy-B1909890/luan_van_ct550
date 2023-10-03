@@ -4,6 +4,7 @@ import VideoCallOutlinedIcon from '@mui/icons-material/VideoCallOutlined';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import SearchIcon from '@mui/icons-material/Search';
+import Badge from '@mui/material/Badge';
 import LoginPage from '../auth/login'
 import MenuPage from './menu';
 //import { Link } from 'react-router-dom';
@@ -32,7 +33,7 @@ const HeaderPage = () =>{
  return ( 
        
     <div className="flex items-center w-full  h-[60px] bg-white fixed 
-        inset-x-0 top-0 shadow"
+        inset-x-0 top-0 shadow z-50"
     >
 
         <div className="w-max-[180px] mr-[180px]">
@@ -87,7 +88,8 @@ const HeaderPage = () =>{
                 title="Thông báo"
                 onClick={openLoginModal}
             > 
-                <NotificationsNoneIcon />
+            <Badge color="secondary" badgeContent={99}>
+                <NotificationsNoneIcon /></Badge>
             </button>
 
             
