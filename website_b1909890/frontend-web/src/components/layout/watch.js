@@ -165,8 +165,8 @@ const WatchPage = () => {
   };
   
   const closeChatModal = (videoId) => {
-    if (isChatModal === true) {
-      setIsChatModal(false);
+    if (isChatModal === true && chatModalStates[videoId] === true) {
+      // setIsChatModal(false);
       setChatModalStates((prevChatModalStates) => ({
         ...prevChatModalStates,
         [videoId]: false,
@@ -217,13 +217,13 @@ const WatchPage = () => {
                         sx={{ width: 50, height: 50 }}
                       />
                     </button>
-                    <button className="block w-[75px] h-[30px] bg-gray-200 text-black rounded-full px-2">
+                    <button className="block w-[75px] h-[30px] bg-gray-200 text-black rounded-full px-2 hover:bg-gray-300">
                       Đăng ký
                     </button>
                   </li>
 
                   <li className="mb-3 text-center"> 
-                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full">
+                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200">
                       <FavoriteRoundedIcon/>
                     </button>
                     <span className="block">
@@ -236,7 +236,7 @@ const WatchPage = () => {
                     onClick={() => closeChatModal(video.id)}
                   > 
                     <button 
-                      className="w-[50px] h-[50px] bg-gray-100 rounded-full" 
+                      className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" 
                       onClick={() => openChatModal(video.id)}
                     >
                         <ChatRoundedIcon/>
@@ -247,7 +247,7 @@ const WatchPage = () => {
                   </li>
 
                   <li className="mb-3 text-center"> 
-                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full">
+                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200">
                       <ShareIcon/>
                     </button>
                     <span className="block">
@@ -257,7 +257,7 @@ const WatchPage = () => {
                   </li>
 
                   <li className="mb-3 text-center bg-white"> 
-                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full">
+                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200">
                       <BlockIcon/>
                     </button>
                     {/* <span className="block">
@@ -270,7 +270,7 @@ const WatchPage = () => {
               </div>
                 {/* Phần comment */}
                 {isChatModal && chatModalStates[video.id] && (
-              <div className="w-[430px] h-[540px] bg-white rounded-r-2xl shadow border border-gray-300">
+              <div className="w-[400px] h-[540px] bg-white rounded-r-2xl shadow border border-gray-300">
 
               </div>
                 )}
