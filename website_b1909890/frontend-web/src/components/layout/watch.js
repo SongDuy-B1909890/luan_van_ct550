@@ -205,7 +205,7 @@ const WatchPage = () => {
               />
             </div>
 
-           <div className=" flex justify-center ml-1">   
+           <div className=" flex justify-center ml-2">   
               <div className="h-[540px] mb-[45px] pr-3 bg-white rounded-l-2xl shadow border border-gray-300">
                 <ul className="ml-3 mt-10">
 
