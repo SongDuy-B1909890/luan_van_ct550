@@ -4,11 +4,10 @@ import { InView } from 'react-intersection-observer';
 
 import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
-import ShareIcon from '@mui/icons-material/Share';
+import ReplyIcon from '@mui/icons-material/Reply';
 import BlockIcon from '@mui/icons-material/Block';
 
 import Avatar from '@mui/material/Avatar';
-
 import '../../index.css';
 
 const WatchPage = () => {
@@ -173,7 +172,7 @@ const WatchPage = () => {
       }));
     }
   };
-  
+
   return (
     <div className="w-full h-full bg-gray-50 overflow-auto ">
 
@@ -183,7 +182,7 @@ const WatchPage = () => {
             key={video.id}
             className="flex justify-center items-center"
           >
-            <div className=" mb-[45px] rounded-2xl overflow-hidden">
+            <div className=" mb-[45px] rounded-xl overflow-hidden">
               <ReactPlayer
                 ref={(ref) => (videoRefs.current[video.id] = ref)}
                 data-id={video.id}
@@ -205,9 +204,10 @@ const WatchPage = () => {
               />
             </div>
 
-           <div className=" flex justify-center ml-2">   
-              <div className="h-[540px] mb-[45px] pr-3 bg-white rounded-l-2xl shadow border border-gray-300">
-                <ul className="ml-3 mt-10">
+            <div className=" flex justify-center ">   {/* ml-2 */}
+              <div 
+                className="h-[540px] mb-[45px] pr-2 bg-white rounded-xl shadow border border-gray-200">
+                <ul className="ml-2 mt-10 ">
 
                   <li className="mb-16 text-center">
                     <button >
@@ -217,13 +217,15 @@ const WatchPage = () => {
                         sx={{ width: 50, height: 50 }}
                       />
                     </button>
-                    <button className="block w-[75px] h-[30px] bg-gray-200 text-black rounded-full px-2 hover:bg-gray-300">
+                    <button 
+                      className="block w-[65px] h-[30px] bg-red-50 text-black text-xs font-bold rounded-full px-2 hover:bg-gray-200">
                       Đăng ký
                     </button>
                   </li>
 
                   <li className="mb-3 text-center"> 
-                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200">
+                    <button 
+                      className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200">
                       <FavoriteRoundedIcon/>
                     </button>
                     <span className="block">
@@ -246,9 +248,10 @@ const WatchPage = () => {
                     </span> 
                   </li>
 
-                  <li className="mb-3 text-center"> 
-                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200">
-                      <ShareIcon/>
+                  <li className="mb-3 text-center "> 
+                    <button 
+                      className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 transform scale-x-[-1]">
+                      <ReplyIcon/>
                     </button>
                     <span className="block">
                       2k
@@ -257,7 +260,8 @@ const WatchPage = () => {
                   </li>
 
                   <li className="mb-3 text-center bg-white"> 
-                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200">
+                    <button 
+                      className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200">
                       <BlockIcon/>
                     </button>
                     {/* <span className="block">
@@ -270,7 +274,7 @@ const WatchPage = () => {
               </div>
                 {/* Phần comment */}
                 {isChatModal && chatModalStates[video.id] && (
-              <div className="w-[400px] h-[540px] bg-white rounded-r-2xl shadow border border-gray-300">
+              <div className="w-[450px] h-[540px] bg-white rounded-xl shadow border border-gray-200">
 
               </div>
                 )}

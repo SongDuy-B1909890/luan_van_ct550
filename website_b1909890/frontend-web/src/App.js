@@ -6,7 +6,7 @@ import LoginPage from './components/auth/login';
 import RegisterPage from './components/auth/register';
 import ForgotPasswordPage from './components/auth/forgotPassword';
 import MenuPage from './components/layout/menu';
-import MyChannel from './components/layout/myChannel';
+import SkeletonChildrenDemo from './components/layout/SkeletonChildrenDemo'
 import FooterPage from './components/layout/footer';
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />}></Route>
         <Route path="/forgotPassword" element={<ForgotPasswordPage />}></Route>
         <Route path="/menu" element={<MenuPage />}></Route>
-        <Route path="/myChannel" element={<MyChannel />}></Route>
+        <Route path="/SkeletonChildrenDemo" element={<SkeletonChildrenDemo />}></Route>
         <Route path="/footer" element={<FooterPage />}></Route>
       </Routes>
     </BrowserRouter>
