@@ -8,6 +8,7 @@ import ForgotPasswordPage from './components/auth/forgotPassword';
 import MenuPage from './components/layout/menu';
 import SkeletonChildrenDemo from './components/layout/SkeletonChildrenDemo'
 import FooterPage from './components/layout/footer';
+import CommentPage from './components/layout/comment';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/menu" element={<MenuPage />}></Route>
         <Route path="/SkeletonChildrenDemo" element={<SkeletonChildrenDemo />}></Route>
         <Route path="/footer" element={<FooterPage />}></Route>
+        <Route path="/comment" element={<CommentPage />}></Route>
       </Routes>
     </BrowserRouter>
   );

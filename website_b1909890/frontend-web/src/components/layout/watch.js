@@ -6,10 +6,10 @@ import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import ReplyIcon from '@mui/icons-material/Reply';
 import BlockIcon from '@mui/icons-material/Block';
-
 import Avatar from '@mui/material/Avatar';
-import '../../index.css';
 
+import CommentPage from './comment';
+import '../../index.css';
 const WatchPage = () => {
 
   const videoRefs = useRef([]);
@@ -204,9 +204,9 @@ const WatchPage = () => {
               />
             </div>
 
-            <div className=" flex justify-center ">   {/* ml-2 */}
+            <div className=" flex justify-center">   {/* ml-2 */}
               <div 
-                className="h-[540px] mb-[45px] pr-2 bg-white rounded-xl shadow border border-gray-200">
+                className="h-[540px] mb-[45px] pr-2 bg-white rounded-xl shadow border border-gray-300">
                 <ul className="ml-2 mt-10 ">
 
                   <li className="mb-16 text-center">
@@ -274,9 +274,7 @@ const WatchPage = () => {
               </div>
                 {/* Phần comment */}
                 {isChatModal && chatModalStates[video.id] && (
-              <div className="w-[450px] h-[540px] bg-white rounded-xl shadow border border-gray-200">
-
-              </div>
+                  <CommentPage/>
                 )}
             </div>
 
