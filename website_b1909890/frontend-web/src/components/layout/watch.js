@@ -2,7 +2,7 @@ import React, { useRef, useState, useCallback } from 'react';
 import ReactPlayer from 'react-player/lazy';
 import { InView } from 'react-intersection-observer';
 
-import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
+import CommentRoundedIcon from '@mui/icons-material/CommentRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import ReplyIcon from '@mui/icons-material/Reply';
 import BlockIcon from '@mui/icons-material/Block';
@@ -141,33 +141,33 @@ const WatchPage = () => {
     [playingVideos]
   );
 
-  const [isChatModal, setIsChatModal] = useState(false);
+  const [isCommentModal, setIsCommentModal] = useState(false);
 
-  // const openChatModal = () => {
-  //   setIsChatModal(true);
+  // const openCommentModal = () => {
+  //   setIsCommentModal(true);
   // };
 
-  // const closeChatModal = () => {
-  //   if (isChatModal===true) {
-  //     setIsChatModal(false);
+  // const closeCommentModal = () => {
+  //   if (isCommentModal===true) {
+  //     setIsCommentModal(false);
   //   }
   // };
 
-  const [chatModalStates, setChatModalStates] = useState({});
+  const [CommentModalStates, setCommentModalStates] = useState({});
 
-  const openChatModal = (videoId) => {
-    setIsChatModal(true);
-    setChatModalStates((prevChatModalStates) => ({
-      ...prevChatModalStates,
+  const openCommentModal = (videoId) => {
+    setIsCommentModal(true);
+    setCommentModalStates((prevCommentModalStates) => ({
+      ...prevCommentModalStates,
       [videoId]: true,
     }));
   };
   
-  const closeChatModal = (videoId) => {
-    if (isChatModal === true && chatModalStates[videoId] === true) {
-      // setIsChatModal(false);
-      setChatModalStates((prevChatModalStates) => ({
-        ...prevChatModalStates,
+  const closeCommentModal = (videoId) => {
+    if (isCommentModal === true && CommentModalStates[videoId] === true) {
+      // setIsCommentModal(false);
+      setCommentModalStates((prevCommentModalStates) => ({
+        ...prevCommentModalStates,
         [videoId]: false,
       }));
     }
@@ -218,7 +218,7 @@ const WatchPage = () => {
                       />
                     </button>
                     <button 
-                      className="block w-[65px] h-[30px] bg-red-50 text-black text-xs font-bold rounded-full px-2 hover:bg-gray-200">
+                      className="block w-[65px] h-[30px] bg-red-200 text-black text-xs font-bold rounded-full px-2 hover:bg-gray-200">
                       Đăng ký
                     </button>
                   </li>
@@ -235,13 +235,13 @@ const WatchPage = () => {
                   
                   <li 
                     className="mb-3 text-center" 
-                    onClick={() => closeChatModal(video.id)}
+                    onClick={() => closeCommentModal(video.id)}
                   > 
                     <button 
                       className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" 
-                      onClick={() => openChatModal(video.id)}
+                      onClick={() => openCommentModal(video.id)}
                     >
-                        <ChatRoundedIcon/>
+                        <CommentRoundedIcon/>
                     </button>
                     <span className="block">
                       2k
@@ -273,7 +273,7 @@ const WatchPage = () => {
                 </ul>
               </div>
                 {/* Phần comment */}
-                {isChatModal && chatModalStates[video.id] && (
+                {isCommentModal && CommentModalStates[video.id] && (
                   <CommentPage/>
                 )}
             </div>
