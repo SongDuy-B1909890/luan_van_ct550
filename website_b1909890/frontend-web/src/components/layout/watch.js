@@ -5,8 +5,11 @@ import { InView } from 'react-intersection-observer';
 import CommentRoundedIcon from '@mui/icons-material/CommentRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import ReplyIcon from '@mui/icons-material/Reply';
-import BlockIcon from '@mui/icons-material/Block';
+//import FlagIcon from '@mui/icons-material/Flag';
+import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
 import Avatar from '@mui/material/Avatar';
+import StarsIcon from '@mui/icons-material/Stars';
+//import DeleteIcon from '@mui/icons-material/Delete';
 
 import CommentPage from './comment';
 import '../../index.css';
@@ -174,7 +177,7 @@ const WatchPage = () => {
   };
 
   return (
-    <div className="w-full h-full bg-gray-50 overflow-auto ">
+    <div className="w-full h-full overflow-auto bg-white ">
 
       <div className="flex flex-wrap justify-center items-center mt-[105px]">
         {videos.map((video) => (
@@ -204,12 +207,12 @@ const WatchPage = () => {
               />
             </div>
 
-            <div className=" flex justify-center">   {/* ml-2 */}
+            <div className=" flex justify-center ml-2">   {/* ml-2 */}
               <div 
-                className="h-[540px] mb-[45px] pr-2 bg-white rounded-xl shadow border border-gray-300">
+                className="h-[540px] w-[90px] mb-[45px] pr-2 bg-white rounded-xl shadow border border-gray-300">
                 <ul className="ml-2 mt-10 ">
 
-                  <li className="mb-16 text-center">
+                  <li className="mb-12 text-center">
                     <button >
                       <Avatar 
                         alt="Remy Sharp" 
@@ -218,19 +221,36 @@ const WatchPage = () => {
                       />
                     </button>
                     <button 
-                      className="block w-[65px] h-[30px] bg-red-200 text-black text-xs font-bold rounded-full px-2 hover:bg-gray-200">
+                      className="block w-[65px] h-[30px] ml-1 bg-red-200 text-black text-xs font-bold rounded-full hover:bg-gray-200">
                       Đăng ký
                     </button>
+                    <span className="text-yellow-500">
+                      {Array.from({ length: 3 }, (_, index) => (
+                        <StarsIcon key={index} />
+                      ))}
+                    </span>
+                    
                   </li>
 
                   <li className="mb-3 text-center"> 
                     <button 
-                      className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200">
+                      className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Tích cực'>
                       <FavoriteRoundedIcon/>
                     </button>
                     <span className="block">
                       200k
                     </span>
+                  </li>
+
+                  <li className="mb-3 text-center bg-white"> 
+                    <button 
+                      className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Tiêu cực'>
+                      <HeartBrokenIcon/>
+                    </button>
+                    {/* <span className="block">
+                      Xóa
+                    </span> */}
+
                   </li>
                   
                   <li 
@@ -259,17 +279,6 @@ const WatchPage = () => {
   
                   </li>
 
-                  <li className="mb-3 text-center bg-white"> 
-                    <button 
-                      className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200">
-                      <BlockIcon/>
-                    </button>
-                    {/* <span className="block">
-                      2k
-                    </span> */}
-  
-                  </li>
-                  
                 </ul>
               </div>
                 {/* Phần comment */}

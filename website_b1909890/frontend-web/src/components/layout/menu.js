@@ -61,6 +61,13 @@ const MenuPage = ({ closeModal }) => {
                                 </li>
                             </Link>
 
+                            <Link to="/">
+                                <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"> 
+                                    <SubscriptionsOutlinedIcon className="mr-4"/>
+                                    Video đã thích
+                                </li>
+                            </Link>
+
                         </ul>
 
                         <hr/>
@@ -69,21 +76,51 @@ const MenuPage = ({ closeModal }) => {
                             <Link to="/">
                                 <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"> 
                                     <RemoveRedEyeOutlinedIcon className="mr-4"/> 
-                                    Video Đã Xem
+                                    Kiến thức
                                 </li>
                             </Link>
 
                             <Link to="/">
                                 <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"> 
                                     <FavoriteBorderOutlinedIcon className="mr-4"/>
-                                    Video Yêu Thích
+                                    Tư duy
                                 </li>
                             </Link>
 
                             <Link to="/">
                                 <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"> 
                                     <FlagOutlinedIcon className="mr-4"/> 
-                                    Video Vi Phạm
+                                    Tâm sự
+                                </li>
+                            </Link>
+                            <Link to="/">
+                                <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"> 
+                                    <FlagOutlinedIcon className="mr-4"/> 
+                                    Hành động
+                                </li>
+                            </Link>
+                            <Link to="/">
+                                <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"> 
+                                    <FlagOutlinedIcon className="mr-4"/> 
+                                    Đời sống 
+                                </li>
+                            </Link>
+                            <Link to="/">
+                                <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"> 
+                                    <FlagOutlinedIcon className="mr-4"/> 
+                                    Nổ lực & cố gắng
+                                </li>
+                            </Link>
+                            <Link to="/">
+                                <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"> 
+                                    <FlagOutlinedIcon className="mr-4"/> 
+                                    Tập trung
+                                </li>
+                            </Link>
+                            <Link to="/">
+                                <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"> 
+                                    <FlagOutlinedIcon className="mr-4"/> 
+                                    Thư giản
                                 </li>
                             </Link>
                         </ul>

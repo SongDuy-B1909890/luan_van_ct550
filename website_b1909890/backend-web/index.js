@@ -1,19 +1,24 @@
-
 const express = require('express');
-const morgan = require('morgan');
 const app = express();
 const port = 5000;
 
-app.use(morgan('combined'))
+const { get, ref, child } = require('firebase/database');
+const{ database } = require('./src/models/database');
+const dbRef = ref(database);
+
+get(child(dbRef, `users`)).then((snapshot) => {
+  if (snapshot.exists()) {
+    console.log(snapshot.val()); 
+  } else {
+    console.log("No data available");
+  }
+}).catch((error) => {
+  console.error(error); 
+});
 
 app.get('/', (req, res) => {
   res.send('home');
 });
-
 app.listen(port, () => {
   console.log(`Server đang chạy`)
-});
-
-app.get('/c1', (req, res) => {
-  res.send('Hello World!');
 });
