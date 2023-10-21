@@ -2,6 +2,7 @@
 const { initializeApp } = require('firebase/app');
 const {getDatabase} = require('firebase/database');
 // Cấu hình Firebase
+
 const firebaseConfig = {
   apiKey: "AIzaSyB6hE9UhbGRa0VSnEQvkVAdUewhgp_zoMs",
   authDomain: "ct550-b1909890.firebaseapp.com",
@@ -20,4 +21,4 @@ const database = getDatabase(app)
 // Export các phương thức tương tác với Firebase Realtime Database
 module.exports = {
   database
-};
+}; 

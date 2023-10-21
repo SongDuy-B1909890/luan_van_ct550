@@ -1,21 +1,21 @@
 // app.js
-const express = require('express');
-const bodyParser = require('body-parser');
-const databaseRoutes = require('./routes/database');
+// const express = require('express');
+// const bodyParser = require('body-parser');
+// const databaseRoutes = require('./routes/database');
 
-const app = express();
+// const app = express();
 
-// Cấu hình middleware
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// // Cấu hình middleware
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
 
-// Cấu hình tuyến API
-app.use('/api/database', databaseRoutes);
+// // Cấu hình tuyến API
+// app.use('/api/database', databaseRoutes);
 
-// Khởi chạy server
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-});
+// // Khởi chạy server
+// app.listen(3000, () => {
+//   console.log('Server is running on port 3000');
+// });
 
 // const express = require('express');
 // const session = require('express-session');
