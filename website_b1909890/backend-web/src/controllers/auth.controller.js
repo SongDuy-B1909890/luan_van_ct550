@@ -4,6 +4,9 @@ const { ref, child, set, get, push, update} = require('firebase/database');
 const { database } = require('../models/database');
 const dbRef = ref(database);
 
+const jwt = require('jsonwebtoken');
+const secretKey = 'LyHySD05'; // Thay thế bằng khóa bí mật của bạn
+
 const login = async (req, res) => {
   try {
     const usersSnapshot = await get(child(dbRef, 'users'));
@@ -15,7 +18,8 @@ const login = async (req, res) => {
 
     if (existingUser) {
       // Đăng nhập thành công
-      res.status(200).json({ message: 'Đăng nhập thành công' });
+      const token = jwt.sign({ email: existingUser.email }, secretKey, { expiresIn: '1h' });
+      res.status(200).json({ message: 'Đăng nhập thành công', token: token });
     } else {
       // Sai thông tin đăng nhập
       res.status(401).json({ error: 'Sai thông tin đăng nhập' });

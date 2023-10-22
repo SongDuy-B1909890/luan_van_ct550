@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
-const secretKey = 'LyHySD05'; // Thay thế bằng khóa bí mật của bạn
+const secretKey = 'LyHySD0599'; // Thay thế bằng khóa bí mật của bạn
 
-const authenticateToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
+const adminenticateToken = (req, res, next) => {
+  const token = req.headers.adminorization?.split(' ')[1];
 
   if (!token) {
     return res.status(401).json({ error: 'Token không tồn tại' });
@@ -18,4 +18,4 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-module.exports = authenticateToken;
+module.exports = adminenticateToken;
