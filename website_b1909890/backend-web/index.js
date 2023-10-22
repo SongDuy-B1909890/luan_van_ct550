@@ -18,7 +18,7 @@ app.use('/api', authRouter);
 app.use('/api', staffRouter);
 app.use('/api', adminRouter);
 
-get(child(dbRef, `admin`)).then((snapshot) => {
+get(child(dbRef, `users`)).then((snapshot) => {
   if (snapshot.exists()) {
     console.log(snapshot.val()); 
   } else {
@@ -51,7 +51,7 @@ app.get('/staffs', (req, res) => {
       res.status(500).json({ error: error.message });
     });
 });
-
+ 
 app.get('/users', (req, res) => {
   get(child(dbRef, 'users'))
     .then((snapshot) => {

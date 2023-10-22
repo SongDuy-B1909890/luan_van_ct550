@@ -8,4 +8,7 @@ router.post('/login/admin', AdminController.login);
 // Đăng ký
 router.post('/register/admin', AdminController.register);
 
+// Đổi mật khẩu
+router.post('/changePassword/admin', AdminController.changePassword);
+
 module.exports = router;

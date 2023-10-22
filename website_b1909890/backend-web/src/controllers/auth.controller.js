@@ -56,4 +56,32 @@ const register = async (req, res) => {
   }
 };
 
-module.exports = { login, register };
+const changePassword = async (req, res) => {
+  try {
+    // Kiểm tra email và mật khẩu hiện tại
+    const usersSnapshot = await get(child(dbRef, 'users'));
+    const users = usersSnapshot.val();
+
+    const existingUserKey = Object.keys(users).find(
+      (userKey) => users[userKey].email === req.body.email && users[userKey].password === req.body.password
+    );
+
+    if (!existingUserKey) {
+      // Sai thông tin đăng nhập
+      res.status(401).json({ error: 'Sai thông tin đăng nhập' });
+      return;
+    } else {
+      // Cập nhật mật khẩu mới
+      const usersRef = child(dbRef, `users/${existingUserKey}`);
+      update(usersRef, {
+        password: req.body.newPassword
+      });
+
+      res.status(200).json({ message: 'Mật khẩu đã được thay đổi thành công' });
+    }    
+  } catch (error) {
+    res.status(500).json({ error: 'Đã xảy ra lỗi khi thay đổi mật khẩu', errorMessage: error.message });
+  } 
+};
+
+module.exports = { login, register, changePassword };

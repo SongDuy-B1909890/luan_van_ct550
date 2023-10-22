@@ -56,4 +56,32 @@ const register = async (req, res) => {
   }
 };
 
-module.exports = { login, register };
+const changePassword = async (req, res) => {
+  try {
+    // Kiểm tra email và mật khẩu hiện tại
+    const adminSnapshot = await get(child(dbRef, 'admin'));
+    const admin = adminSnapshot.val();
+
+    const existingAdminKey = Object.keys(admin).find(
+      (adminKey) => admin[adminKey].email === req.body.email && admin[adminKey].password === req.body.password
+    );
+
+    if (!existingAdminKey) {
+      // Sai thông tin đăng nhập
+      res.status(401).json({ error: 'Sai thông tin đăng nhập' });
+      return;
+    } else {
+      // Cập nhật mật khẩu mới
+      const adminRef = child(dbRef, `admin/${existingAdminKey}`);
+      update(adminRef, {
+        password: req.body.newPassword
+      });
+
+      res.status(200).json({ message: 'Mật khẩu đã được thay đổi thành công' });
+    }    
+  } catch (error) {
+    res.status(500).json({ error: 'Đã xảy ra lỗi khi thay đổi mật khẩu', errorMessage: error.message });
+  } 
+};
+
+module.exports = { login, register, changePassword };
