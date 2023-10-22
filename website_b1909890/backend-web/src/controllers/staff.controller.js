@@ -1,6 +1,6 @@
 // const jwt = require('jsonwebtoken');
 
-const { ref, child, set, get, push} = require('firebase/database');
+const { ref, child, set, get, push, update} = require('firebase/database');
 const { database } = require('../models/database');
 const dbRef = ref(database);
 
@@ -59,21 +59,21 @@ const register = async (req, res) => {
 const changePassword = async (req, res) => {
   try {
     // Kiểm tra email và mật khẩu hiện tại
-    const adminSnapshot = await get(child(dbRef, 'admin'));
-    const admin = adminSnapshot.val();
+    const staffsSnapshot = await get(child(dbRef, 'staffs'));
+    const staffs = staffsSnapshot.val();
 
-    const existingAdminKey = Object.keys(admin).find(
-      (adminKey) => admin[adminKey].email === req.body.email && admin[adminKey].password === req.body.password
+    const existingStaffKey = Object.keys(staffs).find(
+      (staffKey) => staffs[staffKey].email === req.body.email && staffs[staffKey].password === req.body.password
     );
 
-    if (!existingAdminKey) {
+    if (!existingStaffKey) {
       // Sai thông tin đăng nhập
       res.status(401).json({ error: 'Sai thông tin đăng nhập' });
       return;
     } else {
       // Cập nhật mật khẩu mới
-      const adminRef = child(dbRef, `admin/${existingAdminKey}`);
-      update(adminRef, {
+      const staffsRef = child(dbRef, `staffs/${existingStaffKey}`);
+      update(staffsRef, {
         password: req.body.newPassword
       });
 

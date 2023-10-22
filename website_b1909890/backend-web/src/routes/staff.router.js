@@ -8,4 +8,6 @@ router.post('/login/staff', StaffController.login);
 // Đăng ký
 router.post('/register/staff', StaffController.register);
 
+router.post('/changePassword/staff', StaffController.changePassword);
+
 module.exports = router;

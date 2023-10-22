@@ -1,6 +1,6 @@
 // const jwt = require('jsonwebtoken');
 
-const { ref, child, set, get, push} = require('firebase/database');
+const { ref, child, set, get, push, update} = require('firebase/database');
 const { database } = require('../models/database');
 const dbRef = ref(database);
 
@@ -65,7 +65,7 @@ const changePassword = async (req, res) => {
     const existingUserKey = Object.keys(users).find(
       (userKey) => users[userKey].email === req.body.email && users[userKey].password === req.body.password
     );
-
+ 
     if (!existingUserKey) {
       // Sai thông tin đăng nhập
       res.status(401).json({ error: 'Sai thông tin đăng nhập' });

@@ -18,7 +18,7 @@ app.use('/api', authRouter);
 app.use('/api', staffRouter);
 app.use('/api', adminRouter);
 
-get(child(dbRef, `users`)).then((snapshot) => {
+get(child(dbRef, `staffs`)).then((snapshot) => {
   if (snapshot.exists()) {
     console.log(snapshot.val()); 
   } else {
