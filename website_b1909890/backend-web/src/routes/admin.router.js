@@ -8,4 +8,4 @@ router.post('/login/admin', AdminController.login);
 // Đăng ký
 router.post('/register/admin', AdminController.register);
 
-module.exports = router;  
+module.exports = router;
