@@ -1,4 +1,3 @@
-
 // const jwt = require('jsonwebtoken');
 
 const { ref, child, set, get, push} = require('firebase/database');

@@ -5,13 +5,20 @@ const port = 5000;
 const { get, set, ref, child } = require('firebase/database');
 const{ database } = require('./src/models/database');
 const dbRef = ref(database);
+//const { authenticateToken } = require('./src/middlewares/auth')
 
 const authRouter = require('./src/routes/auth.router');
-//const { authenticateToken } = require('./src/middlewares/auth')
+const staffRouter = require('./src/routes/staff.router');
+const adminRouter = require('./src/routes/admin.router');
+
 
 app.use(express.json());
 
-get(child(dbRef, `users`)).then((snapshot) => {
+app.use('/api', authRouter);
+app.use('/api', staffRouter);
+app.use('/api', adminRouter);
+
+get(child(dbRef, `admin`)).then((snapshot) => {
   if (snapshot.exists()) {
     console.log(snapshot.val()); 
   } else {
@@ -72,8 +79,6 @@ app.get('/admin', (req, res) => {
       res.status(500).json({ error: error.message });
     });
 });
-
-app.use('/api', authRouter);
 
 app.listen(port, () => { 
   console.log(`Server đang chạy`) 
