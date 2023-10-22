@@ -21,11 +21,11 @@ get(child(dbRef, `users`)).then((snapshot) => {
   console.error(error); 
 }); 
  
-set(child(dbRef, `users/8`), {
-  id: 9,
-  name: "name",
-  email: "duy@gmail.com"
-});
+// set(child(dbRef, `users/8`), {
+//   id: 9,
+//   name: "name",
+//   email: "duy@gmail.com"
+// });
 
 app.get('/', (req, res) => {
   res.send('home');
