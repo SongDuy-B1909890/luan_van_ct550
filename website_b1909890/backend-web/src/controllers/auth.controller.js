@@ -1,69 +1,66 @@
-const admin = require('firebase-admin');
-//const firebaseUser = require('firebase/app');
-const jwt = require('jsonwebtoken');
 
-const { get, set, ref, child } = require('firebase/database');
-const{ database } = require('../models/database');
+// const jwt = require('jsonwebtoken');
+
+const { ref, child, set, get, push} = require('firebase/database');
+const { database } = require('../models/database');
 const dbRef = ref(database);
 
-
-
-admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
-  databaseURL: 'https://ct550-b1909890-default-rtdb.firebaseio.com',
-});
-
 const login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    // Xác thực người dùng bằng email và mật khẩu
-    const userRecord = await admin.auth().getUserByEmail(email);
-    const uid = userRecord.uid;
-
-    // Tạo token sử dụng JWT
-    const token = jwt.sign({ uid }, 'your-secret-key');
-
-    // Gửi token về phía client
-    res.status(200).json({ token });
-  } catch (error) {
-    //res.status('Login error:', error);
-    res.status(500).json({ error: 'Đã xảy ra lỗi khi đăng nhập', error });
-  }
+  get(child(dbRef, 'users'))
+  .then((snapshot) => {
+    if (snapshot.exists()) {
+      res.status(200).json(snapshot.val());
+    } else {
+      res.status(404).json({ message: 'No data available' });
+    }
+  })
+  .catch((error) => {
+    res.status(500).json({ error: error.message });
+  });
 };
+  
 
-// Hàm xử lý đăng ký
 // const register = async (req, res) => {
 //   try {
-//     const { email, password } = req.body;
-
-//     // Tạo người dùng trong Firebase Authentication
-//     const userRecord = await admin.auth().createUser({
-//       email,
-//       password,
+//     set(child(dbRef, `users/3`), {
+//       id: req.body.id,
+//       name: req.body.name,
+//       email: req.body.email
 //     });
 
-//     // Gửi thông tin người dùng về phía client
-//     res.status(200).json({ uid: userRecord.uid });
+//     res.status(200).json({ message: 'Dữ liệu đã được thêm thành công vào Firebase Realtime Database' });
 //   } catch (error) {
-//    // console.error('Register error:', email);
-//     res.status(500).json({ error: 'Đã xảy ra lỗi khi đăng ký' ,email});
+//     res.status(500).json({ error: 'Đã xảy ra lỗi khi thêm người dùng' });
 //   }
 // };
-
 const register = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const usersSnapshot = await get(child(dbRef, 'users'));
+    const users = usersSnapshot.val();
 
-    if (!email) {
-      throw new Error('Email is required');
+    const existingUser = Object.values(users).find(
+      (user) => user.id === req.body.id || user.email === req.body.email || user.password === req.body.password
+    );
+
+    if (existingUser) {
+      // Dữ liệu đã tồn tại, không thêm người dùng mới
+      res.status(400).json({ error: 'Người dùng đã tồn tại' });
+    } else {
+      // Tạo ID tự động cho người dùng mới
+      const newUserRef = push(child(dbRef, 'users'));
+      const newUserId = newUserRef.key;
+
+      set(newUserRef, {
+        id: newUserId,
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password
+      });
+
+      res.status(200).json({ message: 'Dữ liệu đã được thêm thành công', userId: newUserId });
     }
-
-    // Tiếp tục xử lý đăng ký người dùng
-    // ...
   } catch (error) {
-    console.error('Register error:', error);
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: 'Đã xảy ra lỗi khi thêm người dùng', errorMessage: error.message });
   }
 };
 

@@ -7,7 +7,9 @@ const{ database } = require('./src/models/database');
 const dbRef = ref(database);
 
 const authRouter = require('./src/routes/auth.router');
-const { authenticateToken } = require('./src/middlewares/auth')
+//const { authenticateToken } = require('./src/middlewares/auth')
+
+app.use(express.json());
 
 get(child(dbRef, `users`)).then((snapshot) => {
   if (snapshot.exists()) {
@@ -19,8 +21,8 @@ get(child(dbRef, `users`)).then((snapshot) => {
   console.error(error); 
 }); 
  
-set(child(dbRef, `users/7`), {
-  id: 7,
+set(child(dbRef, `users/8`), {
+  id: 9,
   name: "name",
   email: "duy@gmail.com"
 });
@@ -42,6 +44,7 @@ app.get('/staffs', (req, res) => {
       res.status(500).json({ error: error.message });
     });
 });
+
 app.get('/users', (req, res) => {
   get(child(dbRef, 'users'))
     .then((snapshot) => {
