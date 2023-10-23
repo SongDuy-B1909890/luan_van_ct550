@@ -1,6 +1,5 @@
 // const jwt = require('jsonwebtoken');
 
-
 const { ref, child, set, get, push, update } = require('firebase/database');
 const { database } = require('../models/database');
 const dbRef = ref(database);
@@ -19,8 +18,9 @@ const login = async (req, res) => {
 
     if (existingAdmin) {
       // Đăng nhập thành công
-      const token = jwt.sign({ email: existingAdmin.email }, secretAdminKey, { expiresIn: '1h' });
-      res.status(200).json({ message: 'Đăng nhập thành công', token: token });
+      // const tokenAdmin = jwt.sign({ email: existingAdmin.email }, secretAdminKey, { expiresIn: '1h' });
+      // res.status(200).json({ message: 'Đăng nhập thành công', tokenAdmin: tokenAdmin });
+      res.status(200).json({ message: 'Đăng nhập thành công' });
     } else {
       // Sai thông tin đăng nhập
       res.status(401).json({ error: 'Sai thông tin đăng nhập' });

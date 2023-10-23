@@ -18,8 +18,9 @@ const login = async (req, res) => {
 
     if (existingUser) {
       // Đăng nhập thành công
-      const token = jwt.sign({ email: existingUser.email }, secretKey, { expiresIn: '1h' });
-      res.status(200).json({ message: 'Đăng nhập thành công', token: token });
+      // const token = jwt.sign({ email: existingUser.email }, secretKey, { expiresIn: '1h' });
+      // res.status(200).json({ message: 'Đăng nhập thành công', token: token });
+      res.status(200).json({ message: 'Đăng nhập thành công' });
     } else {
       // Sai thông tin đăng nhập
       res.status(401).json({ error: 'Sai thông tin đăng nhập' });

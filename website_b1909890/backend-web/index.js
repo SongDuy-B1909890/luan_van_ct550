@@ -10,17 +10,17 @@ const { get, set, ref, child } = require('firebase/database');
 const { database } = require('./src/models/database');
 const dbRef = ref(database);
 
-const authenticateToken = require('./src/middlewares/auth')
-const adminenticateToken = require('./src/middlewares/admin')
-const staffenticateToken = require('./src/middlewares/staff')
+//const authenticateToken = require('./src/middlewares/auth')
+// const adminenticateToken = require('./src/middlewares/admin')
+// const staffenticateToken = require('./src/middlewares/staff')
 
 const authRouter = require('./src/routes/auth.router');
 const staffRouter = require('./src/routes/staff.router');
 const adminRouter = require('./src/routes/admin.router');
 
-authRouter.use(authenticateToken)
-staffRouter.use(authenticateToken)
-adminRouter.use(authenticateToken)
+//authRouter.use(authenticateToken)
+// staffRouter.use(staffenticateToken)
+// adminRouter.use(adminenticateToken)
 
 app.use('/api', authRouter);
 app.use('/api', staffRouter);
