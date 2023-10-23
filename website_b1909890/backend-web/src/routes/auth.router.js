@@ -8,6 +8,10 @@ router.post('/login', AuthController.login);
 // Đăng ký
 router.post('/register', AuthController.register);
 
+// Đổi mật khẩu
 router.post('/changePassword', AuthController.changePassword);
+
+// Danh sách user
+router.post('/users', AuthController.users);
 
 module.exports = router;

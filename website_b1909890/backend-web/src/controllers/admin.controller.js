@@ -6,7 +6,7 @@ const { database } = require('../models/database');
 const dbRef = ref(database);
 
 const jwt = require('jsonwebtoken');
-const secretKey = 'LyHySD0599'; // Thay thế bằng khóa bí mật của bạn
+const secretAdminKey = 'LyHySD0599'; // Thay thế bằng khóa bí mật của bạn
 
 const login = async (req, res) => {
   try {
@@ -19,9 +19,8 @@ const login = async (req, res) => {
 
     if (existingAdmin) {
       // Đăng nhập thành công
-      // const token = jwt.sign({ email: existingAdmin.email }, secretKey, { expiresIn: '1h' });
-      // res.status(200).json({ message: 'Đăng nhập thành công', token: token });
-      res.status(200).json({ message: 'Đăng nhập thành công' });
+      const token = jwt.sign({ email: existingAdmin.email }, secretAdminKey, { expiresIn: '1h' });
+      res.status(200).json({ message: 'Đăng nhập thành công', token: token });
     } else {
       // Sai thông tin đăng nhập
       res.status(401).json({ error: 'Sai thông tin đăng nhập' });
@@ -91,4 +90,23 @@ const changePassword = async (req, res) => {
   }
 };
 
-module.exports = { login, register, changePassword };  
+const admin = async (req, res) => {
+  get(child(dbRef, 'admin'))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        res.status(200).json(snapshot.val());
+      } else {
+        res.status(404).json({ message: 'No data available' });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error.message });
+    });
+}
+
+module.exports = {
+  login,
+  register,
+  changePassword,
+  admin
+};  

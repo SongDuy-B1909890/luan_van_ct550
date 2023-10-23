@@ -18,9 +18,8 @@ const login = async (req, res) => {
 
     if (existingStaff) {
       // Đăng nhập thành công
-      // const token = jwt.sign({ email: existingStaff.email }, secretKey, { expiresIn: '1h' });
-      // res.status(200).json({ message: 'Đăng nhập thành công', token: token });
-      res.status(200).json({ message: 'Đăng nhập thành công' });
+      const token = jwt.sign({ email: existingStaff.email }, secretKey, { expiresIn: '1h' });
+      res.status(200).json({ message: 'Đăng nhập thành công', token: token });
     } else {
       // Sai thông tin đăng nhập
       res.status(401).json({ error: 'Sai thông tin đăng nhập' });
@@ -90,4 +89,23 @@ const changePassword = async (req, res) => {
   }
 };
 
-module.exports = { login, register, changePassword };
+const staffs = async (req, res) => {
+  get(child(dbRef, 'staffs'))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        res.status(200).json(snapshot.val());
+      } else {
+        res.status(404).json({ message: 'No data available' });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error.message });
+    });
+}
+
+module.exports = {
+  login,
+  register,
+  changePassword,
+  staffs
+};
