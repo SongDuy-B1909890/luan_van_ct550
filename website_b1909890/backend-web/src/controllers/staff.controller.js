@@ -1,6 +1,6 @@
 // const jwt = require('jsonwebtoken');
 
-const { ref, child, set, get, push, update} = require('firebase/database');
+const { ref, child, set, get, push, update } = require('firebase/database');
 const { database } = require('../models/database');
 const dbRef = ref(database);
 
@@ -18,8 +18,9 @@ const login = async (req, res) => {
 
     if (existingStaff) {
       // Đăng nhập thành công
-      const token = jwt.sign({ email: existingStaff.email }, secretKey, { expiresIn: '1h' });
-      res.status(200).json({ message: 'Đăng nhập thành công', token: token });
+      // const token = jwt.sign({ email: existingStaff.email }, secretKey, { expiresIn: '1h' });
+      // res.status(200).json({ message: 'Đăng nhập thành công', token: token });
+      res.status(200).json({ message: 'Đăng nhập thành công' });
     } else {
       // Sai thông tin đăng nhập
       res.status(401).json({ error: 'Sai thông tin đăng nhập' });
@@ -28,7 +29,7 @@ const login = async (req, res) => {
     res.status(500).json({ error: 'Đã xảy ra lỗi khi đăng nhập', errorMessage: error.message });
   }
 };
- 
+
 const register = async (req, res) => {
   try {
     const staffsSnapshot = await get(child(dbRef, 'staffs'));
@@ -48,7 +49,8 @@ const register = async (req, res) => {
 
       set(newStaffRef, {
         id: newStaffId,
-        name: req.body.name,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
         email: req.body.email,
         password: req.body.password
       });
@@ -82,10 +84,10 @@ const changePassword = async (req, res) => {
       });
 
       res.status(200).json({ message: 'Mật khẩu đã được thay đổi thành công' });
-    }    
+    }
   } catch (error) {
     res.status(500).json({ error: 'Đã xảy ra lỗi khi thay đổi mật khẩu', errorMessage: error.message });
-  } 
+  }
 };
 
 module.exports = { login, register, changePassword };

@@ -8,4 +8,4 @@ router.get('/', databaseController.fetchData);
 router.put('/:id', databaseController.updateData);
 router.delete('/:id', databaseController.deleteData);
 
-module.exports = router;
+module.exports = router; 
