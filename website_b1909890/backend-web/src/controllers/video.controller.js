@@ -16,17 +16,22 @@ const uploadVideo = async (req, res) => {
                 return res.status(500).send(err);
             }
             const newUpload = { // Đổi tên biến thành newUpload
-                name_file: req.file.originalname,
                 cloudinary_id: result.public_id,
+                name_file: req.file.originalname,
                 url_video: result.url,
-                name_video: req.body.name,
+                title_video: req.body.title,
                 description_video: req.body.description,
             };
 
             push(uploadRef, newUpload)
                 .then((snapshot) => {
                     console.log('Upload added successfully');
-                    return res.status(200).send(snapshot.key); // Trả về key của upload mới
+                    const response = {
+                        message: 'Upload added successfully',
+                        key: snapshot.key
+                    };
+                    return res.status(200).send(response);
+
                 })
                 .catch((error) => {
                     console.error('Error adding upload:', error);

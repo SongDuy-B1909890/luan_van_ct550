@@ -18,75 +18,75 @@ const WatchPage = () => {
   const videos = [
     {
       id: 1,
-      url: "https://www.youtube.com/watch?v=KxaX-eYPjQw",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
     {
       id: 2,
-      url: "https://www.youtube.com/watch?v=d1_JKFy_fIk",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
     {
       id: 3,
-      url: "https://www.youtube.com/watch?v=WSS6lnszkrc",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
     {
       id: 4,
-      url: "https://www.youtube.com/watch?v=KxaX-eYPjQw",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
     {
       id: 5,
-      url: "https://www.youtube.com/watch?v=d1_JKFy_fIk",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
     {
       id: 6,
-      url: "https://www.youtube.com/watch?v=WSS6lnszkrc",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
     {
       id: 7,
-      url: "https://www.youtube.com/watch?v=KxaX-eYPjQw",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
     {
       id: 8,
-      url: "https://www.youtube.com/watch?v=d1_JKFy_fIk",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
     {
       id: 9,
-      url: "https://www.youtube.com/watch?v=WSS6lnszkrc",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
     {
       id: 10,
-      url: "https://www.youtube.com/watch?v=KxaX-eYPjQw",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
     {
       id: 11,
-      url: "https://www.youtube.com/watch?v=d1_JKFy_fIk",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
     {
       id: 12,
-      url: "https://www.youtube.com/watch?v=WSS6lnszkrc",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
     {
       id: 13,
-      url: "https://www.youtube.com/watch?v=KxaX-eYPjQw",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
     {
       id: 14,
-      url: "https://www.youtube.com/watch?v=d1_JKFy_fIk",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
     {
       id: 15,
-      url: "https://www.youtube.com/watch?v=WSS6lnszkrc",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
     {
       id: 16,
-      url: "https://www.youtube.com/watch?v=KxaX-eYPjQw",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
     {
       id: 17,
-      url: "https://www.youtube.com/watch?v=d1_JKFy_fIk",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
     {
       id: 18,
-      url: "https://www.youtube.com/watch?v=WSS6lnszkrc",
+      url: "http://res.cloudinary.com/davybpzph/video/upload/v1698206529/video/d0drwiyaeqrejykplqxr.mp4",
     },
   ];
   const [playingVideos, setPlayingVideos] = useState([]);
@@ -196,11 +196,6 @@ const WatchPage = () => {
                 height="540px"
                 controls
                 allowFullScreen={true}
-                config={{
-                  youtube: {
-                    playerVars: { showinfo: 1 },
-                  },
-                }}
                 loading="lazy"
                 preload="true"
               />
