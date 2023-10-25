@@ -23,7 +23,9 @@ const LoginPage = ({ closeModal }) => {
         .post('http://localhost:5000/api/login', values)
         .then((response) => {
           // Xử lý thành công
-          console.log(response.data);
+          //console.log(response.data);
+          //localStorage.setItem('user', JSON.stringify(response.data));
+          console.log(localStorage.getItem('user'))
           // Hiển thị thông báo đăng ký thành công
           alert('Đăng nhập thành công')
           closeModal();
