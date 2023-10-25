@@ -28,7 +28,7 @@ app.use('/api', staffRouter);
 app.use('/api', adminRouter);
 app.use('/api', VideoRouter);
 
-get(child(dbRef, `users`)).then((snapshot) => {
+get(child(dbRef, `videos`)).then((snapshot) => {
   if (snapshot.exists()) {
     console.log(snapshot.val());
   } else {

@@ -1,5 +1,5 @@
 const cloudinary = require("../configs/cloudinary.config");
-const { ref, child, set, get } = require('firebase/database');
+const { ref, child, push, get } = require('firebase/database');
 
 const { database } = require('../models/database');
 const dbRef = ref(database);
@@ -16,16 +16,17 @@ const uploadVideo = async (req, res) => {
                 return res.status(500).send(err);
             }
             const newUpload = { // Đổi tên biến thành newUpload
-                name: req.file.originalname,
-                url: result.url,
+                name_file: req.file.originalname,
                 cloudinary_id: result.public_id,
-                description: req.body.description,
+                url_video: result.url,
+                name_video: req.body.name,
+                description_video: req.body.description,
             };
 
-            set(uploadRef, newUpload)
-                .then(() => {
+            push(uploadRef, newUpload)
+                .then((snapshot) => {
                     console.log('Upload added successfully');
-                    return res.status(200).send(uploadRef.key); // Trả về key của upload mới
+                    return res.status(200).send(snapshot.key); // Trả về key của upload mới
                 })
                 .catch((error) => {
                     console.error('Error adding upload:', error);
@@ -34,7 +35,7 @@ const uploadVideo = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status(500).send({ error: 'Đã xảy ra lỗi khi thêm người dùng', errorMessage: error.message });
+        res.status(500).send({ error: 'Đã xảy ra lỗi khi tải video', errorMessage: error.message });
     }
 }
 
