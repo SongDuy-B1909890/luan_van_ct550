@@ -12,6 +12,6 @@ router.post('/register', AuthController.register);
 router.post('/changePassword', AuthController.changePassword);
 
 // Danh sách user
-router.post('/users', AuthController.users);
+router.get('/users', AuthController.users);
 
 module.exports = router;

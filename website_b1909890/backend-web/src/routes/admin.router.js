@@ -12,6 +12,6 @@ router.post('/register/admin', AdminController.register);
 router.post('/changePassword/admin', AdminController.changePassword);
 
 // Danh sách admin
-router.post('/admin', AdminController.admin);
+router.get('/admin', AdminController.admin);
 
 module.exports = router;

@@ -12,6 +12,6 @@ router.post('/register/staff', StaffController.register);
 router.post('/changePassword/staff', StaffController.changePassword);
 
 // Danh sách nhân viên
-router.post('/staffs', StaffController.staffs);
+router.get('/staffs', StaffController.staffs);
 
 module.exports = router;
