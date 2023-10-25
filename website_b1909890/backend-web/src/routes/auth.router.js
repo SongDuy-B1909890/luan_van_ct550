@@ -9,7 +9,7 @@ router.post('/login', AuthController.login);
 router.post('/register', AuthController.register);
 
 // Đổi mật khẩu
-router.post('/changePassword', AuthController.changePassword);
+router.put('/changePassword', AuthController.changePassword);
 
 // Danh sách user
 router.get('/users', AuthController.users);

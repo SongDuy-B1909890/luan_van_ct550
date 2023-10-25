@@ -1,5 +1,5 @@
 const cloudinary = require("../configs/cloudinary.config");
-const { ref, child, push, get } = require('firebase/database');
+const { ref, child, push, get, remove } = require('firebase/database');
 
 const { database } = require('../models/database');
 const dbRef = ref(database);
@@ -44,6 +44,29 @@ const uploadVideo = async (req, res) => {
     }
 }
 
+const deleteVideo = async (req, res) => {
+    try {
+        const public_id = req.body.public_id; // Lấy public_id từ body request
+
+        // Xóa video từ Cloudinary
+        const result = await cloudinary.uploader.destroy(public_id);
+        if (result.result !== 'ok') {
+            console.error('Error deleting video from Cloudinary');
+            return res.status(500).send({ error: 'Error deleting video from Cloudinary' });
+        }
+
+        // Xóa video từ Firebase Realtime Database
+        const videoRef = child(dbRef, `videos/${public_id}`);
+        await remove(videoRef);
+
+        console.log('Video deleted successfully');
+        return res.status(200).json({ message: 'Video deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting video:', error);
+        res.status(500).send({ error: 'Đã xảy ra lỗi khi xóa video', errorMessage: error.message });
+    }
+};
+
 const videos = async (req, res) => {
     get(child(dbRef, 'videos'))
         .then((snapshot) => {
@@ -61,4 +84,5 @@ const videos = async (req, res) => {
 module.exports = {
     uploadVideo,
     videos,
+    deleteVideo,
 }

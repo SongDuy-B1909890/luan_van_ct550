@@ -9,7 +9,7 @@ router.post('/login/admin', AdminController.login);
 router.post('/register/admin', AdminController.register);
 
 // Đổi mật khẩu
-router.post('/changePassword/admin', AdminController.changePassword);
+router.put('/changePassword/admin', AdminController.changePassword);
 
 // Danh sách admin
 router.get('/admin', AdminController.admin);
