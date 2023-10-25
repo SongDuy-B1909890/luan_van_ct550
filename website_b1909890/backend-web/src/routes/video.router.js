@@ -11,7 +11,7 @@ router.post('/uploadVideo', storage.single('file'), VideoController.uploadVideo)
 router.get('/videos', VideoController.videos);
 
 // Xóa video
-router.delete('/deleteVideo/:id', VideoController.deleteVideo);
+router.delete('/deleteVideo/:id', VideoController.deleteVideoAndContent);
 
 
 module.exports = router;

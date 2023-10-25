@@ -62,6 +62,20 @@ const register = async (req, res) => {
   }
 };
 
+const users = async (req, res) => {
+  get(child(dbRef, 'users'))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        res.status(200).json(snapshot.val());
+      } else {
+        res.status(404).json({ message: 'No data available' });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error.message });
+    });
+}
+
 const changePassword = async (req, res) => {
   try {
     // Kiểm tra email và mật khẩu hiện tại
@@ -90,23 +104,33 @@ const changePassword = async (req, res) => {
   }
 };
 
-const users = async (req, res) => {
-  get(child(dbRef, 'users'))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        res.status(200).json(snapshot.val());
-      } else {
-        res.status(404).json({ message: 'No data available' });
-      }
-    })
-    .catch((error) => {
-      res.status(500).json({ error: error.message });
-    });
-}
+const deleteUser = async (req, res) => {
+  try {
+    const userId = req.body.id; // Lấy userId từ URL parameter
+
+    // Kiểm tra xem người dùng có tồn tại hay không
+    const userSnapshot = await get(child(dbRef, `users/${userId}`));
+    const user = userSnapshot.val();
+
+    if (!user) {
+      // Người dùng không tồn tại
+      res.status(404).json({ error: 'Người dùng không tồn tại' });
+      return;
+    }
+
+    // Xóa người dùng từ Firebase Realtime Database
+    await set(child(dbRef, `users/${userId}`), null);
+
+    res.status(200).json({ message: 'Người dùng đã được xóa thành công' });
+  } catch (error) {
+    res.status(500).json({ error: 'Đã xảy ra lỗi khi xóa người dùng', errorMessage: error.message });
+  }
+};
 
 module.exports = {
   login,
   register,
   changePassword,
+  deleteUser,
   users
 };

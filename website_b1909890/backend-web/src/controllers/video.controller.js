@@ -1,5 +1,5 @@
 const cloudinary = require("../configs/cloudinary.config");
-const { ref, child, push, get, remove } = require('firebase/database');
+const { ref, child, push, get, set } = require('firebase/database');
 
 const { database } = require('../models/database');
 const dbRef = ref(database);
@@ -44,26 +44,39 @@ const uploadVideo = async (req, res) => {
     }
 }
 
-const deleteVideo = async (req, res) => {
+const deleteVideoAndContent = async (req, res) => {
     try {
-        const public_id = req.body.public_id; // Lấy public_id từ body request
+        const videoKey = req.body.videoKey;
 
-        // Xóa video từ Cloudinary
-        const result = await cloudinary.uploader.destroy(public_id);
-        if (result.result !== 'ok') {
-            console.error('Error deleting video from Cloudinary');
-            return res.status(500).send({ error: 'Error deleting video from Cloudinary' });
+        // Lấy thông tin video từ Firebase Realtime Database
+        const videosRef = ref(dbRef, `videos/${videoKey}`);
+        const snapshot = await get(videosRef);
+
+        if (!snapshot.exists()) {
+            console.log('Video not found on Firebase Realtime Database');
+            return res.status(404).send({ message: 'Video not found' });
         }
 
-        // Xóa video từ Firebase Realtime Database
-        const videoRef = child(dbRef, `videos/${public_id}`);
-        await remove(videoRef);
+        const videoData = snapshot.val();
+        const cloudinaryId = videoData.cloudinary_id;
 
-        console.log('Video deleted successfully');
-        return res.status(200).json({ message: 'Video deleted successfully' });
+        // Xóa video trên Cloudinary
+        cloudinary.uploader.destroy(cloudinaryId, (err, result) => {
+            if (err) {
+                console.log(err);
+                throw new Error('Lỗi khi xóa video trên Cloudinary');
+            }
+            console.log('Video deleted successfully on Cloudinary');
+        });
+
+        // Xóa nội dung trên Firebase Realtime Database
+        await set(videosRef);
+        console.log('Video deleted successfully on Firebase Realtime Database');
+
+        return res.status(200).send({ message: 'Video and content deleted successfully' });
     } catch (error) {
-        console.error('Error deleting video:', error);
-        res.status(500).send({ error: 'Đã xảy ra lỗi khi xóa video', errorMessage: error.message });
+        console.error(error);
+        return res.status(500).send({ error: 'Đã xảy ra lỗi khi xóa video và nội dung', errorMessage: error.message });
     }
 };
 
@@ -84,5 +97,5 @@ const videos = async (req, res) => {
 module.exports = {
     uploadVideo,
     videos,
-    deleteVideo,
+    deleteVideoAndContent,
 }

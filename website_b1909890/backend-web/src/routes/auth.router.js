@@ -8,10 +8,15 @@ router.post('/login', AuthController.login);
 // Đăng ký
 router.post('/register', AuthController.register);
 
+// Danh sách user
+router.get('/users', AuthController.users);
+
 // Đổi mật khẩu
 router.put('/changePassword', AuthController.changePassword);
 
-// Danh sách user
-router.get('/users', AuthController.users);
+// Xóa user
+router.delete('/deleteUser', AuthController.deleteUser);
+
+
 
 module.exports = router;
