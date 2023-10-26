@@ -11,17 +11,6 @@ import MenuPage from './menu';
 const userString = localStorage.getItem('user');
 const user = userString ? JSON.parse(userString) : null;
 
-<<<<<<< HEAD
-=======
-if (userString) {
-    const user = JSON.parse(userString);
-    console.log(user.user.email);
-    console.log(user.user.firstname);
-    console.log(user.user.id);
-    console.log(user.user.lastname);
-}
-//import { Link } from 'react-router-dom';
->>>>>>> c8c9f692fb1d285f43aa48a8258d452cc98cfdf3
 const HeaderPage = () => {
     const [isLoginModal, setIsLoginModal] = useState(false);
     const openLoginModal = () => {
@@ -83,7 +72,6 @@ const HeaderPage = () => {
                     </Badge>
                 </button>
                 <button
-<<<<<<< HEAD
                     className="flex justify-center items-center text-blue-500 mt-1 w-[120px] h-10 hover:bg-blue-100 rounded-full border border-blue-500"
                     title="Đăng nhập"
                     onClick={openLoginModal}
@@ -92,17 +80,6 @@ const HeaderPage = () => {
                         <AccountCircleIcon />
                     </div>
                     {user && user.user.lastname ? user.user.lastname : "Sign in"}
-=======
-                    className="flex justify-center items-center text-blue-500 
-                mt-1 w-[120px] h-10 hover:bg-blue-100 rounded-full border 
-                border-blue-500"
-                    title="Đăng nhập"
-                    onClick={openLoginModal}
-                >
-                    <div className="mr-2"> <AccountCircleIcon /> </div>
-
-                    {user.user.lastname ? user.user.lastname : "Sign in"}
->>>>>>> c8c9f692fb1d285f43aa48a8258d452cc98cfdf3
                 </button>
                 {isLoginModal && <LoginPage closeModal={closeLoginModal} />}
             </div>
