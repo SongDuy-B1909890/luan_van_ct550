@@ -19,6 +19,7 @@ const login = async (req, res) => {
     );
 
     if (existingUser) {
+<<<<<<< HEAD
       // So sánh mật khẩu đã mã hóa trong cơ sở dữ liệu với mật khẩu nguyên thủy được gửi từ client
       const passwordMatch = await bcrypt.compare(req.body.password, existingUser.password);
 
@@ -30,10 +31,19 @@ const login = async (req, res) => {
         res.status(200).json({ user: existingUser });
       } else {
         // Sai thông tin đăng nhập
+=======
+      const passwordMatch = await bcrypt.compare(req.body.password, existingUser.password);
+
+      if (passwordMatch) {
+        // Loại bỏ mật khẩu trước khi gửi phản hồi
+        delete existingUser.password;
+
+        res.status(200).json({ user: existingUser });
+      } else {
+>>>>>>> c8c9f692fb1d285f43aa48a8258d452cc98cfdf3
         res.status(401).json({ error: 'Sai thông tin đăng nhập' });
       }
     } else {
-      // Sai thông tin đăng nhập
       res.status(401).json({ error: 'Sai thông tin đăng nhập' });
     }
   } catch (error) {
