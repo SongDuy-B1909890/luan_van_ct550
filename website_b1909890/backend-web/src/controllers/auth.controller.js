@@ -7,20 +7,31 @@ const dbRef = ref(database);
 const jwt = require('jsonwebtoken');
 const secretKey = 'LyHySD05'; // Thay thế bằng khóa bí mật của bạn
 
+const bcrypt = require('bcrypt');
+
 const login = async (req, res) => {
   try {
     const usersSnapshot = await get(child(dbRef, 'users'));
     const users = usersSnapshot.val();
 
     const existingUser = Object.values(users).find(
-      (user) => user.email === req.body.email && user.password === req.body.password
+      (user) => user.email === req.body.email
     );
 
     if (existingUser) {
-      // Đăng nhập thành công
-      // const token = jwt.sign({ email: existingUser.email }, secretKey, { expiresIn: '1h' });
-      // res.status(200).json({ message: 'Đăng nhập thành công', token: token });
-      res.status(200).json({ message: 'Đăng nhập thành công' });
+      // So sánh mật khẩu đã mã hóa trong cơ sở dữ liệu với mật khẩu nguyên thủy được gửi từ client
+      const passwordMatch = await bcrypt.compare(req.body.password, existingUser.password);
+
+      if (passwordMatch) {
+        // Đăng nhập thành công
+        // const token = jwt.sign({ email: existingUser.email }, secretKey, { expiresIn: '1h' });
+        // res.status(200).json({ message: 'Đăng nhập thành công', token: token });
+        // res.status(200).json({ message: 'Đăng nhập thành công' });
+        res.status(200).json({ user: existingUser });
+      } else {
+        // Sai thông tin đăng nhập
+        res.status(401).json({ error: 'Sai thông tin đăng nhập' });
+      }
     } else {
       // Sai thông tin đăng nhập
       res.status(401).json({ error: 'Sai thông tin đăng nhập' });
@@ -36,13 +47,16 @@ const register = async (req, res) => {
     const users = usersSnapshot.val();
 
     const existingUser = Object.values(users).find(
-      (user) => user.id === req.body.id || user.email === req.body.email || user.password === req.body.password
+      (user) => user.id === req.body.id || user.email === req.body.email
     );
 
     if (existingUser) {
       // Dữ liệu đã tồn tại, không thêm người dùng mới
       res.status(400).json({ error: 'Người dùng đã tồn tại' });
     } else {
+      // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
       // Tạo ID tự động cho người dùng mới
       const newUserRef = push(child(dbRef, 'users'));
       const newUserId = newUserRef.key;
@@ -52,7 +66,7 @@ const register = async (req, res) => {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
-        password: req.body.password
+        password: hashedPassword // Lưu mật khẩu đã được mã hóa
       });
 
       res.status(200).json({ message: 'Dữ liệu đã được thêm thành công', userId: newUserId });

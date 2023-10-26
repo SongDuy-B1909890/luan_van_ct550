@@ -7,6 +7,17 @@ import SearchIcon from '@mui/icons-material/Search';
 import Badge from '@mui/material/Badge';
 import LoginPage from '../auth/login'
 import MenuPage from './menu';
+
+const userString = localStorage.getItem('user');
+const user = userString ? JSON.parse(userString) : null;
+
+if (userString) {
+    const user = JSON.parse(userString);
+    console.log(user.user.email);
+    console.log(user.user.firstname);
+    console.log(user.user.id);
+    console.log(user.user.lastname);
+}
 //import { Link } from 'react-router-dom';
 const HeaderPage = () => {
     const [isLoginModal, setIsLoginModal] = useState(false);
@@ -95,14 +106,14 @@ const HeaderPage = () => {
 
                 <button
                     className="flex justify-center items-center text-blue-500 
-                mt-1 w-[100px] h-10 hover:bg-blue-100 rounded-full border 
+                mt-1 w-[120px] h-10 hover:bg-blue-100 rounded-full border 
                 border-blue-500"
                     title="Đăng nhập"
                     onClick={openLoginModal}
                 >
                     <div className="mr-2"> <AccountCircleIcon /> </div>
 
-                    Sign in
+                    {user.user.lastname ? user.user.lastname : "Sign in"}
                 </button>
 
                 {isLoginModal && <LoginPage closeModal={closeLoginModal} />}

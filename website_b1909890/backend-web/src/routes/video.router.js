@@ -13,7 +13,8 @@ router.get('/videos', VideoController.videos);
 // Xóa video
 router.delete('/deleteVideo/:id', VideoController.deleteVideoAndContent);
 
+// Tìm video theo tiêu đề 
+router.post('/searchVideosByTitle', VideoController.searchVideosByTitle);
 
 module.exports = router;
-
 

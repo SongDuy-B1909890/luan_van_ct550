@@ -19,8 +19,10 @@ const uploadVideo = async (req, res) => {
                 cloudinary_id: result.public_id,
                 name_file: req.file.originalname,
                 url_video: result.url,
+                // nhập
                 title_video: req.body.title,
                 description_video: req.body.description,
+                category_video: req.body.category
             };
 
             push(uploadRef, newUpload)
@@ -94,8 +96,39 @@ const videos = async (req, res) => {
         });
 }
 
+const searchVideosByTitle = async (req, res) => {
+    try {
+        const searchTitle = req.body.title; // Lấy tiêu đề video từ body parameter
+
+        if (!searchTitle) {
+            // Body parameter 'title' không tồn tại hoặc không có giá trị
+            res.status(400).json({ error: 'Thiếu thông tin tìm kiếm video' });
+            return;
+        }
+
+        const videosSnapshot = await get(child(dbRef, 'videos'));
+        const videos = videosSnapshot.val();
+
+        const regex = new RegExp(searchTitle, 'i');
+        const matchingVideos = Object.values(videos).filter((video) =>
+            video.title_video && regex.test(video.title_video)
+        );
+
+        if (matchingVideos.length === 0) {
+            // Không tìm thấy video phù hợp
+            res.status(404).json({ message: 'Không tìm thấy video phù hợp' });
+            return;
+        }
+
+        res.status(200).json({ videos: matchingVideos });
+    } catch (error) {
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi tìm kiếm video', errorMessage: error.message });
+    }
+};
+
 module.exports = {
     uploadVideo,
     videos,
     deleteVideoAndContent,
+    searchVideosByTitle,
 }
