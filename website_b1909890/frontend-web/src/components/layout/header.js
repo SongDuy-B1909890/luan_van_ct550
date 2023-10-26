@@ -18,7 +18,7 @@ const user = userString ? JSON.parse(userString) : null;
 const login = localStorage.getItem('login');
 // console.log(login); // Kết quả: "John"
 if (user != null) {
-    console.log(user.id);
+    console.log('');
 }
 
 const HeaderPage = () => {
