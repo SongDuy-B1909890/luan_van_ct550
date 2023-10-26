@@ -79,7 +79,7 @@ const HeaderPage = () => {
                     <div className="mr-2">
                         <AccountCircleIcon />
                     </div>
-                    {user && user.user.lastname ? user.user.lastname : "Sign in"}
+                    {user && user.lastname ? user.lastname : "Sign in"}
                 </button>
                 {isLoginModal && <LoginPage closeModal={closeLoginModal} />}
             </div>
