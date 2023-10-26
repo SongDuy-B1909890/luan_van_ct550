@@ -5,7 +5,7 @@ import { useFormik } from "formik"
 import * as Yup from "yup"
 
 const LoginPage = ({ closeModal }) => {
-
+  localStorage.setItem('login', 'false');
   const validationSchema = Yup.object({
     email: Yup.string().email('Địa chỉ email không hợp lệ').required('Vui lòng nhập email'),
     password: Yup.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').required('Vui lòng nhập mật khẩu'),
@@ -24,10 +24,13 @@ const LoginPage = ({ closeModal }) => {
         .then((response) => {
           // Xử lý thành công
           console.log(response.data);
-          //localStorage.setItem('user', JSON.stringify(response.data));
+          // Đăng nhập
+          localStorage.setItem('login', 'true');
 
+          // Trả về dữ liệu user
           localStorage.setItem('user', JSON.stringify(response.data.user));
           console.log(localStorage.getItem('user'))
+
           // Hiển thị thông báo đăng ký thành công
           alert('Đăng nhập thành công')
           window.location.href = '/';

@@ -184,7 +184,9 @@ const WatchPage = () => {
             key={video.id}
             className="flex justify-center items-center"
           >
-            <div className=" mb-[45px] rounded-xl overflow-hidden">
+            <div className=" mb-[45px] overflow-hidden"
+              style={{ borderTopLeftRadius: '20px', borderBottomLeftRadius: '20px' }}
+            >
               <ReactPlayer
                 ref={(ref) => (videoRefs.current[video.id] = ref)}
                 data-id={video.id}
@@ -201,9 +203,9 @@ const WatchPage = () => {
               />
             </div>
 
-            <div className=" flex justify-center ml-2">   {/* ml-2 */}
+            <div className=" flex justify-center">   {/* ml-2 */}
               <div
-                className="h-[540px] w-[90px] mb-[45px] pr-2 bg-white rounded-xl shadow border border-gray-300">
+                className="h-[540px] w-[90px] mb-[45px] pr-2 bg-white rounded-xl-r shadow border border-gray-300">
                 <ul className="ml-2 mt-10 ">
 
                   <li className="mb-12 text-center">
