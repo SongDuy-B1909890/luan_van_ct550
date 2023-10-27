@@ -5,7 +5,6 @@ import { useFormik } from "formik"
 import * as Yup from "yup"
 
 const LoginPage = ({ closeModal }) => {
-  localStorage.setItem('login', 'false');
   const validationSchema = Yup.object({
     email: Yup.string().email('Địa chỉ email không hợp lệ').required('Vui lòng nhập email'),
     password: Yup.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').required('Vui lòng nhập mật khẩu'),
@@ -84,7 +83,6 @@ const LoginPage = ({ closeModal }) => {
                     type="email"
                     autoComplete="email"
                     placeholder="my@gmail.com"
-                    required
                     value={formik.values.email} // Đặt giá trị của input từ state user
                     onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -109,7 +107,6 @@ const LoginPage = ({ closeModal }) => {
                     autoComplete="current-password"
                     value={formik.values.password}
                     onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                    required
                     placeholder="••••••••"
                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />

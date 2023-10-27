@@ -22,7 +22,7 @@ const login = async (req, res) => {
       const passwordMatch = await bcrypt.compare(req.body.password, existingUser.password);
 
       if (passwordMatch) {
-        // Loại bỏ mật khẩu trước khi gửi phản hồi
+        // Loại bỏ mật khẩu trước khi gửi phản hồi  
         delete existingUser.password;
         // Đăng nhập thành công
         // const token = jwt.sign({ email: existingStaff.email }, secretKey, { expiresIn: '1h' });
@@ -56,7 +56,7 @@ const register = async (req, res) => {
       // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-      // Tạo ID tự động cho người dùng mới
+      // Tạo ID tự động cho người dùng mới 
       const newUserRef = push(child(dbRef, 'users'));
       const newUserId = newUserRef.key;
 
@@ -65,7 +65,12 @@ const register = async (req, res) => {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
-        password: hashedPassword // Lưu mật khẩu đã được mã hóa
+        password: hashedPassword, // Lưu mật khẩu đã được mã hóa
+        avatar: null,
+        phone: null,
+        address: null,
+        gender: null,
+        birthday: null,
       });
 
       res.status(200).json({ message: 'Dữ liệu đã được thêm thành công', userId: newUserId });
@@ -104,16 +109,51 @@ const changePassword = async (req, res) => {
       res.status(401).json({ error: 'Sai thông tin đăng nhập' });
       return;
     } else {
+
+      // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
       // Cập nhật mật khẩu mới
       const usersRef = child(dbRef, `users/${existingUserKey}`);
       update(usersRef, {
-        password: req.body.newPassword
+        password: hashedPassword
       });
 
       res.status(200).json({ message: 'Mật khẩu đã được thay đổi thành công' });
     }
   } catch (error) {
     res.status(500).json({ error: 'Đã xảy ra lỗi khi thay đổi mật khẩu', errorMessage: error.message });
+  }
+};
+
+const changeProfile = async (req, res) => {
+  try {
+    // Kiểm tra id
+    const usersSnapshot = await get(child(dbRef, 'users'));
+    const users = usersSnapshot.val();
+
+    const existingUserKey = Object.keys(users).find(
+      (userKey) => users[userKey].id === req.body.id
+    );
+
+    if (existingUserKey) {
+      // Cập nhật profile mới
+      const usersRef = child(dbRef, `users/${existingUserKey}`);
+      update(usersRef, {
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        avatar: req.body.avatar,
+        phone: req.body.phone,
+        address: req.body.address,
+        gender: req.body.gender,
+        birthday: req.body.birthday,
+      });
+      res.status(200).json({ message: 'Profile đã được thay đổi thành công' });
+    } else {
+      res.status(404).json({ error: 'Người dùng không tồn tại' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Đã xảy ra lỗi khi thay đổi profile', errorMessage: error.message });
   }
 };
 
@@ -144,6 +184,7 @@ module.exports = {
   login,
   register,
   changePassword,
+  changeProfile,
   deleteUser,
-  users
+  users,
 };

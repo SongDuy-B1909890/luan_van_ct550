@@ -101,7 +101,7 @@ const HeaderPage = () => {
                             <AccountCircleIcon />
                         </div>
                         {user && user.lastname ? user.lastname : "Sign in"} */}
-                        <Link to="/login">
+                        <Link to="/profile">
                             <Avatar
                                 alt="Remy Sharp"
                                 src="https://vapa.vn/wp-content/uploads/2022/12/hinh-nen-dep-ngau-nu-001.jpg"

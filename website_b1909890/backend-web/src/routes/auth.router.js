@@ -14,6 +14,9 @@ router.get('/users', AuthController.users);
 // Đổi mật khẩu
 router.put('/changePassword', AuthController.changePassword);
 
+// Đổi thông tin tài khoản
+router.put('/changeProfile', AuthController.changeProfile);
+
 // Xóa user
 router.delete('/deleteUser', AuthController.deleteUser);
 

@@ -80,7 +80,6 @@ const RegisterPage = () => {
                                             placeholder="Nguyễn Văn"
                                             value={formik.values.firstname} // Đặt giá trị của input từ state user
                                             onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                            required
                                             className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         />
                                     </div>
@@ -103,7 +102,6 @@ const RegisterPage = () => {
                                             placeholder="An"
                                             value={formik.values.lastname}
                                             onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                            required
                                             className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         />
                                     </div>
@@ -126,7 +124,6 @@ const RegisterPage = () => {
                                             placeholder="my@gmail.com"
                                             value={formik.values.email}
                                             onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                            required
                                             className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         />
 
@@ -149,7 +146,6 @@ const RegisterPage = () => {
                                             autoComplete="password"
                                             value={formik.values.password}
                                             onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                            required
                                             className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         />
                                     </div>

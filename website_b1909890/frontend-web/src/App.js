@@ -12,6 +12,9 @@ import LoginAdminPage from './components/admin/loginAdmin';
 import AdminPage from './components/admin/admin';
 import StaffPage from './components/satff/staff';
 import LoginStaffPage from './components/satff/loginStaff';
+import MoviePage from './components/layout/movie';
+import ProfilePage from './components/auth/profile';
+
 // Thành phần hiển thị trang không tồn tại
 const NotFoundPage = () => {
   return (
@@ -39,9 +42,12 @@ function App() {
         <Route path="/staff" element={<StaffPage />}></Route>
 
         <Route path="/forgotPassword" element={<ForgotPasswordPage />}></Route>
+        <Route path="/movie" element={<MoviePage />}></Route>
+
         <Route path="/menu" element={<MenuPage />}></Route>
         <Route path="/footer" element={<FooterPage />}></Route>
         <Route path="/comment" element={<CommentPage />}></Route>
+        <Route path="/profile" element={<ProfilePage />}></Route>
 
         {/* Xử lý trang lỗi */}
         <Route path="*" element={<Navigate to="/404" />} />
