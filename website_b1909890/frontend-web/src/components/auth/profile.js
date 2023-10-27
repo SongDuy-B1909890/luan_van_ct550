@@ -8,15 +8,17 @@ const userString = localStorage.getItem('user');
 const user = userString ? JSON.parse(userString) : null;
 
 //console.log(user.gender);
+// console.log(user);
 const ProfilePage = () => {
     const validationSchema = Yup.object({
-        // firstname: Yup.string().required('Vui lòng nhập tên'),
-        // lastname: Yup.string().required('Vui lòng nhập họ'),
-        // avatar: Yup.string().required('Vui lòng nhập đường dẫn ảnh đại diện'),
-        // phone: Yup.string().required('Vui lòng nhập số điện thoại'),
-        // address: Yup.string().required('Vui lòng nhập địa chỉ'),
-        // gender: Yup.string().required('Vui lòng chọn giới tính'),
-        // birthday: Yup.string().required('Vui lòng nhập ngày tháng năm sinh'),
+        firstname: Yup.string().required('Vui lòng nhập tên'),
+        lastname: Yup.string().required('Vui lòng nhập họ'),
+        avatar: Yup.string().required('Vui lòng nhập đường dẫn ảnh đại diện'),
+        phone: Yup.string().required('Vui lòng nhập số điện thoại'),
+        address: Yup.string().required('Vui lòng nhập địa chỉ'),
+        gender: Yup.string().required('Vui lòng chọn giới tính'),
+        birthday: Yup.string().required('Vui lòng nhập ngày tháng năm sinh'),
+
     });
 
     const formik = useFormik({
@@ -49,7 +51,7 @@ const ProfilePage = () => {
                 });
         },
     })
-    console.log(formik.values.firstname);
+
     return (
         <>
             <div className="min-h-screen bg-gray-300 flex flex-col justify-center  py-12 sm:px-6 lg:px-8 fixed inset-0  bg-opacity-30 backdrop-blur-sm z-50  ">
@@ -82,35 +84,18 @@ const ProfilePage = () => {
                                             Họ
                                         </label>
                                         <div className="mt-1">
-
-                                            {formik.values.firstname === "" ? (
-                                                <input
-                                                    id="firstname"
-                                                    name="firstname"
-                                                    type="text"
-                                                    autoComplete="firstname"
-                                                    placeholder={user.firstname}
-                                                    // Đặt giá trị của input từ state user
-                                                    value={user.firstname}
-                                                    onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                                    // required
-                                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                            ) : (
-                                                <input
-                                                    id="firstname"
-                                                    name="firstname"
-                                                    type="text"
-                                                    autoComplete="firstname"
-                                                    placeholder={user.firstname}
-                                                    // Đặt giá trị của input từ state user
-                                                    value={formik.values.firstname}
-                                                    onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                                    // required
-                                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                            )}
-
+                                            <input
+                                                id="firstname"
+                                                name="firstname"
+                                                type="text"
+                                                autoComplete="firstname"
+                                                placeholder={user.firstname}
+                                                value={formik.values.firstname}
+                                                // Đặt giá trị của input từ state user
+                                                onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
+                                                // required
+                                                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            />
                                         </div>
                                         {formik.errors.firstname && formik.touched.firstname && <div>{formik.errors.firstname}</div>}
                                     </div>
@@ -123,33 +108,17 @@ const ProfilePage = () => {
                                             Tên
                                         </label>
                                         <div className="mt-1">
-
-                                            {formik.values.lastname === "" ? (
-                                                <input
-                                                    id="lastname"
-                                                    name="lastname"
-                                                    type="text"
-                                                    autoComplete="lastname"
-                                                    placeholder={user.lastname}
-                                                    value={user.lastname}
-                                                    onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                                    // required
-                                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                            ) : (
-                                                <input
-                                                    id="lastname"
-                                                    name="lastname"
-                                                    type="text"
-                                                    autoComplete="lastname"
-                                                    placeholder={user.lastname}
-                                                    value={formik.values.lastname}
-                                                    onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                                    // required
-                                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                            )}
-
+                                            <input
+                                                id="lastname"
+                                                name="lastname"
+                                                type="text"
+                                                autoComplete="lastname"
+                                                placeholder={user.lastname}
+                                                value={formik.values.lastname}
+                                                onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
+                                                // required
+                                                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            />
                                         </div>
                                         {formik.errors.lastname && formik.touched.lastname && <div>{formik.errors.lastname}</div>}
                                     </div>
@@ -164,34 +133,17 @@ const ProfilePage = () => {
                                             Giới tính
                                         </label>
                                         <div className="mt-1">
-
-                                            {formik.values.gender === "" ? (
-                                                <input
-                                                    id="gender"
-                                                    name="gender"
-                                                    type="gender"
-                                                    autoComplete="gender"
-                                                    placeholder={user.gender}
-                                                    value={user.gender}
-                                                    onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                                    // required
-                                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                            ) : (
-                                                <input
-                                                    id="gender"
-                                                    name="gender"
-                                                    type="gender"
-                                                    autoComplete="gender"
-                                                    placeholder={user.gender}
-                                                    value={formik.values.gender}
-                                                    onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                                    // required
-                                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                            )}
-
-
+                                            <input
+                                                id="gender"
+                                                name="gender"
+                                                type="gender"
+                                                autoComplete="gender"
+                                                placeholder={user.gender}
+                                                value={formik.values.gender}
+                                                onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
+                                                // required
+                                                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            />
                                         </div>
                                         {formik.errors.gender && formik.touched.gender && <div>{formik.errors.gender}</div>}
                                     </div>
@@ -204,32 +156,18 @@ const ProfilePage = () => {
                                             Ngày sinh
                                         </label>
                                         <div className="mt-1">
+                                            <input
+                                                id="birthday"
+                                                name="birthday"
+                                                type="birthday"
+                                                autoComplete="birthday"
+                                                placeholder={user.birthday}
+                                                value={formik.values.birthday}
+                                                onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
+                                                // required
+                                                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            />
 
-                                            {formik.values.birthday === "" ? (
-                                                <input
-                                                    id="birthday"
-                                                    name="birthday"
-                                                    type="birthday"
-                                                    autoComplete="birthday"
-                                                    placeholder={user.birthday}
-                                                    value={user.birthday}
-                                                    onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                                    // required
-                                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                            ) : (
-                                                <input
-                                                    id="birthday"
-                                                    name="birthday"
-                                                    type="birthday"
-                                                    autoComplete="birthday"
-                                                    placeholder={user.birthday}
-                                                    value={formik.values.birthday}
-                                                    onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                                    // required
-                                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                            )}
                                         </div>
                                         {formik.errors.birthday && formik.touched.birthday && <div>{formik.errors.birthday}</div>}
                                     </div>
@@ -245,32 +183,17 @@ const ProfilePage = () => {
                                             Ảnh đại diện
                                         </label>
                                         <div className="mt-1">
-
-                                            {formik.values.avatar === "" ? (
-                                                <input
-                                                    id="avatar"
-                                                    name="avatar"
-                                                    type="avatar"
-                                                    autoComplete="avatar"
-                                                    placeholder={user.avatar}
-                                                    value={user.avatar}
-                                                    onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                                    // required
-                                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                            ) : (
-                                                <input
-                                                    id="avatar"
-                                                    name="avatar"
-                                                    type="avatar"
-                                                    autoComplete="avatar"
-                                                    placeholder={user.avatar}
-                                                    value={formik.values.avatar}
-                                                    onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                                    // required
-                                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                            )}
+                                            <input
+                                                id="avatar"
+                                                name="avatar"
+                                                type="avatar"
+                                                autoComplete="avatar"
+                                                placeholder={user.avatar}
+                                                value={formik.values.avatar}
+                                                onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
+                                                // required
+                                                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            />
 
                                         </div>
                                         {formik.errors.avatar && formik.touched.avatar && <div>{formik.errors.avatar}</div>}
@@ -284,32 +207,17 @@ const ProfilePage = () => {
                                             Số điện thoại
                                         </label>
                                         <div className="mt-1">
-
-                                            {formik.values.phone === "" ? (
-                                                <input
-                                                    id="phone"
-                                                    name="phone"
-                                                    type="phone"
-                                                    autoComplete="phone"
-                                                    placeholder={user.phone}
-                                                    value={user.phone}
-                                                    onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                                    // required
-                                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                            ) : (
-                                                <input
-                                                    id="phone"
-                                                    name="phone"
-                                                    type="phone"
-                                                    autoComplete="phone"
-                                                    placeholder={user.phone}
-                                                    value={formik.values.phone}
-                                                    onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                                    // required
-                                                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                />
-                                            )}
+                                            <input
+                                                id="phone"
+                                                name="phone"
+                                                type="phone"
+                                                autoComplete="phone"
+                                                placeholder={user.phone}
+                                                value={formik.values.phone}
+                                                onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
+                                                // required
+                                                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            />
                                         </div>
                                         {formik.errors.phone && formik.touched.phone && <div>{formik.errors.phone}</div>}
                                     </div>
@@ -324,32 +232,17 @@ const ProfilePage = () => {
                                         Địa chỉ
                                     </label>
                                     <div className="mt-1">
-
-                                        {formik.values.address === "" ? (
-                                            <input
-                                                id="address"
-                                                name="address"
-                                                type="address"
-                                                autoComplete="address"
-                                                placeholder={user.address}
-                                                value={user.address}
-                                                onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                                // required
-                                                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            />
-                                        ) : (
-                                            <input
-                                                id="address"
-                                                name="address"
-                                                type="address"
-                                                autoComplete="address"
-                                                placeholder={user.address}
-                                                value={formik.values.address}
-                                                onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                                // required
-                                                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            />
-                                        )}
+                                        <input
+                                            id="address"
+                                            name="address"
+                                            type="address"
+                                            autoComplete="address"
+                                            placeholder={user.address}
+                                            value={formik.values.address}
+                                            onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
+                                            // required
+                                            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        />
                                     </div>
                                     {formik.errors.address && formik.touched.address && <div>{formik.errors.address}</div>}
                                 </div>

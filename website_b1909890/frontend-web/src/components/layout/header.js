@@ -16,7 +16,7 @@ const user = userString ? JSON.parse(userString) : null;
 
 // Trả về giá trị đăng nhập
 const login = localStorage.getItem('login');
-// console.log(login); // Kết quả: "John"
+console.log(user.avatar); // Kết quả: "John"
 if (user != null) {
     console.log('');
 }
@@ -104,7 +104,7 @@ const HeaderPage = () => {
                         <Link to="/profile">
                             <Avatar
                                 alt="Remy Sharp"
-                                src="https://vapa.vn/wp-content/uploads/2022/12/hinh-nen-dep-ngau-nu-001.jpg"
+                                src={user.avatar}
                                 sx={{ width: 50, height: 50 }}
                             />
                         </Link>

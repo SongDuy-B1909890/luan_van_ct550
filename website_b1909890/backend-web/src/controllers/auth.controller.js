@@ -125,7 +125,6 @@ const changePassword = async (req, res) => {
     res.status(500).json({ error: 'Đã xảy ra lỗi khi thay đổi mật khẩu', errorMessage: error.message });
   }
 };
-
 const changeProfile = async (req, res) => {
   try {
     // Kiểm tra id
@@ -148,7 +147,17 @@ const changeProfile = async (req, res) => {
         gender: req.body.gender,
         birthday: req.body.birthday,
       });
-      res.status(200).json({ message: 'Profile đã được thay đổi thành công' });
+
+      // Lấy thông tin người dùng sau khi cập nhật
+      const updatedUserSnapshot = await get(child(dbRef, `users/${existingUserKey}`));
+      let updatedUser = updatedUserSnapshot.val();
+
+      // Loại bỏ trường password
+      if (updatedUser) {
+        delete updatedUser.password;
+      }
+
+      res.status(200).json({ message: 'Profile đã được thay đổi thành công', user: updatedUser });
     } else {
       res.status(404).json({ error: 'Người dùng không tồn tại' });
     }
