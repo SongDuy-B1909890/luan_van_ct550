@@ -20,9 +20,10 @@ const uploadVideo = async (req, res) => {
                 name_file: req.file.originalname,
                 url_video: result.url,
                 // nhập
-                title_video: req.body.title,
-                description_video: req.body.description,
-                category_video: req.body.category
+                id_user: req.body.id_user,
+                title: req.body.title,
+                description: req.body.description,
+                category: req.body.category
             };
 
             push(uploadRef, newUpload)

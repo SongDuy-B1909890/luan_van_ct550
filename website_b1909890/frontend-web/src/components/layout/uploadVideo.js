@@ -4,37 +4,51 @@ import { Link } from 'react-router-dom';
 import { useFormik } from "formik"
 import * as Yup from "yup"
 
+const userString = localStorage.getItem('user');
+const user = userString ? JSON.parse(userString) : null;
+
 const UploadVideoPage = () => {
 
     const validationSchema = Yup.object({
-        title: Yup.string().required('Vui lòng nhập tên'),
-        decription: Yup.string().required('Vui lòng nhập họ'),
-        category: Yup.string().email('Địa chỉ email không hợp lệ').required('Vui lòng nhập email'),
+        title: Yup.string().required('Vui lòng nhập tiêu đề'),
+        description: Yup.string().required('Vui lòng nhập mô tả'),
+        category: Yup.string().required('Vui lòng nhập email'),
     });
 
     const formik = useFormik({
         initialValues: {
-            id_user: '',
+            id_user: user.id,
             title: '',
-            decription: '',
+            description: '',
             category: '',
+            file: null,
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
             console.log(values);
+
             axios
-                .post('http://localhost:5000/api/register', values)
+                .post('http://localhost:5000/api/uploadVideo', values)
                 .then((response) => {
                     // Xử lý thành công
                     console.log(response.data);
                     // Hiển thị thông báo đăng ký thành công
-                    alert('Đăng ký thành công')
+                    alert('Tải video lên thành công')
                     window.location.href = '/';
 
                 })
                 .catch((error) => {
-                    // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
-                    console.error(error);
+                    if (error.response) {
+                        // Xử lý lỗi trả về từ backend
+                        const errorMessage = error.response.data.error;
+                        formik.setErrors({ file: errorMessage });
+                        console.error(errorMessage);
+                    } else {
+                        // Xử lý lỗi không nhận được phản hồi từ backend
+                        const errorMessage = 'Đã xảy ra lỗi khi tải video lên';
+                        formik.setErrors({ file: errorMessage });
+                        console.error(errorMessage);
+                    }
                 });
         },
     })
@@ -61,7 +75,7 @@ const UploadVideoPage = () => {
 
 
                         <div>
-                            <form className="space-y-6" onSubmit={formik.handleSubmit}>
+                            <form className="space-y-6" onSubmit={formik.handleSubmit} encType="multipart/form-data">
 
                                 <div>
                                     <label
@@ -87,24 +101,24 @@ const UploadVideoPage = () => {
 
                                 <div>
                                     <label
-                                        htmlFor="decription"
+                                        htmlFor="description"
                                         className="block text-sm font-medium text-gray-700"
                                     >
                                         Mô tả
                                     </label>
                                     <div className="mt-1">
                                         <input
-                                            id="decription"
-                                            name="decription"
+                                            id="description"
+                                            name="description"
                                             type="address"
-                                            autoComplete="decription"
-                                            placeholder="Decription video"
-                                            value={formik.values.decription}
+                                            autoComplete="description"
+                                            placeholder="description video"
+                                            value={formik.values.description}
                                             onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
                                             className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         />
                                     </div>
-                                    {formik.errors.decription && formik.touched.decription && <div>{formik.errors.decription}</div>}
+                                    {formik.errors.description && formik.touched.description && <div>{formik.errors.description}</div>}
                                 </div>
 
                                 <div>
@@ -118,9 +132,9 @@ const UploadVideoPage = () => {
                                         <input
                                             id="category"
                                             name="category"
-                                            type="category"
+                                            type="text"
                                             autoComplete="category"
-                                            placeholder="my@gmail.com"
+                                            placeholder=""
                                             value={formik.values.category}
                                             onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
                                             className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -136,15 +150,19 @@ const UploadVideoPage = () => {
                                     </label>
                                     <div className="mt-1">
                                         <input
-                                            id="video"
-                                            name="video"
+                                            id="file"
+                                            name="file"
                                             type="file" // Thay đổi type thành "file" để cho phép tải tệp
                                             accept="video/*" // Chỉ chấp nhận các tệp video
-                                            onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
+                                            onChange={(event) => {
+                                                formik.setFieldValue("file", event.currentTarget.files[0]);
+                                            }}
                                             className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         />
                                     </div>
-                                    {formik.errors.video && formik.touched.video && <div>{formik.errors.video}</div>}
+                                    {formik.errors.file && formik.touched.file && (
+                                        <div className="text-red-500">{formik.errors.file}</div>
+                                    )}
                                 </div>
 
                                 <div className="z-10">
@@ -152,7 +170,7 @@ const UploadVideoPage = () => {
                                         type="submit"
                                         className="group  w-full flex justify-center  py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     >
-                                        Đăng ký
+                                        Tải video
                                     </button>
                                 </div>
 
