@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useFormik } from "formik"
-import * as Yup from "yup"
+//import * as Yup from "yup"
 
 const userString = localStorage.getItem('user');
 const user = userString ? JSON.parse(userString) : null;

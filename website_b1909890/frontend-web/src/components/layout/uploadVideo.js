@@ -23,6 +23,7 @@ const UploadVideoPage = () => {
             description: '',
             category: '',
             file: null,
+            name_file: '',
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -34,6 +35,7 @@ const UploadVideoPage = () => {
             formData.append("description", values.description);
             formData.append("category", values.category);
             formData.append("file", values.file);
+            formData.append("name_file", values.name_file); // Thêm trường name_file vào FormData
 
             axios
                 .post("http://localhost:5000/api/uploadVideo", formData, {
@@ -166,8 +168,9 @@ const UploadVideoPage = () => {
                                             type="file" // Thay đổi type thành "file" để cho phép tải tệp
                                             accept="video/*" // Chỉ chấp nhận các tệp video
                                             onChange={(event) => {
-                                                formik.setFieldValue("file", event.currentTarget.files[0]);
-                                                console.log(event.currentTarget.files[0]); // Console.log giá trị của trường file
+                                                const file = event.currentTarget.files[0];
+                                                formik.setFieldValue("file", file);
+                                                formik.setFieldValue("name_file", file.name); // Lưu trữ tên file vào trường name_file
                                             }}
                                             className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         />
