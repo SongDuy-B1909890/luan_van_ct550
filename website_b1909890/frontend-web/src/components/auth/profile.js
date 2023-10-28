@@ -7,30 +7,29 @@ import * as Yup from "yup"
 const userString = localStorage.getItem('user');
 const user = userString ? JSON.parse(userString) : null;
 
-//console.log(user.gender);
-// console.log(user);
 const ProfilePage = () => {
+
     const validationSchema = Yup.object({
-        firstname: Yup.string().required('Vui lòng nhập tên'),
-        lastname: Yup.string().required('Vui lòng nhập họ'),
-        avatar: Yup.string().required('Vui lòng nhập đường dẫn ảnh đại diện'),
-        phone: Yup.string().required('Vui lòng nhập số điện thoại'),
-        address: Yup.string().required('Vui lòng nhập địa chỉ'),
-        gender: Yup.string().required('Vui lòng chọn giới tính'),
-        birthday: Yup.string().required('Vui lòng nhập ngày tháng năm sinh'),
+        // firstname: Yup.string().required('Vui lòng nhập tên'),
+        // lastname: Yup.string().required('Vui lòng nhập họ'),
+        // avatar: Yup.string().required('Vui lòng nhập đường dẫn ảnh đại diện'),
+        // phone: Yup.string().required('Vui lòng nhập số điện thoại'),
+        // address: Yup.string().required('Vui lòng nhập địa chỉ'),
+        // gender: Yup.string().required('Vui lòng chọn giới tính'),
+        // birthday: Yup.string().required('Vui lòng nhập ngày tháng năm sinh'),
 
     });
 
     const formik = useFormik({
         initialValues: {
             id: user.id,
-            firstname: '',
-            lastname: '',
-            avatar: '',
-            phone: '',
-            address: '',
-            gender: '',
-            birthday: '',
+            firstname: user.firstname,
+            lastname: user.lastname,
+            avatar: user.avatar,
+            phone: user.phone,
+            address: user.address,
+            gender: user.gender,
+            birthday: user.birthday,
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
@@ -42,7 +41,8 @@ const ProfilePage = () => {
                     console.log(response.data);
                     // Hiển thị thông báo cập nhật thành công
                     alert('Cập nhật thành công')
-                    localStorage.setItem('login', 'false');
+                    localStorage.setItem('user', JSON.stringify(response.data.user));
+
                     window.location.href = '/';
                 })
                 .catch((error) => {
@@ -51,6 +51,14 @@ const ProfilePage = () => {
                 });
         },
     })
+
+    const inputFirstName = formik.values.firstname === user.firstname ? user.firstname : formik.values.firstname;
+    const inputLastName = formik.values.lastname === user.lastname ? user.lastname : formik.values.lastname;
+    const inputAvatar = formik.values.avatar === user.avatar ? user.avatar : formik.values.avatar;
+    const inputPhone = formik.values.phone === user.phone ? user.phone : formik.values.phone;
+    const inputAddress = formik.values.address === user.address ? user.address : formik.values.address;
+    const inputGender = formik.values.gender === user.gender ? user.gender : formik.values.gender;
+    const inputBirthday = formik.values.firstname === user.firstname ? user.firstname : formik.values.firstname;
 
     return (
         <>
@@ -89,8 +97,8 @@ const ProfilePage = () => {
                                                 name="firstname"
                                                 type="text"
                                                 autoComplete="firstname"
-                                                placeholder={user.firstname}
-                                                value={formik.values.firstname}
+                                                //placeholder={user.firstname}
+                                                value={inputFirstName}
                                                 // Đặt giá trị của input từ state user
                                                 onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
                                                 // required
@@ -113,8 +121,8 @@ const ProfilePage = () => {
                                                 name="lastname"
                                                 type="text"
                                                 autoComplete="lastname"
-                                                placeholder={user.lastname}
-                                                value={formik.values.lastname}
+                                                //placeholder={user.lastname}
+                                                value={inputLastName}
                                                 onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
                                                 // required
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -138,8 +146,8 @@ const ProfilePage = () => {
                                                 name="gender"
                                                 type="gender"
                                                 autoComplete="gender"
-                                                placeholder={user.gender}
-                                                value={formik.values.gender}
+                                                // placeholder={user.gender}
+                                                value={inputGender}
                                                 onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
                                                 // required
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -161,8 +169,8 @@ const ProfilePage = () => {
                                                 name="birthday"
                                                 type="birthday"
                                                 autoComplete="birthday"
-                                                placeholder={user.birthday}
-                                                value={formik.values.birthday}
+                                                // placeholder={user.birthday}
+                                                value={inputBirthday}
                                                 onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
                                                 // required
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -188,8 +196,8 @@ const ProfilePage = () => {
                                                 name="avatar"
                                                 type="avatar"
                                                 autoComplete="avatar"
-                                                placeholder={user.avatar}
-                                                value={formik.values.avatar}
+                                                //placeholder={user.avatar}
+                                                value={inputAvatar}
                                                 onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
                                                 // required
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -212,8 +220,8 @@ const ProfilePage = () => {
                                                 name="phone"
                                                 type="phone"
                                                 autoComplete="phone"
-                                                placeholder={user.phone}
-                                                value={formik.values.phone}
+                                                //placeholder={user.phone}
+                                                value={inputPhone}
                                                 onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
                                                 // required
                                                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -237,8 +245,8 @@ const ProfilePage = () => {
                                             name="address"
                                             type="address"
                                             autoComplete="address"
-                                            placeholder={user.address}
-                                            value={formik.values.address}
+                                            // placeholder={user.address}
+                                            value={inputAddress}
                                             onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
                                             // required
                                             className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"

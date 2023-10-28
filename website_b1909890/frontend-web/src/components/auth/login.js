@@ -42,7 +42,6 @@ const LoginPage = ({ closeModal }) => {
         });
     },
   })
-
   const handleBackdropClick = (event) => {
     if (event.target === event.currentTarget) {
       // Kiểm tra xem đăng nhập đã thành công hay chưa

@@ -66,11 +66,11 @@ const register = async (req, res) => {
         lastname: req.body.lastname,
         email: req.body.email,
         password: hashedPassword, // Lưu mật khẩu đã được mã hóa
-        avatar: null,
-        phone: null,
-        address: null,
-        gender: null,
-        birthday: null,
+        avatar: "",
+        phone: "",
+        address: "",
+        gender: "",
+        birthday: "",
       });
 
       res.status(200).json({ message: 'Dữ liệu đã được thêm thành công', userId: newUserId });
