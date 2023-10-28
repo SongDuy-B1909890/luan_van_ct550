@@ -27,15 +27,25 @@ const UploadVideoPage = () => {
         onSubmit: (values) => {
             console.log(values);
 
+            const formData = new FormData();
+            formData.append("id_user", values.id_user);
+            formData.append("title", values.title);
+            formData.append("description", values.description);
+            formData.append("category", values.category);
+            formData.append("file", values.file);
+
             axios
-                .post('http://localhost:5000/api/uploadVideo', values)
+                .post("http://localhost:5000/api/uploadVideo", formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
                 .then((response) => {
                     // Xử lý thành công
                     console.log(response.data);
                     // Hiển thị thông báo đăng ký thành công
-                    alert('Tải video lên thành công')
-                    window.location.href = '/';
-
+                    alert("Tải video lên thành công");
+                    window.location.href = "/";
                 })
                 .catch((error) => {
                     if (error.response) {
@@ -45,13 +55,13 @@ const UploadVideoPage = () => {
                         console.error(errorMessage);
                     } else {
                         // Xử lý lỗi không nhận được phản hồi từ backend
-                        const errorMessage = 'Đã xảy ra lỗi khi tải video lên';
-                        formik.setErrors({ file: errorMessage });
+                        const errorMessage = "Đã xảy ra lỗi khi tải video lên";
                         console.error(errorMessage);
+                        console.error(error);
                     }
                 });
-        },
-    })
+        }
+    });
 
     return (
         <>
