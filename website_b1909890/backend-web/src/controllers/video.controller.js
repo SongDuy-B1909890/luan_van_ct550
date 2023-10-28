@@ -4,48 +4,85 @@ const { ref, child, push, get, set } = require('firebase/database');
 const { database } = require('../models/database');
 const dbRef = ref(database);
 
+// const uploadVideo = async (req, res) => {
+//     try {
+//         const uploadRef = child(dbRef, 'videos');
+//         cloudinary.uploader.upload(req.file.path, {
+//             resource_type: "video",
+//             folder: "video",
+//         }, (err, result) => {
+//             if (err) {
+//                 console.log(err);
+//                 return res.status(500).send(err);
+//             }
+//             const newUpload = { // Đổi tên biến thành newUpload
+//                 cloudinary_id: result.public_id,
+//                 name_file: req.file.originalname,
+//                 url_video: result.url,
+//                 // nhập
+//                 id_user: req.body.id_user,
+//                 title: req.body.title,
+//                 description: req.body.description,
+//                 category: req.body.category
+//             };
+
+//             push(uploadRef, newUpload)
+//                 .then((snapshot) => {
+//                     console.log('Upload added successfully');
+//                     const response = {
+//                         message: 'Upload added successfully',
+//                         key: snapshot.key
+//                     };
+//                     return res.status(200).send(response);
+
+//                 })
+//                 .catch((error) => {
+//                     console.error('Error adding upload:', error);
+//                     return res.status(500).send(error);
+//                 });
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).send({ error: 'Đã xảy ra lỗi khi tải video', errorMessage: error.message });
+//     }
+// }
+
 const uploadVideo = async (req, res) => {
     try {
         const uploadRef = child(dbRef, 'videos');
-        cloudinary.uploader.upload(req.file.path, {
+        const result = await cloudinary.uploader.upload(req.file.path, {
             resource_type: "video",
             folder: "video",
-        }, (err, result) => {
-            if (err) {
-                console.log(err);
-                return res.status(500).send(err);
-            }
-            const newUpload = { // Đổi tên biến thành newUpload
-                cloudinary_id: result.public_id,
-                name_file: req.file.originalname,
-                url_video: result.url,
-                // nhập
-                id_user: req.body.id_user,
-                title: req.body.title,
-                description: req.body.description,
-                category: req.body.category
-            };
-
-            push(uploadRef, newUpload)
-                .then((snapshot) => {
-                    console.log('Upload added successfully');
-                    const response = {
-                        message: 'Upload added successfully',
-                        key: snapshot.key
-                    };
-                    return res.status(200).send(response);
-
-                })
-                .catch((error) => {
-                    console.error('Error adding upload:', error);
-                    return res.status(500).send(error);
-                });
         });
+
+        const newUpload = {
+            cloudinary_id: result.public_id,
+            name_file: req.file.originalname,
+            url_video: result.url,
+            id_user: req.body.id_user,
+            title: req.body.title,
+            description: req.body.description,
+            category: req.body.category
+        };
+
+        push(uploadRef, newUpload)
+            .then((snapshot) => {
+                console.log('Upload added successfully');
+                const response = {
+                    message: 'Upload added successfully',
+                    key: snapshot.key
+                };
+                return res.status(200).send(response);
+            })
+            .catch((error) => {
+                console.error('Error adding upload:', error);
+                return res.status(500).send(error);
+            });
     } catch (error) {
         console.log(error);
-        res.status(500).send({ error: 'Đã xảy ra lỗi khi tải video', errorMessage: error.message });
+        return res.status(500).send({ error: 'Đã xảy ra lỗi khi tải video', errorMessage: error.message });
     }
-}
+};
 
 const deleteVideoAndContent = async (req, res) => {
     try {
