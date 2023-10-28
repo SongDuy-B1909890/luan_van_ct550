@@ -13,6 +13,7 @@ const UploadVideoPage = () => {
         title: Yup.string().required('Vui lòng nhập tiêu đề'),
         description: Yup.string().required('Vui lòng nhập mô tả'),
         category: Yup.string().required('Vui lòng nhập email'),
+        file: Yup.string().required('Vui lòng chọn file'),
     });
 
     const formik = useFormik({
