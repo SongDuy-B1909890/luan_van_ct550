@@ -16,10 +16,12 @@ const user = userString ? JSON.parse(userString) : null;
 
 // Trả về giá trị đăng nhập
 const login = localStorage.getItem('login');
-console.log(user.avatar); // Kết quả: "John"
-if (user != null) {
-    console.log('');
-}
+
+//console.log(user.avatar); // Kết quả: "John"
+
+// if (user != null) {
+//     console.log('');
+// }
 
 const HeaderPage = () => {
     const [isLoginModal, setIsLoginModal] = useState(false);
@@ -80,7 +82,9 @@ const HeaderPage = () => {
                         title="Tạo video"
                         onClick={openLoginModal}
                     >
-                        <VideoCallOutlinedIcon />
+                        <Link to="/upload/video">
+                            <VideoCallOutlinedIcon />
+                        </Link>
                     </button>
 
                     <button
@@ -97,10 +101,7 @@ const HeaderPage = () => {
                         className="flex justify-center items-center text-blue-500 mt-1 mr-6 h-10 hover:bg-blue-100 rounded-full border border-blue-500"
                         onClick={openLoginModal}
                     >
-                        {/* <div className="mr-2">
-                            <AccountCircleIcon />
-                        </div>
-                        {user && user.lastname ? user.lastname : "Sign in"} */}
+
                         <Link to="/profile">
                             <Avatar
                                 alt="Remy Sharp"

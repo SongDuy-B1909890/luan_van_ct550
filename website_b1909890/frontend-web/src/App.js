@@ -14,6 +14,7 @@ import StaffPage from './components/satff/staff';
 import LoginStaffPage from './components/satff/loginStaff';
 import MoviePage from './components/layout/movie';
 import ProfilePage from './components/auth/profile';
+import UploadVideoPage from './components/layout/uploadVideo';
 
 // Thành phần hiển thị trang không tồn tại
 const NotFoundPage = () => {
@@ -48,6 +49,8 @@ function App() {
         <Route path="/footer" element={<FooterPage />}></Route>
         <Route path="/comment" element={<CommentPage />}></Route>
         <Route path="/profile" element={<ProfilePage />}></Route>
+
+        <Route path="/upload/video" element={<UploadVideoPage />}></Route>
 
         {/* Xử lý trang lỗi */}
         <Route path="*" element={<Navigate to="/404" />} />

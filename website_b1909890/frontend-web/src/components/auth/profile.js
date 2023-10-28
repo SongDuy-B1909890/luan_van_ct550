@@ -9,17 +9,6 @@ const user = userString ? JSON.parse(userString) : null;
 
 const ProfilePage = () => {
 
-    const validationSchema = Yup.object({
-        // firstname: Yup.string().required('Vui lòng nhập tên'),
-        // lastname: Yup.string().required('Vui lòng nhập họ'),
-        // avatar: Yup.string().required('Vui lòng nhập đường dẫn ảnh đại diện'),
-        // phone: Yup.string().required('Vui lòng nhập số điện thoại'),
-        // address: Yup.string().required('Vui lòng nhập địa chỉ'),
-        // gender: Yup.string().required('Vui lòng chọn giới tính'),
-        // birthday: Yup.string().required('Vui lòng nhập ngày tháng năm sinh'),
-
-    });
-
     const formik = useFormik({
         initialValues: {
             id: user.id,
@@ -31,9 +20,8 @@ const ProfilePage = () => {
             gender: user.gender,
             birthday: user.birthday,
         },
-        validationSchema: validationSchema,
         onSubmit: (values) => {
-            console.log(values);
+            //console.log(values);
             axios
                 .put('http://localhost:5000/api/changeProfile', values)
                 .then((response) => {
@@ -58,7 +46,7 @@ const ProfilePage = () => {
     const inputPhone = formik.values.phone === user.phone ? user.phone : formik.values.phone;
     const inputAddress = formik.values.address === user.address ? user.address : formik.values.address;
     const inputGender = formik.values.gender === user.gender ? user.gender : formik.values.gender;
-    const inputBirthday = formik.values.firstname === user.firstname ? user.firstname : formik.values.firstname;
+    const inputBirthday = formik.values.birthday === user.birthday ? user.birthday : formik.values.birthday;
 
     return (
         <>
@@ -196,7 +184,7 @@ const ProfilePage = () => {
                                                 name="avatar"
                                                 type="avatar"
                                                 autoComplete="avatar"
-                                                //placeholder={user.avatar}
+                                                placeholder="Link to your avatar"
                                                 value={inputAvatar}
                                                 onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
                                                 // required
