@@ -17,7 +17,7 @@ const user = userString ? JSON.parse(userString) : null;
 // Trả về giá trị đăng nhập
 const login = localStorage.getItem('login');
 
-//console.log(user.avatar); // Kết quả: "John"
+console.log(login); // Kết quả: "John"
 
 // if (user != null) {
 //     console.log('');
@@ -35,6 +35,8 @@ const HeaderPage = () => {
     };
     const closeLogout = () => {
         localStorage.setItem('login', 'false');
+        // Xóa mục 'login' khỏi localStorage khi đăng xuất
+        //localStorage.removeItem('login');
         //localStorage.setItem('user', JSON.stringify(null));
         window.location.href = '/';
     };

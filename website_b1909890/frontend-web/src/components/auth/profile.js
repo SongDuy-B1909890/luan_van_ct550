@@ -48,6 +48,24 @@ const ProfilePage = () => {
     const inputGender = formik.values.gender === user.gender ? user.gender : formik.values.gender;
     const inputBirthday = formik.values.birthday === user.birthday ? user.birthday : formik.values.birthday;
 
+    // Định nghĩa hàm xử lý sự kiện khi thay đổi giá trị của ngày, tháng và năm
+    const handleDateChange = (event) => {
+        const { name, value } = event.target;
+        const [year, month, day] = value.split('-');
+
+        if (year >= 1970 && month && day) {
+            const selectedDate = new Date(year, month - 1, day);
+            selectedDate.setDate(selectedDate.getDate() + 1);
+
+            if (!isNaN(selectedDate)) {
+                const formattedDate = selectedDate.toISOString().split('T')[0];
+                formik.setFieldValue(name, formattedDate);
+                return;
+            }
+        }
+
+        console.error('Invalid date:', value);
+    };
     return (
         <>
             <div className="min-h-screen bg-gray-300 flex flex-col justify-center  py-12 sm:px-6 lg:px-8 fixed inset-0  bg-opacity-30 backdrop-blur-sm z-50  ">
@@ -122,48 +140,59 @@ const ProfilePage = () => {
 
                                 <div className="flex">
                                     <div className="w-1/2 mr-2">
-                                        <label
-                                            htmlFor="gender"
-                                            className="block text-sm font-medium text-gray-700"
-                                        >
+                                        <label htmlFor="gender" className="block text-sm font-medium text-gray-700">
                                             Giới tính
                                         </label>
-                                        <div className="mt-1">
-                                            <input
-                                                id="gender"
-                                                name="gender"
-                                                type="gender"
-                                                autoComplete="gender"
-                                                // placeholder={user.gender}
-                                                value={inputGender}
-                                                onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                                // required
-                                                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            />
+                                        <div className="mt-2 flex">
+                                            <div className="mr-4">
+                                                <label htmlFor="male" className="inline-flex items-center">
+                                                    <input
+                                                        id="male"
+                                                        name="gender"
+                                                        type="radio"
+                                                        value="nam"
+                                                        checked={inputGender === "nam"}
+                                                        onChange={formik.handleChange}
+                                                        className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                                                    />
+                                                    <span className="ml-2">Nam</span>
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <label htmlFor="female" className="inline-flex items-center">
+                                                    <input
+                                                        id="female"
+                                                        name="gender"
+                                                        type="radio"
+                                                        value="nữ"
+                                                        checked={inputGender === "nữ"}
+                                                        onChange={formik.handleChange}
+                                                        className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                                                    />
+                                                    <span className="ml-2">Nữ</span>
+                                                </label>
+                                            </div>
+
                                         </div>
                                         {formik.errors.gender && formik.touched.gender && <div>{formik.errors.gender}</div>}
                                     </div>
 
                                     <div className="w-1/2 mr-2">
-                                        <label
-                                            htmlFor="birthday"
-                                            className="block text-sm font-medium text-gray-700"
-                                        >
+                                        <label htmlFor="birthday" className="block text-sm font-medium text-gray-700">
                                             Ngày sinh
                                         </label>
                                         <div className="mt-1">
-                                            <input
-                                                id="birthday"
-                                                name="birthday"
-                                                type="birthday"
-                                                autoComplete="birthday"
-                                                // placeholder={user.birthday}
-                                                value={inputBirthday}
-                                                onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                                // required
-                                                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            />
-
+                                            <div className="flex">
+                                                <input
+                                                    id="birthday"
+                                                    name="birthday"
+                                                    type="date"
+                                                    value={inputBirthday ? inputBirthday : ''}
+                                                    onChange={handleDateChange}
+                                                    //min="1935-01-01" // Thêm thuộc tính min để cho phép chọn năm lớn hơn 1937
+                                                    className="form-input w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                />
+                                            </div>
                                         </div>
                                         {formik.errors.birthday && formik.touched.birthday && <div>{formik.errors.birthday}</div>}
                                     </div>

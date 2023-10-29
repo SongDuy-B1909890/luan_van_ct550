@@ -25,6 +25,9 @@ const NotFoundPage = () => {
     </div>
   );
 };
+
+const isLoggedIn = localStorage.getItem('login');
+console.log(isLoggedIn);
 function App() {
   return (
     <BrowserRouter>
@@ -34,8 +37,6 @@ function App() {
         <Route path="/watch" element={<WatchPage />}></Route>
         <Route path="/watch/:id" element={<WatchPage />}></Route>
 
-        {/* <Route path="/register" element={<RegisterPage />}></Route> */}
-        {/* <Route path="/login" element={<LoginPage />}></Route> */}
         <Route path="/login/admin" element={<LoginAdminPage />}></Route>
         <Route path="/login/staff" element={<LoginStaffPage />}></Route>
 
@@ -48,9 +49,19 @@ function App() {
         <Route path="/menu" element={<MenuPage />}></Route>
         <Route path="/footer" element={<FooterPage />}></Route>
         <Route path="/comment" element={<CommentPage />}></Route>
-        <Route path="/profile" element={<ProfilePage />}></Route>
 
-        <Route path="/upload/video" element={<UploadVideoPage />}></Route>
+
+
+        {/* Chỉ cho phép truy cập khi đã đăng nhập */}
+        {isLoggedIn === 'true' && (
+          <>
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/upload/video" element={<UploadVideoPage />}></Route>
+
+          </>
+        )}
+
+
 
         {/* Xử lý trang lỗi */}
         <Route path="*" element={<Navigate to="/404" />} />
