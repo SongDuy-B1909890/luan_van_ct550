@@ -46,7 +46,7 @@ const MoviePage = () => {
         <div className="w-full h-full overflow-auto bg-gray-100 mt-[30px]">
             {videos.map((video, index) => (
                 <div key={index} className="flex flex-wrap justify-center items-center h-screen">
-                    <div className="min-w-[1000px] min-h-[680px] max-w-[1000px] max-h-[680px] bg-white rouder-xl flex justify-center rounded-2xl shadow-md">
+                    <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl shadow-md">
                         <div className="overflow-hidden">
                             <div className="mt-5">
                                 <ReactPlayer
@@ -64,7 +64,7 @@ const MoviePage = () => {
                                 {filteredUsers
                                     .filter((user) => user.id === video.id_user)
                                     .map((user) => (
-                                        <div key={user.id} className="flex items-center mt-4">
+                                        <div key={user.id} className="flex items-center mt-3">
                                             <Avatar
                                                 alt="Remy Sharp"
                                                 src={user.avatar}
