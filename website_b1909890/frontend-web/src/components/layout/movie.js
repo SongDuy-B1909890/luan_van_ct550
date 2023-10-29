@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player/lazy';
 import axios from 'axios';
 
+import Avatar from '@mui/material/Avatar';
+
+
 const MoviePage = () => {
     const [videos, setVideos] = useState([]);
     const [users, setUsers] = useState([]);
@@ -61,10 +64,13 @@ const MoviePage = () => {
                                 {filteredUsers
                                     .filter((user) => user.id === video.id_user)
                                     .map((user) => (
-                                        <div key={user.id}>
-                                            <span>{user.lastname}</span>
-                                            <span>{user.gender}</span>
-                                            <span>{user.email}</span>
+                                        <div key={user.id} className="flex items-center">
+                                            <Avatar
+                                                alt="Remy Sharp"
+                                                src={user.avatar}
+                                                sx={{ width: 50, height: 50 }}
+                                            />
+                                            <span className="ml-2">{user.firstname + " " + user.lastname}</span>
                                         </div>
                                     ))}
                             </div>
