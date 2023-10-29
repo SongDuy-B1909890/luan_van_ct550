@@ -43,10 +43,10 @@ const MoviePage = () => {
     }, [videos, users]);
 
     return (
-        <div className="w-full h-full overflow-auto bg-gray-100">
+        <div className="w-full h-full overflow-auto bg-gray-100 mt-[30px]">
             {videos.map((video, index) => (
-                <div key={index} className="flex flex-wrap justify-center items-center h-screen mt-6">
-                    <div className="min-w-[1000px] min-h-[650px] max-w-[1000px] max-h-[650px] bg-white rouder-xl flex justify-center rounded-2xl shadow-md">
+                <div key={index} className="flex flex-wrap justify-center items-center h-screen">
+                    <div className="min-w-[1000px] min-h-[680px] max-w-[1000px] max-h-[680px] bg-white rouder-xl flex justify-center rounded-2xl shadow-md">
                         <div className="overflow-hidden">
                             <div className="mt-5">
                                 <ReactPlayer
@@ -60,17 +60,21 @@ const MoviePage = () => {
                                 />
                             </div>
                             <div className="mt-2 mb-2 min-h-[150px] max-h-[150px]">
-                                <h1>{video.title}</h1>
+                                <h1 className="font-bold text-xl">{video.title}</h1>
                                 {filteredUsers
                                     .filter((user) => user.id === video.id_user)
                                     .map((user) => (
-                                        <div key={user.id} className="flex items-center">
+                                        <div key={user.id} className="flex items-center mt-4">
                                             <Avatar
                                                 alt="Remy Sharp"
                                                 src={user.avatar}
                                                 sx={{ width: 50, height: 50 }}
                                             />
-                                            <span className="ml-2">{user.firstname + " " + user.lastname}</span>
+                                            <span className="ml-2 text-md">{user.firstname + " " + user.lastname}</span>
+                                            <button
+                                                className="w-[80px] h-[30px] ml-5 bg-red-200 text-black text-xs font-bold rounded-full hover:bg-gray-200">
+                                                Đăng ký
+                                            </button>
                                         </div>
                                     ))}
                             </div>
