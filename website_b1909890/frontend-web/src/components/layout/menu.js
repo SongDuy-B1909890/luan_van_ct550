@@ -20,7 +20,7 @@ const MenuPage = ({ closeModal }) => {
     return (
 
         <div className="w-screen h-screen bg-black bg-opacity-50 flex py fixed inset-0 z-50 " onClick={handleBackdropClick}>
-            <div className="w-[225px] h-screen bg-white relative slide-in">
+            <div className="w-[250px] h-screen bg-white relative slide-in">
                 <div className="ml-5 mt-3 mr-4">
 
                     <div className="mb-8">

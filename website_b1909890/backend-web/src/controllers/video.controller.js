@@ -134,6 +134,24 @@ const deleteVideoAndContent = async (req, res) => {
 //         });
 // }
 
+// const videos = async (req, res) => {
+//     try {
+//         const snapshot = await get(child(dbRef, 'videos'));
+//         if (snapshot.exists()) {
+//             const videoList = [];
+//             snapshot.forEach((childSnapshot) => {
+//                 const video = childSnapshot.val();
+//                 videoList.push(video);
+//             });
+//             res.status(200).json(videoList);
+//         } else {
+//             res.status(404).json({ message: 'No data available' });
+//         }
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// };
+
 const videos = async (req, res) => {
     try {
         const snapshot = await get(child(dbRef, 'videos'));
