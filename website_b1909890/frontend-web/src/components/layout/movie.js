@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import ReactPlayer from 'react-player/lazy';
 import axios from 'axios';
-import { videos } from '../../../../backend-web/src/controllers/video.controller';
 
 const MoviePage = () => {
     useEffect(() => {
