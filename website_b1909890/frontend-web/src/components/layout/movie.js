@@ -1,7 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactPlayer from 'react-player/lazy';
+import axios from 'axios';
+import { videos } from '../../../../backend-web/src/controllers/video.controller';
 
 const MoviePage = () => {
+    useEffect(() => {
+        // Gọi API để lấy danh sách video
+        axios
+            .get('http://localhost:5000/api/videos')
+            .then((response) => {
+                // Xử lý thành công
+                //console.log(response.data);
+                const videos = response.data;
+                console.log(videos);
+                // Lưu danh sách video vào localStorage
+                // localStorage.setItem('videos', JSON.stringify(response.data));
+                // console.log(localStorage.getItem('videos'));
+            })
+            .catch((error) => {
+                // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
+                console.error(error);
+            });
+    }, []);
+
     return (
         <div className="w-full h-full overflow-auto bg-white ">
 

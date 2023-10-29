@@ -61,8 +61,6 @@ function App() {
           </>
         )}
 
-
-
         {/* Xử lý trang lỗi */}
         <Route path="*" element={<Navigate to="/404" />} />
         <Route path="/404" element={<NotFoundPage />} />
