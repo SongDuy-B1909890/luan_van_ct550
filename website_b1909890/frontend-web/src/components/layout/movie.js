@@ -48,6 +48,7 @@ const MoviePage = () => {
                 <div key={index} className="flex flex-wrap justify-center items-center h-screen">
                     <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl shadow-md">
                         <div className="overflow-hidden">
+
                             <div className="mt-5">
                                 <ReactPlayer
                                     url={video.url_video}
@@ -59,7 +60,7 @@ const MoviePage = () => {
                                     preload="true"
                                 />
                             </div>
-                            <div className="mt-2 mb-2 min-h-[150px] max-h-[150px]">
+                            <div className="mt-2 min-h-[150px] max-h-[150px]">
                                 <h1 className="font-bold text-xl">{video.title}</h1>
                                 {filteredUsers
                                     .filter((user) => user.id === video.id_user)
