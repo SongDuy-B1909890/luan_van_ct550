@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import HeaderPage from './components/layout/header';
-import WatchPage from './components/layout/watch';
 import Home from './components/layout/index';
 // import LoginPage from './components/auth/login';
 import RegisterPage from './components/auth/register';
@@ -34,8 +33,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/header" element={<HeaderPage />}></Route>
-        <Route path="/watch" element={<WatchPage />}></Route>
-        <Route path="/watch/:id" element={<WatchPage />}></Route>
 
         <Route path="/register" element={<RegisterPage />}></Route>
 

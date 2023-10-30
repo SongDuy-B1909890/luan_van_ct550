@@ -7,7 +7,7 @@ const Home = () => {
     <div>
       <HeaderPage />
       <MoviePage />
-      {/* <WatchPage/> */}
+
     </div>
   );
 }
