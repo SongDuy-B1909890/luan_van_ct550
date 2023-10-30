@@ -27,7 +27,7 @@ const NotFoundPage = () => {
 };
 
 const isLoggedIn = localStorage.getItem('login');
-console.log(isLoggedIn);
+//console.log(isLoggedIn);
 function App() {
   return (
     <BrowserRouter>
