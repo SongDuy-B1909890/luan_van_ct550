@@ -4,7 +4,6 @@ import axios from 'axios';
 
 import Avatar from '@mui/material/Avatar';
 
-
 const MoviePage = () => {
     const [videos, setVideos] = useState([]);
     const [users, setUsers] = useState([]);
@@ -66,6 +65,7 @@ const MoviePage = () => {
                                     .filter((user) => user.id === video.id_user)
                                     .map((user) => (
                                         <div key={user.id} className="flex items-center mt-3">
+
                                             <Avatar
                                                 alt="Remy Sharp"
                                                 src={user.avatar}
@@ -76,6 +76,7 @@ const MoviePage = () => {
                                                 className="w-[80px] h-[30px] ml-5 bg-red-200 text-black text-xs font-bold rounded-full hover:bg-gray-200">
                                                 Đăng ký
                                             </button>
+
                                         </div>
                                     ))}
                             </div>
