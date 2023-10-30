@@ -185,7 +185,7 @@ const searchVideosByTitle = async (req, res) => {
 
         const regex = new RegExp(searchTitle, 'i');
         const matchingVideos = Object.values(videos).filter((video) =>
-            video.title_video && regex.test(video.title_video)
+            video.title && regex.test(video.title)
         );
 
         if (matchingVideos.length === 0) {

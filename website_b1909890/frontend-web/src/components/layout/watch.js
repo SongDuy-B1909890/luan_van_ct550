@@ -233,7 +233,7 @@ const WatchPage = () => {
                       className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Tích cực'>
                       <FavoriteRoundedIcon />
                     </button>
-                    <span className="block">
+                    <span className="">
                       200k
                     </span>
                   </li>

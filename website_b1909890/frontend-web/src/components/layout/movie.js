@@ -3,6 +3,10 @@ import ReactPlayer from 'react-player/lazy';
 import axios from 'axios';
 
 import Avatar from '@mui/material/Avatar';
+import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
+import CommentRoundedIcon from '@mui/icons-material/CommentRounded';
+import ReplyIcon from '@mui/icons-material/Reply';
+import FlagIcon from '@mui/icons-material/Flag';
 
 const MoviePage = () => {
     const [videos, setVideos] = useState([]);
@@ -59,7 +63,7 @@ const MoviePage = () => {
                                     preload="true"
                                 />
                             </div>
-                            <div className="mt-2 min-h-[150px] max-h-[150px] w-full">
+                            <div className="mt-2 w-full h-full">
                                 <h1 className="font-bold text-xl">{video.title}</h1>
                                 {filteredUsers
                                     .filter((user) => user.id === video.id_user)
@@ -76,7 +80,37 @@ const MoviePage = () => {
                                                 className="w-[80px] h-[30px] ml-5 bg-red-200 text-black text-xs font-bold rounded-full hover:bg-gray-200">
                                                 Đăng ký
                                             </button>
-                                            <span className="float-right">Hello</span>
+                                            <div className="text-right ml-auto">
+                                                <ul className="flex">
+
+                                                    <li className="mr-4">
+                                                        <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 " title='Yêu thích'>
+                                                            <FavoriteRoundedIcon />
+                                                        </button>
+                                                    </li>
+
+                                                    <li className="mr-4">
+                                                        <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Bình luận'>
+                                                            <CommentRoundedIcon />
+                                                        </button>
+                                                    </li>
+
+                                                    <li className="mr-4">
+                                                        <button
+                                                            className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 transform scale-x-[-1]">
+                                                            <ReplyIcon />
+                                                        </button>
+                                                    </li>
+
+                                                    <li className="">
+                                                        <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Bình luận'>
+                                                            <FlagIcon />
+                                                        </button>
+                                                    </li>
+
+                                                </ul>
+
+                                            </div>
                                         </div>
                                     ))}
                             </div>
