@@ -42,10 +42,10 @@ const MoviePage = () => {
     }, [videos, users]);
 
     return (
-        <div className="w-full h-full overflow-auto bg-gray-100 mt-[30px]">
+        <div className="w-full h-full overflow-auto bg-white mt-[70px]">
             {videos.map((video, index) => (
-                <div key={index} className="flex flex-wrap justify-center items-center h-screen">
-                    <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl shadow-md">
+                <div key={index} className="flex flex-wrap justify-center items-center mb-8">
+                    <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl border">
                         <div className="overflow-hidden">
 
                             <div className="mt-5">
@@ -59,7 +59,7 @@ const MoviePage = () => {
                                     preload="true"
                                 />
                             </div>
-                            <div className="mt-2 min-h-[150px] max-h-[150px]">
+                            <div className="mt-2 min-h-[150px] max-h-[150px] w-full">
                                 <h1 className="font-bold text-xl">{video.title}</h1>
                                 {filteredUsers
                                     .filter((user) => user.id === video.id_user)
@@ -76,7 +76,7 @@ const MoviePage = () => {
                                                 className="w-[80px] h-[30px] ml-5 bg-red-200 text-black text-xs font-bold rounded-full hover:bg-gray-200">
                                                 Đăng ký
                                             </button>
-
+                                            <span className="float-right">Hello</span>
                                         </div>
                                     ))}
                             </div>

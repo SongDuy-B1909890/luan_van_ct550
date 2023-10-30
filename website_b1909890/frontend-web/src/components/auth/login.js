@@ -132,7 +132,7 @@ const LoginPage = ({ closeModal }) => {
             <div className="flex items-center justify-between ">
               <div className="text-sm">
                 <Link
-                  to="/Register"
+                  to="/register"
                   className="font-medium text-indigo-600 hover:text-indigo-500"
 
                 >
