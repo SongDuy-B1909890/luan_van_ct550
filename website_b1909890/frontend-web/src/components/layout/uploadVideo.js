@@ -149,7 +149,7 @@ const UploadVideoPage = () => {
                                             onBlur={formik.handleBlur}
                                             className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         >
-                                            <option value="">Chọn danh mục</option>
+                                            <option className="text-center" value="">---Chọn danh mục---</option>
                                             <option value="-Ni2oT1OjzLvW5OjQNiV">Kiến thức</option>
                                             <option value="-Ni4IGIgtvsfrcGO_p-8">Tư duy</option>
                                             <option value="-Ni4INdSYhoO7u_32aa_">Ngôn từ</option>
