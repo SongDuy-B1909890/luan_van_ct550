@@ -74,7 +74,7 @@ const UploadVideoPage = () => {
 
                         <div className="sm:mx-auto sm:w-full sm:max-w-md mb-6">
                             <h2 className=" text-center text-3xl font-extrabold text-gray-900">
-                                Tải video
+                                Đăng video
                             </h2>
                             <p className="mt-2 text-center text-sm text-gray-600">
                                 <Link
@@ -180,12 +180,12 @@ const UploadVideoPage = () => {
                                     )}
                                 </div>
 
-                                <div className="z-10">
+                                <div className="z-10 flex justify-center">
                                     <button
                                         type="submit"
-                                        className="group  w-full flex justify-center  py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        className="group py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                     >
-                                        Tải video
+                                        Xong
                                     </button>
                                 </div>
 
@@ -199,7 +199,5 @@ const UploadVideoPage = () => {
     );
 
 };
-
-
 
 export default UploadVideoPage;

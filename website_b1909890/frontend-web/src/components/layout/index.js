@@ -1,12 +1,12 @@
 import React from 'react';
 import HeaderPage from './header';
 // import WatchPage from './watch';
-import MoviePage from './movie';
+import VideoPage from './video';
 const Home = () => {
   return (
     <div>
       <HeaderPage />
-      <MoviePage />
+      <VideoPage />
 
     </div>
   );

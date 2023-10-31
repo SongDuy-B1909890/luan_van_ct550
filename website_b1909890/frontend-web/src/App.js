@@ -11,7 +11,7 @@ import LoginAdminPage from './components/admin/loginAdmin';
 import AdminPage from './components/admin/admin';
 import StaffPage from './components/satff/staff';
 import LoginStaffPage from './components/satff/loginStaff';
-import MoviePage from './components/layout/movie';
+import VideoPage from './components/layout/video';
 import ProfilePage from './components/auth/profile';
 import UploadVideoPage from './components/layout/uploadVideo';
 
@@ -45,7 +45,7 @@ function App() {
         <Route path="/staff" element={<StaffPage />}></Route>
 
         <Route path="/forgotPassword" element={<ForgotPasswordPage />}></Route>
-        <Route path="/movie" element={<MoviePage />}></Route>
+        <Route path="/video" element={<VideoPage />}></Route>
 
         <Route path="/menu" element={<MenuPage />}></Route>
         <Route path="/footer" element={<FooterPage />}></Route>
