@@ -1,4 +1,4 @@
-const { ref, set, push, child, get, update } = require('firebase/database');
+const { ref, set, push, child, get, update, remove } = require('firebase/database');
 const { database } = require('../models/database');
 const dbRef = ref(database);
 
@@ -62,8 +62,32 @@ const changeCategory = async (req, res) => {
     }
 };
 
+const deleteCategory = async (req, res) => {
+    try {
+        const categoriesSnapshot = await get(child(dbRef, 'categories'));
+        const categories = categoriesSnapshot.val();
+
+        const existingCategoryKey = Object.keys(categories).find(
+            (categoryKey) => categories[categoryKey].id === req.body.id
+        );
+
+        if (!existingCategoryKey) {
+            res.status(401).json({ error: 'Sai thông tin đăng nhập' });
+            return;
+        } else {
+            const categoriesRef = child(dbRef, `categories/${existingCategoryKey}`);
+            await remove(categoriesRef);
+
+            res.status(200).json({ message: 'Danh mục đã được xóa thành công' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi xóa danh mục', errorMessage: error.message });
+    }
+};
+
 module.exports = {
     createCategory,
     changeCategory,
+    deleteCategory,
 
 };
