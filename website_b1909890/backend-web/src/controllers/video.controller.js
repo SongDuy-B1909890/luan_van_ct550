@@ -70,7 +70,7 @@ const uploadVideo = async (req, res) => {
             id_user: req.body.id_user,
             title: req.body.title,
             description: req.body.description,
-            category: req.body.category,
+            id_category: req.body.id_category,
             created_at: reversedDate
         };
 

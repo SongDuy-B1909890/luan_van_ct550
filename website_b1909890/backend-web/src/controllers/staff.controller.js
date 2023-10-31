@@ -54,7 +54,7 @@ const register = async (req, res) => {
       const parts = formattedDate.split('/'); // Tách chuỗi thành các phần tử
       const reversedDate = `${parts[1]}/${parts[0]}/${parts[2]}`; // Đảo ngược định dạng ngày/tháng
 
-      set(newStaffRef, {
+      await set(newStaffRef, {
         id: newStaffId,
         firstname: req.body.firstname,
         lastname: req.body.lastname,

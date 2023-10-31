@@ -10,18 +10,19 @@ const user = userString ? JSON.parse(userString) : null;
 const UploadVideoPage = () => {
 
     const validationSchema = Yup.object({
+        id_category: Yup.string().required('Vui lòng chọn danh mục'),
         title: Yup.string().required('Vui lòng nhập tiêu đề'),
         description: Yup.string().required('Vui lòng nhập mô tả'),
-        category: Yup.string().required('Vui lòng nhập email'),
         file: Yup.string().required('Vui lòng chọn file'),
     });
 
     const formik = useFormik({
         initialValues: {
             id_user: user.id,
+            id_category: '',
             title: '',
             description: '',
-            category: '',
+
             file: null,
             name_file: '',
         },
@@ -33,7 +34,7 @@ const UploadVideoPage = () => {
             formData.append("id_user", values.id_user);
             formData.append("title", values.title);
             formData.append("description", values.description);
-            formData.append("category", values.category);
+            formData.append("id_category", values.id_category);
             formData.append("file", values.file);
             formData.append("name_file", values.name_file); // Thêm trường name_file vào FormData
 
@@ -135,26 +136,32 @@ const UploadVideoPage = () => {
                                 </div>
 
                                 <div>
-                                    <label
-                                        htmlFor="category"
-                                        className="block text-sm font-medium text-gray-700"
-                                    >
+                                    <label htmlFor="id_category" className="block text-sm font-medium text-gray-700">
                                         Danh mục
                                     </label>
                                     <div className="mt-1">
-                                        <input
-                                            id="category"
-                                            name="category"
-                                            type="text"
-                                            autoComplete="category"
-                                            placeholder=""
-                                            value={formik.values.category}
-                                            onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-                                            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        />
-
+                                        <select
+                                            id="id_category"
+                                            name="id_category"
+                                            autoComplete="id_category"
+                                            value={formik.values.id_category}
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                        >
+                                            <option value="">Chọn danh mục</option>
+                                            <option value="-Ni2oT1OjzLvW5OjQNiV">Kiến thức</option>
+                                            <option value="-Ni4IGIgtvsfrcGO_p-8">Tư duy</option>
+                                            <option value="-Ni4INdSYhoO7u_32aa_">Ngôn từ</option>
+                                            <option value="-Ni4IeNfdJUxfvpgqzu5">Hàng động</option>
+                                            <option value="-Ni4IoHTb0uA0nS7eU71">Đời sống</option>
+                                            <option value="-Ni4IvqCtiMhNWROKB45">Nổ lực</option>
+                                            <option value="-Ni4IzxzbICvVoSyWmQF">Tập trung</option>
+                                            <option value="-Ni4J2URv1NXYvpydBPv">Thư giản</option>
+                                            {/* Thêm các tùy chọn khác tại đây */}
+                                        </select>
                                     </div>
-                                    {formik.errors.category && formik.touched.category && <div>{formik.errors.category}</div>}
+                                    {formik.errors.id_category && formik.touched.id_category && <div>{formik.errors.id_category}</div>}
                                 </div>
 
                                 <div>

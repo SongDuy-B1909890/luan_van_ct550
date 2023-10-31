@@ -53,9 +53,9 @@ const VideoPage = () => {
                 <div className="flex justify-center items-center" key={index}>
                     <div className="flex flex-wrap justify-center items-center mb-8">
                         <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl border shadow">
-                            <div className="overflow-hidden">
+                            <div className="overflow-hidden" >
 
-                                <div className="mt-5">
+                                <div className="mt-5" >
                                     <ReactPlayer
                                         url={video.url_video}
                                         width="960px"

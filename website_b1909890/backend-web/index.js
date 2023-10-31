@@ -18,6 +18,7 @@ const authRouter = require('./src/routes/auth.router');
 const staffRouter = require('./src/routes/staff.router');
 const adminRouter = require('./src/routes/admin.router');
 const VideoRouter = require('./src/routes/video.router');
+const CategoryRouter = require('./src/routes/category.router');
 
 //authRouter.use(authenticateToken)
 // staffRouter.use(staffenticateToken)
@@ -27,6 +28,7 @@ app.use('/api', authRouter);
 app.use('/api', staffRouter);
 app.use('/api', adminRouter);
 app.use('/api', VideoRouter);
+app.use('/api', CategoryRouter);
 
 get(child(dbRef, `users`)).then((snapshot) => {
   if (snapshot.exists()) {

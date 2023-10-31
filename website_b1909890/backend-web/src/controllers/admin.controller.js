@@ -1,4 +1,3 @@
-// const jwt = require('jsonwebtoken');
 
 const { ref, child, set, get, push, update } = require('firebase/database');
 const { database } = require('../models/database');
@@ -55,7 +54,7 @@ const register = async (req, res) => {
       const parts = formattedDate.split('/'); // Tách chuỗi thành các phần tử
       const reversedDate = `${parts[1]}/${parts[0]}/${parts[2]}`; // Đảo ngược định dạng ngày/tháng
 
-      set(newAdminRef, {
+      await set(newAdminRef, {
         id: newAdminId,
         firstname: req.body.firstname,
         lastname: req.body.lastname,
