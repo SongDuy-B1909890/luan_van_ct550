@@ -60,6 +60,14 @@ const register = async (req, res) => {
       const newUserRef = push(child(dbRef, 'users'));
       const newUserId = newUserRef.key;
 
+      const now = Date.now();
+      const date = new Date(now);
+      const options = { day: 'numeric', month: 'numeric', year: 'numeric' };
+      const formattedDate = date.toLocaleDateString(undefined, options);
+
+      const parts = formattedDate.split('/'); // Tách chuỗi thành các phần tử
+      const reversedDate = `${parts[1]}/${parts[0]}/${parts[2]}`; // Đảo ngược định dạng ngày/tháng
+
       set(newUserRef, {
         id: newUserId,
         firstname: req.body.firstname,
@@ -71,6 +79,7 @@ const register = async (req, res) => {
         address: "",
         gender: "",
         birthday: "",
+        created_at: reversedDate,
       });
 
       res.status(200).json({ message: 'Dữ liệu đã được thêm thành công', userId: newUserId });

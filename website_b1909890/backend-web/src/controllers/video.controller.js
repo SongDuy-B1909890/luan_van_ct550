@@ -55,6 +55,14 @@ const uploadVideo = async (req, res) => {
             folder: "video",
         });
 
+        const now = Date.now();
+        const date = new Date(now);
+        const options = { day: 'numeric', month: 'numeric', year: 'numeric' };
+        const formattedDate = date.toLocaleDateString(undefined, options);
+
+        const parts = formattedDate.split('/'); // Tách chuỗi thành các phần tử
+        const reversedDate = `${parts[1]}/${parts[0]}/${parts[2]}`; // Đảo ngược định dạng ngày/tháng
+
         const newUpload = {
             cloudinary_id: result.public_id,
             name_file: req.file.originalname,
@@ -62,7 +70,8 @@ const uploadVideo = async (req, res) => {
             id_user: req.body.id_user,
             title: req.body.title,
             description: req.body.description,
-            category: req.body.category
+            category: req.body.category,
+            created_at: reversedDate
         };
 
         push(uploadRef, newUpload)

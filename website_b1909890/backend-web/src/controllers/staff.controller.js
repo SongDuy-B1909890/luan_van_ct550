@@ -46,12 +46,21 @@ const register = async (req, res) => {
       const newStaffRef = push(child(dbRef, 'staffs'));
       const newStaffId = newStaffRef.key;
 
+      const now = Date.now();
+      const date = new Date(now);
+      const options = { day: 'numeric', month: 'numeric', year: 'numeric' };
+      const formattedDate = date.toLocaleDateString(undefined, options);
+
+      const parts = formattedDate.split('/'); // Tách chuỗi thành các phần tử
+      const reversedDate = `${parts[1]}/${parts[0]}/${parts[2]}`; // Đảo ngược định dạng ngày/tháng
+
       set(newStaffRef, {
         id: newStaffId,
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        created_at: reversedDate // sử dụng thời gian hiện tại
       });
 
       res.status(200).json({ message: 'Dữ liệu đã được thêm thành công', staffId: newStaffId });
