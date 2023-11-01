@@ -34,6 +34,12 @@ const MenuPage = ({ closeModal }) => {
 
     }, []);
 
+    const handleCategoryClick = (categoryId,) => {
+        localStorage.setItem('id_category', categoryId);
+        window.location.href = '/category/' + categoryId;
+
+    };
+
     return (
 
         <div className="w-screen h-screen bg-black bg-opacity-50 flex py fixed inset-0 z-50 " onClick={handleBackdropClick}>
@@ -93,13 +99,10 @@ const MenuPage = ({ closeModal }) => {
                         {categories.map((category) => (
                             <div key={category.id}>
                                 <ul className="mt-2">
-                                    <Link to="/">
-                                        <li className="hover:bg-gray-200 hover:text-blue-500 py-2 px-2 rounded-xl cursor-pointer text-blue-900 font-bold">
-                                            <SubscriptionsOutlinedIcon className="mr-4" />
-                                            {category.name}
-                                        </li>
-                                    </Link>
-
+                                    <li className="hover:bg-gray-200 hover:text-blue-500 py-2 px-2 rounded-xl cursor-pointer text-blue-900 font-bold" onClick={() => handleCategoryClick(category.id)}>
+                                        <SubscriptionsOutlinedIcon className="mr-4" />
+                                        {category.name}
+                                    </li>
                                 </ul>
                             </div>
                         ))}

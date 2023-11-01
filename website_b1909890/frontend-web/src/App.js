@@ -45,7 +45,7 @@ function App() {
 
         <Route path="/forgotPassword" element={<ForgotPasswordPage />}></Route>
         <Route path="/video" element={<VideoPage />}></Route>
-        <Route path="/category" element={<CategoryVideoPage />}></Route>
+        <Route path="/category/:categoryId" element={<CategoryVideoPage />}> </Route>
 
         <Route path="/menu" element={<MenuPage />}></Route>
         <Route path="/footer" element={<FooterPage />}></Route>

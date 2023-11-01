@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import VideoCallOutlinedIcon from '@mui/icons-material/VideoCallOutlined';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -53,6 +54,7 @@ const HeaderPage = () => {
     };
     if (login === 'true') {
         return (
+
             <div className="flex items-center w-full h-[60px] bg-white fixed inset-x-0 top-0 shadow z-50">
                 <div className="w-max-[180px] mr-[180px]">
                     <button
