@@ -11,4 +11,7 @@ router.put('/admin/changeCategory', CategoryController.changeCategory);
 // Xóa danh mục
 router.delete('/admin/deleteCategory', CategoryController.deleteCategory);
 
+// Danh sách danh mục
+router.get('/admin/categories', CategoryController.categories);
+
 module.exports = router;

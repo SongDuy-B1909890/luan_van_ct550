@@ -85,9 +85,26 @@ const deleteCategory = async (req, res) => {
     }
 };
 
+const categories = async (req, res) => {
+    try {
+        const snapshot = await get(child(dbRef, 'categories'));
+        if (snapshot.exists()) {
+            const categoriesData = snapshot.val();
+            const categoriesArray = Object.values(categoriesData);
+            res.status(200).json(categoriesArray);
+        } else {
+            res.status(404).json({ message: 'No data available' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+
 module.exports = {
     createCategory,
     changeCategory,
     deleteCategory,
+    categories,
 
 };
