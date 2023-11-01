@@ -40,7 +40,7 @@ const MenuPage = ({ closeModal }) => {
             <div className="w-[250px] h-screen bg-white relative slide-in">
                 <div className="ml-5 mt-3 mr-4">
 
-                    <div className="mb-8">
+                    <div className="mb-5">
                         <button
                             className="flex justify-center items-center 
                             w-10 h-10 hover:bg-gray-100 rounded-full"
@@ -89,6 +89,7 @@ const MenuPage = ({ closeModal }) => {
                             </ul>
                         </div>
                         <hr />
+                        <span className="flex justify-center items-center mt-2 text-blue-500 font-bold">Danh mục</span>
                         {categories.map((category) => (
                             <div key={category.id}>
                                 <ul className="mt-2">
