@@ -56,7 +56,7 @@ const MenuPage = ({ closeModal }) => {
 
                     <div>
                         <div>
-                            <ul className="mb-2">
+                            <ul className="mb-2 font-bold">
 
                                 <Link to="/">
                                     <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer">
@@ -89,12 +89,12 @@ const MenuPage = ({ closeModal }) => {
                             </ul>
                         </div>
                         <hr />
-                        <span className="flex justify-center items-center mt-2 text-blue-500 font-bold">Danh mục</span>
+                        {/* <span className="flex justify-center items-center mt-2 text-blue-500 font-bold">Danh mục</span> */}
                         {categories.map((category) => (
                             <div key={category.id}>
                                 <ul className="mt-2">
                                     <Link to="/">
-                                        <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer">
+                                        <li className="hover:bg-gray-200 hover:text-blue-500 py-2 px-2 rounded-xl cursor-pointer text-blue-900 font-bold">
                                             <SubscriptionsOutlinedIcon className="mr-4" />
                                             {category.name}
                                         </li>
