@@ -14,6 +14,7 @@ import LoginStaffPage from './components/satff/loginStaff';
 import VideoPage from './components/layout/video';
 import ProfilePage from './components/auth/profile';
 import UploadVideoPage from './components/layout/uploadVideo';
+import CategoryVideoPage from './components/layout/categoryVideo';
 
 // Thành phần hiển thị trang không tồn tại
 const NotFoundPage = () => {
@@ -36,8 +37,6 @@ function App() {
 
         <Route path="/register" element={<RegisterPage />}></Route>
 
-
-
         <Route path="/login/admin" element={<LoginAdminPage />}></Route>
         <Route path="/login/staff" element={<LoginStaffPage />}></Route>
 
@@ -46,12 +45,11 @@ function App() {
 
         <Route path="/forgotPassword" element={<ForgotPasswordPage />}></Route>
         <Route path="/video" element={<VideoPage />}></Route>
+        <Route path="/category" element={<CategoryVideoPage />}></Route>
 
         <Route path="/menu" element={<MenuPage />}></Route>
         <Route path="/footer" element={<FooterPage />}></Route>
         <Route path="/comment" element={<CommentPage />}></Route>
-
-
 
         {/* Chỉ cho phép truy cập khi đã đăng nhập */}
         {isLoggedIn === 'true' && (
