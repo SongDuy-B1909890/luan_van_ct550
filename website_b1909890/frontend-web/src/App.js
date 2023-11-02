@@ -51,7 +51,7 @@ function App() {
         <Route path="/menu" element={<MenuPage />}></Route>
         <Route path="/footer" element={<FooterPage />}></Route>
         <Route path="/comment" element={<CommentPage />}></Route>
-        <Route path="/search" element={<SearchVideoPage />}></Route>
+        <Route path="/search/:searchValue" element={<SearchVideoPage />}></Route>
 
         {/* Chỉ cho phép truy cập khi đã đăng nhập */}
         {isLoggedIn === 'true' && (

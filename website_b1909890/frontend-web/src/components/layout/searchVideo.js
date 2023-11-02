@@ -11,6 +11,7 @@ import FlagIcon from '@mui/icons-material/Flag';
 import HeaderPage from './header';
 
 // import CommentPage from './comment';
+const title = localStorage.getItem('title');
 
 const SearchVideoPage = () => {
     const [videos, setVideos] = useState([]);
@@ -19,10 +20,10 @@ const SearchVideoPage = () => {
 
     useEffect(() => {
         axios
-            .post('http://localhost:5000/api/searchVideosByTitle')
+            .post('http://localhost:5000/api/searchVideosByTitle', { title: title })
             .then((response) => {
                 // console.log(response.data);
-                const videosData = response.data;
+                const videosData = response.data.videos;
                 setVideos(videosData);
             })
             .catch((error) => {
