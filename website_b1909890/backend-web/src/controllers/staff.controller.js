@@ -56,10 +56,11 @@ const register = async (req, res) => {
 
       await set(newStaffRef, {
         id: newStaffId,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
+        name: req.body.name,
         email: req.body.email,
         password: req.body.password,
+        group: req.body.group,
+        level: req.body.level,
         created_at: reversedDate // sử dụng thời gian hiện tại
       });
 
