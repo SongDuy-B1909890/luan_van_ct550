@@ -15,6 +15,7 @@ import VideoPage from './components/layout/video';
 import ProfilePage from './components/auth/profile';
 import UploadVideoPage from './components/layout/uploadVideo';
 import CategoryVideoPage from './components/layout/categoryVideo';
+import SearchVideoPage from './components/layout/searchVideo';
 
 // Thành phần hiển thị trang không tồn tại
 const NotFoundPage = () => {
@@ -50,6 +51,7 @@ function App() {
         <Route path="/menu" element={<MenuPage />}></Route>
         <Route path="/footer" element={<FooterPage />}></Route>
         <Route path="/comment" element={<CommentPage />}></Route>
+        <Route path="/search" element={<SearchVideoPage />}></Route>
 
         {/* Chỉ cho phép truy cập khi đã đăng nhập */}
         {isLoggedIn === 'true' && (
