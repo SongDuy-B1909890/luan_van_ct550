@@ -175,10 +175,14 @@ const HeaderPage = () => {
                         className="w-[535px] h-[40px] px-2 py-1 pl-4 pr-4 border border-gray-300 rounded-l-full placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-800 focus:border-blue-100 sm:text-sm"
                         type="text"
                         placeholder="Tìm kiếm"
+                        value={searchValue}
+                        onChange={handleInputChange}
+                        onKeyDown={handleKeyDown}
                     />
                     <button
                         className="w-[65px] h-[40px] bg-gray-100 border border-gray-300 rounded-r-full hover:bg-gray-200"
                         title="Tìm kiếm"
+                        onClick={handleSearchClick}
                     >
                         <SearchIcon />
                     </button>
