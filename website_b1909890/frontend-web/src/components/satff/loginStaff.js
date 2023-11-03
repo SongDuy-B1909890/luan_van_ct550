@@ -24,17 +24,18 @@ const LoginStaffPage = () => {
                 .then((response) => {
                     // Xử lý thành công
                     console.log(response.data);
+
                     // Hiển thị thông báo đăng ký thành công
                     alert('Đăng nhập thành công')
 
-                    // if (response.data.staff.group === "4") {
-                    //     window.location.href = '/staff';
-                    // } else if (response.data.staff.group === "1") {
-                    //     window.location.href = '/';
-                    // } else {
+                    if (response.data.staff.group === "1") {
+                        window.location.href = '/staff/group01';
+                    } else if (response.data.staff.group === "2") {
+                        window.location.href = '/staff/group02';
+                    } else {
+                        window.location.href = '/staff/group03';
+                    }
 
-                    // }
-                    //window.location.href = '/staff';
                 })
                 .catch((error) => {
                     // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi

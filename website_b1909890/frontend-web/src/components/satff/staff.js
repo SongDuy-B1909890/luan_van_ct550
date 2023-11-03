@@ -1,6 +1,6 @@
 import React from 'react';
 
-const StaffPage = ({ closeModal }) => {
+const StaffPage = () => {
 
     return (
         <div  > {/* backdrop-blur-sm */}

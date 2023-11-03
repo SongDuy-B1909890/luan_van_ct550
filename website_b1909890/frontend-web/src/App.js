@@ -9,7 +9,7 @@ import FooterPage from './components/layout/footer';
 import CommentPage from './components/layout/comment';
 import LoginAdminPage from './components/admin/loginAdmin';
 import AdminPage from './components/admin/admin';
-import StaffPage from './components/satff/staff';
+
 import LoginStaffPage from './components/satff/loginStaff';
 import VideoPage from './components/layout/video';
 import ProfilePage from './components/auth/profile';
@@ -17,6 +17,10 @@ import UploadVideoPage from './components/layout/uploadVideo';
 import CategoryVideoPage from './components/layout/categoryVideo';
 import SearchVideoPage from './components/layout/searchVideo';
 
+import StaffPage from './components/satff/staff';
+import StaffGroup01Page from './components/satff/StaffGroup03Page';
+import StaffGroup02Page from './components/satff/StaffGroup03Page';
+import StaffGroup03Page from './components/satff/StaffGroup03Page'
 // Thành phần hiển thị trang không tồn tại
 const NotFoundPage = () => {
   return (
@@ -42,7 +46,11 @@ function App() {
         <Route path="/login/staff" element={<LoginStaffPage />}></Route>
 
         <Route path="/admin" element={<AdminPage />}></Route>
+
         <Route path="/staff" element={<StaffPage />}></Route>
+        <Route path="/staff/group01" element={<StaffGroup01Page />}></Route>
+        <Route path="/staff/group02" element={<StaffGroup02Page />}></Route>
+        <Route path="/staff/group03" element={<StaffGroup03Page />}></Route>
 
         <Route path="/forgotPassword" element={<ForgotPasswordPage />}></Route>
         <Route path="/video" element={<VideoPage />}></Route>
