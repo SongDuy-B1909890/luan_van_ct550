@@ -6,20 +6,26 @@ const dbRef = ref(database);
 const jwt = require('jsonwebtoken');
 const secretKey = 'LyHySD0505'; // Thay thế bằng khóa bí mật của bạn
 
+const bcrypt = require('bcrypt');
+
 const login = async (req, res) => {
   try {
     const staffsSnapshot = await get(child(dbRef, 'staffs'));
     const staffs = staffsSnapshot.val();
 
     const existingStaff = Object.values(staffs).find(
-      (staff) => staff.email === req.body.email && staff.password === req.body.password
+      (staff) => staff.email === req.body.email //&& staff.password === req.body.password
     );
 
     if (existingStaff) {
-      // Đăng nhập thành công
-      // const token = jwt.sign({ email: existingStaff.email }, secretKey, { expiresIn: '1h' });
-      // res.status(200).json({ message: 'Đăng nhập thành công', token: token });
-      res.status(200).json({ message: 'Đăng nhập thành công' });
+      const passwordMatch = await bcrypt.compare(req.body.password, existingStaff.password);
+
+      if (passwordMatch) {
+        delete existingStaff.password;
+        res.status(200).json({ message: 'Đăng nhập thành công', staff: existingStaff });
+      } else {
+        res.status(401).json({ error: 'Sai thông tin đăng nhập' });
+      }
     } else {
       // Sai thông tin đăng nhập
       res.status(401).json({ error: 'Sai thông tin đăng nhập' });
@@ -35,13 +41,16 @@ const register = async (req, res) => {
     const staffs = staffsSnapshot.val();
 
     const existingStaff = Object.values(staffs).find(
-      (staff) => staff.id === req.body.id || staff.email === req.body.email || staff.password === req.body.password
+      (staff) => staff.id === req.body.id || staff.email === req.body.email //|| staff.password === req.body.password
     );
 
     if (existingStaff) {
       // Dữ liệu đã tồn tại, không thêm người dùng mới
       res.status(400).json({ error: 'Người dùng đã tồn tại' });
     } else {
+      // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
       // Tạo ID tự động cho người dùng mới
       const newStaffRef = push(child(dbRef, 'staffs'));
       const newStaffId = newStaffRef.key;
@@ -58,7 +67,7 @@ const register = async (req, res) => {
         id: newStaffId,
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password,
+        password: hashedPassword,
         group: req.body.group,
         level: req.body.level,
         created_at: reversedDate // sử dụng thời gian hiện tại
@@ -78,7 +87,7 @@ const changePassword = async (req, res) => {
     const staffs = staffsSnapshot.val();
 
     const existingStaffKey = Object.keys(staffs).find(
-      (staffKey) => staffs[staffKey].email === req.body.email && staffs[staffKey].password === req.body.password
+      (staffKey) => staffs[staffKey].email === req.body.email && bcrypt.compareSync(req.body.password, staffs[staffKey].password)
     );
 
     if (!existingStaffKey) {
@@ -86,10 +95,13 @@ const changePassword = async (req, res) => {
       res.status(401).json({ error: 'Sai thông tin đăng nhập' });
       return;
     } else {
+      // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
+      const hashedPassword = await bcrypt.hash(req.body.newpassword, 10);
+
       // Cập nhật mật khẩu mới
       const staffsRef = child(dbRef, `staffs/${existingStaffKey}`);
       update(staffsRef, {
-        password: req.body.newPassword
+        password: hashedPassword
       });
 
       res.status(200).json({ message: 'Mật khẩu đã được thay đổi thành công' });

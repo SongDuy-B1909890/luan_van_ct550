@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useFormik } from "formik"
 import * as Yup from "yup"
 
-const LoginAdminPage = ({ closeModal }) => {
+const LoginStaffPage = () => {
 
     const validationSchema = Yup.object({
         email: Yup.string().email('Địa chỉ email không hợp lệ').required('Vui lòng nhập email'),
@@ -26,7 +26,15 @@ const LoginAdminPage = ({ closeModal }) => {
                     console.log(response.data);
                     // Hiển thị thông báo đăng ký thành công
                     alert('Đăng nhập thành công')
-                    window.location.href = '/staff';
+
+                    // if (response.data.staff.group === "4") {
+                    //     window.location.href = '/staff';
+                    // } else if (response.data.staff.group === "1") {
+                    //     window.location.href = '/';
+                    // } else {
+
+                    // }
+                    //window.location.href = '/staff';
                 })
                 .catch((error) => {
                     // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
@@ -117,4 +125,4 @@ const LoginAdminPage = ({ closeModal }) => {
     );
 };
 
-export default LoginAdminPage;
+export default LoginStaffPage;
