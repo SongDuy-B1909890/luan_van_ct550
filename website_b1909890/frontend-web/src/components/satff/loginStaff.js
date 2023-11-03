@@ -28,9 +28,11 @@ const LoginStaffPage = () => {
                     // Hiển thị thông báo đăng ký thành công
                     alert('Đăng nhập thành công')
 
-                    if (response.data.staff.group === "1") {
+                    if (response.data.staff.group === 1) {
                         window.location.href = '/staff/group01';
-                    } else if (response.data.staff.group === "2") {
+                        console.log(response.data.staff.group);
+
+                    } else if (response.data.staff.group === 2) {
                         window.location.href = '/staff/group02';
                     } else {
                         window.location.href = '/staff/group03';

@@ -5,7 +5,7 @@ const StaffGroup03Page = () => {
     return (
         <div  > {/* backdrop-blur-sm */}
             <div className="text-center mt-12 ml-8">
-                Trang Nhân Viên
+                Trang Nhân Viên Nhóm 3
             </div>
 
             <div>

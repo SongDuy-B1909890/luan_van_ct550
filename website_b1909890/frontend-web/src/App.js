@@ -18,9 +18,9 @@ import CategoryVideoPage from './components/layout/categoryVideo';
 import SearchVideoPage from './components/layout/searchVideo';
 
 import StaffPage from './components/satff/staff';
-import StaffGroup01Page from './components/satff/StaffGroup03Page';
-import StaffGroup02Page from './components/satff/StaffGroup03Page';
-import StaffGroup03Page from './components/satff/StaffGroup03Page'
+import StaffGroup01Page from './components/satff/staffGroup01';
+import StaffGroup02Page from './components/satff/staffGroup02';
+import StaffGroup03Page from './components/satff/staffGroup03';
 // Thành phần hiển thị trang không tồn tại
 const NotFoundPage = () => {
   return (
