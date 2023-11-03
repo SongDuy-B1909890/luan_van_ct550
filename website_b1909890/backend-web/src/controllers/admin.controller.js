@@ -6,20 +6,26 @@ const dbRef = ref(database);
 const jwt = require('jsonwebtoken');
 const secretAdminKey = 'LyHySD0599'; // Thay thế bằng khóa bí mật của bạn
 
+const bcrypt = require('bcrypt');
+
 const login = async (req, res) => {
   try {
     const adminSnapshot = await get(child(dbRef, 'admin'));
     const admin = adminSnapshot.val();
 
     const existingAdmin = Object.values(admin).find(
-      (admin) => admin.email === req.body.email && admin.password === req.body.password
+      (admin) => admin.email === req.body.email //&& admin.password === req.body.password
     );
 
     if (existingAdmin) {
-      // Đăng nhập thành công
-      // const tokenAdmin = jwt.sign({ email: existingAdmin.email }, secretAdminKey, { expiresIn: '1h' });
-      // res.status(200).json({ message: 'Đăng nhập thành công', tokenAdmin: tokenAdmin });
-      res.status(200).json({ message: 'Đăng nhập thành công' });
+      const passwordMatch = await bcrypt.compare(req.body.password, existingAdmin.password);
+
+      if (passwordMatch) {
+        delete existingAdmin.password;
+        res.status(200).json({ message: 'Đăng nhập thành công', admin: existingAdmin });
+      } else {
+        res.status(401).json({ error: 'Sai thông tin đăng nhập' });
+      }
     } else {
       // Sai thông tin đăng nhập
       res.status(401).json({ error: 'Sai thông tin đăng nhập' });
@@ -35,13 +41,16 @@ const register = async (req, res) => {
     const admin = adminSnapshot.val();
 
     const existingAdmin = Object.values(admin).find(
-      (admin) => admin.id === req.body.id || admin.email === req.body.email || admin.password === req.body.password
+      (admin) => admin.id === req.body.id || admin.email === req.body.email //|| admin.password === req.body.password
     );
 
     if (existingAdmin) {
       // Dữ liệu đã tồn tại, không thêm người dùng mới
       res.status(400).json({ error: 'Người dùng đã tồn tại' });
     } else {
+      // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
       // Tạo ID tự động cho người dùng mới
       const newAdminRef = push(child(dbRef, 'admin'));
       const newAdminId = newAdminRef.key;
@@ -56,10 +65,9 @@ const register = async (req, res) => {
 
       await set(newAdminRef, {
         id: newAdminId,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
+        name: req.body.name,
         email: req.body.email,
-        password: req.body.password,
+        password: hashedPassword,
         created_at: reversedDate
       });
 
@@ -77,7 +85,7 @@ const changePassword = async (req, res) => {
     const admin = adminSnapshot.val();
 
     const existingAdminKey = Object.keys(admin).find(
-      (adminKey) => admin[adminKey].email === req.body.email && admin[adminKey].password === req.body.password
+      (adminKey) => admin[adminKey].email === req.body.email && bcrypt.compareSync(req.body.password, admin[adminKey].password)
     );
 
     if (!existingAdminKey) {
@@ -85,10 +93,14 @@ const changePassword = async (req, res) => {
       res.status(401).json({ error: 'Sai thông tin đăng nhập' });
       return;
     } else {
+
+      // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
+      const hashedPassword = await bcrypt.hash(req.body.newpassword, 10);
+
       // Cập nhật mật khẩu mới
       const adminRef = child(dbRef, `admin/${existingAdminKey}`);
       update(adminRef, {
-        password: req.body.newPassword
+        password: hashedPassword
       });
 
       res.status(200).json({ message: 'Mật khẩu đã được thay đổi thành công' });
@@ -99,17 +111,21 @@ const changePassword = async (req, res) => {
 };
 
 const admin = async (req, res) => {
-  get(child(dbRef, 'admin'))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        res.status(200).json(snapshot.val());
-      } else {
-        res.status(404).json({ message: 'No data available' });
-      }
-    })
-    .catch((error) => {
-      res.status(500).json({ error: error.message });
-    });
+  try {
+    const snapshot = await get(child(dbRef, 'admin'));
+    if (snapshot.exists()) {
+      const adminData = snapshot.val();
+      const adminArray = Object.values(adminData);
+      adminArray.forEach((admin) => {
+        delete admin.password;
+      });
+      res.status(200).json(adminArray);
+    } else {
+      res.status(404).json({ message: 'No data available' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 }
 
 module.exports = {

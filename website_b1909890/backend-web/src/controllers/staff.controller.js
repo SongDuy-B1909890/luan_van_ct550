@@ -112,17 +112,21 @@ const changePassword = async (req, res) => {
 };
 
 const staffs = async (req, res) => {
-  get(child(dbRef, 'staffs'))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        res.status(200).json(snapshot.val());
-      } else {
-        res.status(404).json({ message: 'No data available' });
-      }
-    })
-    .catch((error) => {
-      res.status(500).json({ error: error.message });
-    });
+  try {
+    const snapshot = await get(child(dbRef, 'staffs'));
+    if (snapshot.exists()) {
+      const staffsData = snapshot.val();
+      const staffsArray = Object.values(staffsData);
+      staffsArray.forEach((staff) => {
+        delete staff.password;
+      });
+      res.status(200).json(staffsArray);
+    } else {
+      res.status(404).json({ message: 'No data available' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 }
 
 module.exports = {

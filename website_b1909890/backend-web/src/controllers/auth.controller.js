@@ -113,7 +113,7 @@ const changePassword = async (req, res) => {
     const users = usersSnapshot.val();
 
     const existingUserKey = Object.keys(users).find(
-      (userKey) => users[userKey].email === req.body.email && users[userKey].password === req.body.password
+      (userKey) => users[userKey].email === req.body.email && bcrypt.compareSync(req.body.password, users[userKey].password)
     );
 
     if (!existingUserKey) {
@@ -123,7 +123,7 @@ const changePassword = async (req, res) => {
     } else {
 
       // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
-      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      const hashedPassword = await bcrypt.hash(req.body.newpassword, 10);
 
       // Cập nhật mật khẩu mới
       const usersRef = child(dbRef, `users/${existingUserKey}`);
