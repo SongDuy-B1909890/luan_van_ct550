@@ -129,81 +129,9 @@ const staffs = async (req, res) => {
   }
 }
 
-const staffsGroup01 = async (req, res) => {
-  try {
-    const snapshot = await get(child(dbRef, 'staffs'));
-    if (snapshot.exists()) {
-      const staffsData = snapshot.val();
-      const staffsArray = Object.values(staffsData);
-
-      // Lọc danh sách nhân viên theo thuộc tính group
-      const filteredStaffsArray = staffsArray.filter(staff => staff.group === 1);
-
-      filteredStaffsArray.forEach((staff) => {
-        delete staff.password;
-      });
-
-      res.status(200).json(filteredStaffsArray);
-    } else {
-      res.status(404).json({ message: 'No data available' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-}
-
-const staffsGroup02 = async (req, res) => {
-  try {
-    const snapshot = await get(child(dbRef, 'staffs'));
-    if (snapshot.exists()) {
-      const staffsData = snapshot.val();
-      const staffsArray = Object.values(staffsData);
-
-      // Lọc danh sách nhân viên theo thuộc tính group
-      const filteredStaffsArray = staffsArray.filter(staff => staff.group === 2);
-
-      filteredStaffsArray.forEach((staff) => {
-        delete staff.password;
-      });
-
-      res.status(200).json(filteredStaffsArray);
-    } else {
-      res.status(404).json({ message: 'No data available' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-}
-
-const staffsGroup03 = async (req, res) => {
-  try {
-    const snapshot = await get(child(dbRef, 'staffs'));
-    if (snapshot.exists()) {
-      const staffsData = snapshot.val();
-      const staffsArray = Object.values(staffsData);
-
-      // Lọc danh sách nhân viên theo thuộc tính group
-      const filteredStaffsArray = staffsArray.filter(staff => staff.group === 3);
-
-      filteredStaffsArray.forEach((staff) => {
-        delete staff.password;
-      });
-
-      res.status(200).json(filteredStaffsArray);
-    } else {
-      res.status(404).json({ message: 'No data available' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-}
-
 module.exports = {
   login,
   register,
   changePassword,
   staffs,
-  staffsGroup01,
-  staffsGroup02,
-  staffsGroup03,
 };
