@@ -60,7 +60,7 @@ function App() {
         <Route path="/search/:searchValue" element={<SearchVideoPage />}></Route>
 
         {/* Chỉ cho phép truy cập khi đã đăng nhập */}
-        {isLoggedIn === 'true' && (
+        {isLoggedIn === "true" && (
           <>
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/upload/video" element={<UploadVideoPage />}></Route>

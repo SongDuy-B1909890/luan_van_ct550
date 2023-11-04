@@ -74,7 +74,7 @@ const HeaderPage = () => {
         window.location.href = '/search/' + searchValue;
     };
 
-    if (login === 'true') {
+    if (login === "true") {
         return (
 
             <div className="flex items-center w-full h-[60px] bg-white fixed inset-x-0 top-0 shadow z-50">
