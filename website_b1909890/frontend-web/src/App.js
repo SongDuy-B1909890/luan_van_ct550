@@ -31,7 +31,11 @@ const NotFoundPage = () => {
 };
 
 const isLoggedIn = localStorage.getItem('login');
+const isLoggedInStaffGroup01 = localStorage.getItem('loginStaffGroup01');
+const isLoggedInStaffGroup02 = localStorage.getItem('loginStaffGroup02');
+const isLoggedInStaffGroup03 = localStorage.getItem('loginStaffGroup03');
 //console.log(isLoggedIn);
+
 function App() {
   return (
     <BrowserRouter>
@@ -45,10 +49,6 @@ function App() {
         <Route path="/login/staff" element={<LoginStaffPage />}></Route>
 
         <Route path="/admin" element={<AdminPage />}></Route>
-
-        <Route path="/staff/group01" element={<StaffGroup01Page />}></Route>
-        <Route path="/staff/group02" element={<StaffGroup02Page />}></Route>
-        <Route path="/staff/group03" element={<StaffGroup03Page />}></Route>
 
         <Route path="/forgotPassword" element={<ForgotPasswordPage />}></Route>
         <Route path="/video" element={<VideoPage />}></Route>
@@ -64,6 +64,28 @@ function App() {
           <>
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/upload/video" element={<UploadVideoPage />}></Route>
+
+          </>
+        )}
+
+        {/* Chỉ cho phép truy cập khi đã đăng nhập */}
+        {isLoggedInStaffGroup01 === "true" && (
+          <>
+            <Route path="/staff/group01" element={<StaffGroup01Page />}></Route>
+
+          </>
+        )}
+
+        {isLoggedInStaffGroup02 === "true" && (
+          <>
+            <Route path="/staff/group02" element={<StaffGroup02Page />}></Route>
+
+          </>
+        )}
+
+        {isLoggedInStaffGroup03 === "true" && (
+          <>
+            <Route path="/staff/group03" element={<StaffGroup03Page />}></Route>
 
           </>
         )}

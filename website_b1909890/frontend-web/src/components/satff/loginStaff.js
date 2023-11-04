@@ -29,12 +29,13 @@ const LoginStaffPage = () => {
                     alert('Đăng nhập thành công')
 
                     if (response.data.staff.group === 1) {
+                        localStorage.setItem('loginStaffGroup01', 'true');
                         window.location.href = '/staff/group01';
-                        console.log(response.data.staff.group);
-
                     } else if (response.data.staff.group === 2) {
+                        localStorage.setItem('loginStaffGroup02', 'true');
                         window.location.href = '/staff/group02';
                     } else {
+                        localStorage.setItem('loginStaffGroup03', 'true');
                         window.location.href = '/staff/group03';
                     }
 
