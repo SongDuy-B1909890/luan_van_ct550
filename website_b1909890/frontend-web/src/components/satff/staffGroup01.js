@@ -5,12 +5,12 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const staffString = localStorage.getItem('staff');
 const staff = staffString ? JSON.parse(staffString) : null;
 
-const StaffGroup01Page = () => {
+const closeLogout = () => {
+    localStorage.setItem('loginStaffGroup01', 'false');
+    window.location.href = '/login/staff';
+};
 
-    const closeLogout = () => {
-        localStorage.setItem('loginStaffGroup01', 'false');
-        window.location.href = '/login/staff';
-    };
+const StaffGroup01Page = () => {
 
     return (
         <div>

@@ -5,11 +5,13 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const staffString = localStorage.getItem('staff');
 const staff = staffString ? JSON.parse(staffString) : null;
 
+const closeLogout = () => {
+    localStorage.setItem('loginStaffGroup03', 'false');
+    window.location.href = '/login/staff';
+};
+
 const StaffGroup03Page = () => {
-    const closeLogout = () => {
-        localStorage.setItem('loginStaffGroup03', 'false');
-        window.location.href = '/login/staff';
-    };
+
     return (
         <div  > {/* backdrop-blur-sm */}
             <div>
