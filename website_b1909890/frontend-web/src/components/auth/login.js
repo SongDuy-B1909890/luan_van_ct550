@@ -88,6 +88,7 @@ const LoginPage = ({ closeModal }) => {
                   />
 
                 </div>
+                {formik.errors.email && formik.touched.email && <div className="text-red-500">{formik.errors.email}</div>}
               </div>
 
               <div className="form-outline mb-4 mt-6">
@@ -111,6 +112,8 @@ const LoginPage = ({ closeModal }) => {
                   />
 
                 </div>
+                {formik.errors.password && formik.touched.password && <div className="text-red-500">{formik.errors.password}</div>}
+
               </div>
 
               <div className="flex items-center">

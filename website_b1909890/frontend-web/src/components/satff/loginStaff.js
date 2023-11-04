@@ -48,7 +48,7 @@ const LoginStaffPage = () => {
     })
 
     return (
-        <div className="min-h-screen bg-gray-400 flex flex-col justify-center py-12 sm:px-6 lg:px-8 fixed inset-0 z-50" > {/* backdrop-blur-sm */}
+        <div className="min-h-screen bg-gray-300 flex flex-col justify-center py-12 sm:px-6 lg:px-8 fixed inset-0 z-50" > {/* backdrop-blur-sm */}
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md mb-28 bg-white py-1 px-4 shadow sm:rounded-lg sm:px-10 mb-26 ">
 
                 <div className="sm:mx-auto sm:w-full sm:max-w-md ">
@@ -85,6 +85,8 @@ const LoginStaffPage = () => {
                                     />
 
                                 </div>
+                                {formik.errors.email && formik.touched.email && <div className="text-red-500">{formik.errors.email}</div>}
+
                             </div>
 
                             <div className="form-outline mb-4 mt-6">
@@ -109,6 +111,8 @@ const LoginStaffPage = () => {
                                     />
 
                                 </div>
+                                {formik.errors.password && formik.touched.password && <div className="text-red-500">{formik.errors.password}</div>}
+
                             </div>
 
                         </div>

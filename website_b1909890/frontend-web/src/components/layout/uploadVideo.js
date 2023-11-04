@@ -70,10 +70,10 @@ const UploadVideoPage = () => {
     return (
         <>
             <div className="min-h-screen bg-gray-300 flex flex-col justify-center  py-12 sm:px-6 lg:px-8 fixed inset-0  bg-opacity-30 backdrop-blur-sm z-50  ">
-                <div className="bg-white sm:mx-auto sm:rounded-lg sm:w-full sm:max-w-md mt-8 mb-28">
+                <div className="bg-white min-w-[550px] max-w-[550px] sm:mx-auto sm:rounded-lg sm:w-full sm:max-w-md">
                     <div className=" py-8 px-4 shadow sm:rounded-lg sm:px-10">
 
-                        <div className="sm:mx-auto sm:w-full sm:max-w-md mb-6">
+                        <div className="sm:mx-auto sm:w-full sm:max-w-md mb-5">
                             <h2 className=" text-center text-3xl font-extrabold text-gray-900">
                                 Đăng video
                             </h2>
@@ -98,7 +98,7 @@ const UploadVideoPage = () => {
                                     >
                                         Tiêu đề
                                     </label>
-                                    <div className="mt-1">
+                                    <div className="mt-2">
                                         <input
                                             id="title"
                                             name="title"
@@ -110,7 +110,7 @@ const UploadVideoPage = () => {
                                             className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         />
                                     </div>
-                                    {formik.errors.title && formik.touched.title && <div>{formik.errors.title}</div>}
+                                    {formik.errors.title && formik.touched.title && <div className="text-red-500">{formik.errors.title}</div>}
                                 </div>
 
                                 <div>
@@ -120,26 +120,27 @@ const UploadVideoPage = () => {
                                     >
                                         Mô tả
                                     </label>
-                                    <div className="mt-1">
-                                        <input
+                                    <div className="mt-2">
+                                        <textarea
                                             id="description"
                                             name="description"
                                             type="address"
                                             autoComplete="description"
-                                            placeholder="description video"
+                                            placeholder="Description video"
                                             value={formik.values.description}
                                             onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
+                                            style={{ resize: 'vertical', padding: '12px', minHeight: '150px' }}
                                             className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         />
                                     </div>
-                                    {formik.errors.description && formik.touched.description && <div>{formik.errors.description}</div>}
+                                    {formik.errors.description && formik.touched.description && <div className="text-red-500">{formik.errors.description}</div>}
                                 </div>
 
                                 <div>
                                     <label htmlFor="id_category" className="block text-sm font-medium text-gray-700">
                                         Danh mục
                                     </label>
-                                    <div className="mt-1">
+                                    <div className="mt-2">
                                         <select
                                             id="id_category"
                                             name="id_category"
@@ -149,7 +150,7 @@ const UploadVideoPage = () => {
                                             onBlur={formik.handleBlur}
                                             className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                         >
-                                            <option className="text-center" value="">---Chọn danh mục---</option>
+                                            <option className="text-center" value=""> --- Chọn Danh Mục Nội Dung Video --- </option>
                                             <option value="-Ni2oT1OjzLvW5OjQNiV">Kiến thức</option>
                                             <option value="-Ni4IGIgtvsfrcGO_p-8">Tư duy</option>
                                             <option value="-Ni4INdSYhoO7u_32aa_">Ngôn từ</option>
@@ -161,14 +162,14 @@ const UploadVideoPage = () => {
                                             {/* Thêm các tùy chọn khác tại đây */}
                                         </select>
                                     </div>
-                                    {formik.errors.id_category && formik.touched.id_category && <div>{formik.errors.id_category}</div>}
+                                    {formik.errors.id_category && formik.touched.id_category && <div className="text-red-500">{formik.errors.id_category}</div>}
                                 </div>
 
                                 <div>
                                     <label htmlFor="video" className="block text-sm font-medium text-gray-700">
                                         Video
                                     </label>
-                                    <div className="mt-1">
+                                    <div className="mt-2">
                                         <input
                                             id="file"
                                             name="file"
