@@ -17,7 +17,6 @@ import UploadVideoPage from './components/layout/uploadVideo';
 import CategoryVideoPage from './components/layout/categoryVideo';
 import SearchVideoPage from './components/layout/searchVideo';
 
-import StaffPage from './components/satff/staff';
 import StaffGroup01Page from './components/satff/staffGroup01';
 import StaffGroup02Page from './components/satff/staffGroup02';
 import StaffGroup03Page from './components/satff/staffGroup03';
@@ -47,7 +46,6 @@ function App() {
 
         <Route path="/admin" element={<AdminPage />}></Route>
 
-        <Route path="/staff" element={<StaffPage />}></Route>
         <Route path="/staff/group01" element={<StaffGroup01Page />}></Route>
         <Route path="/staff/group02" element={<StaffGroup02Page />}></Route>
         <Route path="/staff/group03" element={<StaffGroup03Page />}></Route>
