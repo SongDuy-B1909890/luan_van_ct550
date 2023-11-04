@@ -68,7 +68,7 @@ function App() {
           </>
         )}
 
-        {/* Chỉ cho phép truy cập khi đã đăng nhập */}
+        {/* Chỉ cho phép truy cập khi đã đăng nhập tài khoản nhóm 1 */}
         {isLoggedInStaffGroup01 === "true" && (
           <>
             <Route path="/staff/group01" element={<StaffGroup01Page />}></Route>
@@ -76,6 +76,7 @@ function App() {
           </>
         )}
 
+        {/* Chỉ cho phép truy cập khi đã đăng nhập tài khoản nhóm 2 */}
         {isLoggedInStaffGroup02 === "true" && (
           <>
             <Route path="/staff/group02" element={<StaffGroup02Page />}></Route>
@@ -83,6 +84,7 @@ function App() {
           </>
         )}
 
+        {/* Chỉ cho phép truy cập khi đã đăng nhập tài khoản nhóm 3 */}
         {isLoggedInStaffGroup03 === "true" && (
           <>
             <Route path="/staff/group03" element={<StaffGroup03Page />}></Route>
