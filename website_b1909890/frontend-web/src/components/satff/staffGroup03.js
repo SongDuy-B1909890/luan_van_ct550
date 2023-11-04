@@ -2,6 +2,9 @@ import React from 'react';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
+const staffString = localStorage.getItem('staff');
+const staff = staffString ? JSON.parse(staffString) : null;
+
 const StaffGroup03Page = () => {
     const closeLogout = () => {
         localStorage.setItem('loginStaffGroup03', 'false');
@@ -24,6 +27,7 @@ const StaffGroup03Page = () => {
                         </div>
                         Sign out
                     </button>
+                    {staff.id}
                 </div>
             </div>
 
