@@ -18,10 +18,10 @@ const StaffGroup01Page = () => {
                 {/* HeaderPage  */}
                 <div>
                     <div className="text-center mt-8 ml-8">
-                        Trang Nhân Viên Sơ Tuyển Nhóm 01
+                        <b>Trang Nhân Viên Đề Xuất - Nội Dung Danh Mục</b>
 
                         <div className=" flex justify-center items-center float-right mr-4">
-                            <span className="mr-4">{staff.name}</span>
+                            {/* <span className="mr-4">{staff.name}</span> */}
                             <button
                                 className="flex justify-center items-center text-blue-500 mt-1 w-[120px] h-10 hover:bg-blue-100 rounded-full border border-blue-500"
                                 title="Đăng xuất"
@@ -61,7 +61,7 @@ const StaffGroup01Page = () => {
 
                 <div>
                     <div className="text-center mt-8 ml-8">
-                        Trang Tổ Phản Biện Nhóm 01
+                        Trang Tổ Phản Biện - Nội Dung Danh Mục
                     </div>
                     <div className="float-right mr-4">
                         <button
@@ -74,7 +74,6 @@ const StaffGroup01Page = () => {
                             </div>
                             Sign out
                         </button>
-                        {staff.id}
                     </div>
                 </div>
 
@@ -103,7 +102,7 @@ const StaffGroup01Page = () => {
 
                 <div>
                     <div className="text-center mt-8 ml-8">
-                        Trang Quản Lý Trưởng Nhóm 01
+                        Trang Quản Lý Trưởng - Nội Dung Danh Mục
                     </div>
                     <div className="float-right mr-4">
                         <button
