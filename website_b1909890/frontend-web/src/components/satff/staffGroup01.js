@@ -13,12 +13,13 @@ const closeLogout = () => {
 const StaffGroup01Page = () => {
 
     if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 01
+        const cl = staff.id;
         return (
             <div>
                 {/* HeaderPage  */}
                 <div>
                     <div className="text-center mt-8 ml-8">
-                        <b>Trang Nhân Viên Đề Xuất - Nội Dung Danh Mục</b>
+                        <b>Trang Nhân Viên Đề Xuất - Nội Dung Danh Mục </b>
 
                         <div className=" flex justify-center items-center float-right mr-4">
                             {/* <span className="mr-4">{staff.name}</span> */}
