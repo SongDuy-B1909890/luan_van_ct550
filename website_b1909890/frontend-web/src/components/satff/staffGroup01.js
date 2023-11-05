@@ -32,26 +32,29 @@ const StaffGroup01Page = () => {
 
     }, []);
 
-    const [id_category, setIdCategory] = useState('');
+    const handleCategoryClick = (currentCategoryId) => {
 
-    const handleCategoryClick = (id) => {
-        setIdCategory(id);
-        console.log(id);
+        localStorage.setItem('currentCategoryId', currentCategoryId);
+        // window.location.href = '/staff/group01';
+        console.log(currentCategoryId)
     };
+    const id_category = localStorage.getItem('currentCategoryId');
 
     const formik = useFormik({
         initialValues: {
-            suggestion: 'kkk',
+            id: id_category,
+            suggestion: '',
         },
         onSubmit: (values) => {
-            console.log(values);
+            console.log(values.id)
             axios
-                .put('http://localhost:5000/api/admin/changeCategory', { id: id_category })
+                .put('http://localhost:5000/api/admin/changeCategory', values)
                 .then((response) => {
                     // Xử lý thành công
                     console.log(response.data);
                     // Hiển thị thông báo cập nhật thành công
                     alert('Cập nhật thành công')
+                    window.location.href = '/staff/group01';
                 })
                 .catch((error) => {
                     // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
@@ -98,19 +101,24 @@ const StaffGroup01Page = () => {
                                 <tr key={category.id} className="hover:bg-blue-200">
                                     <td className="w-1/5 px-6 py-4 whitespace-normal border-r-2"> {category.name}</td>
                                     <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2"> {category.description}</td>
-                                    <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2" onClick={() => handleCategoryClick(category.id)}>
+                                    <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2">
                                         <form onSubmit={formik.handleSubmit}>
                                             <textarea
                                                 className="w-full h-full px-2 py-2 border"
                                                 type="text"
-                                                id="suggestion"
-                                                name="suggestion"
-                                                autoComplete="suggestion"
+                                                id={`suggestion-${category.id}`} // Thay đổi id của textarea
+                                                name={`suggestion-${category.id}`} // Thay đổi name của textarea
                                                 placeholder="suggestion"
-                                                value={formik.values.suggestion}
+                                                value={formik.values[`suggestion-${category.id}`]}
                                                 onChange={formik.handleChange}
                                             />
-                                            <button className="w-12 float-right bg-blue-400 px-1 py-1 rounded-md" type="submit">Gửi</button>
+                                            <button
+                                                className="w-12 float-right bg-blue-400 px-1 py-1 rounded-md"
+                                                type="submit"
+                                                onClick={() => handleCategoryClick(category.id)}
+                                            >
+                                                Gửi
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
