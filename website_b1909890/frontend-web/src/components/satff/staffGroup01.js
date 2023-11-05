@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useFormik } from "formik"
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
@@ -31,8 +32,37 @@ const StaffGroup01Page = () => {
 
     }, []);
 
-    if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 01
+    const [id_category, setIdCategory] = useState('');
 
+    const handleCategoryClick = (id) => {
+        setIdCategory(id);
+        console.log(id);
+    };
+
+    const formik = useFormik({
+        initialValues: {
+            suggestion: 'kkk',
+        },
+        onSubmit: (values) => {
+            console.log(values);
+            axios
+                .put('http://localhost:5000/api/admin/changeCategory', { id: id_category })
+                .then((response) => {
+                    // Xử lý thành công
+                    console.log(response.data);
+                    // Hiển thị thông báo cập nhật thành công
+                    alert('Cập nhật thành công')
+                })
+                .catch((error) => {
+                    // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
+                    console.error(error);
+                });
+        },
+    })
+
+    //const inputFirstName = formik.values.firstname === user.firstname ? user.firstname : formik.values.firstname;
+
+    if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 01
 
         return (
             <div>
@@ -68,8 +98,20 @@ const StaffGroup01Page = () => {
                                 <tr key={category.id} className="hover:bg-blue-200">
                                     <td className="w-1/5 px-6 py-4 whitespace-normal border-r-2"> {category.name}</td>
                                     <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2"> {category.description}</td>
-                                    <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2">
-
+                                    <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2" onClick={() => handleCategoryClick(category.id)}>
+                                        <form onSubmit={formik.handleSubmit}>
+                                            <textarea
+                                                className="w-full h-full px-2 py-2 border"
+                                                type="text"
+                                                id="suggestion"
+                                                name="suggestion"
+                                                autoComplete="suggestion"
+                                                placeholder="suggestion"
+                                                value={formik.values.suggestion}
+                                                onChange={formik.handleChange}
+                                            />
+                                            <button className="w-12 float-right bg-blue-400 px-1 py-1 rounded-md" type="submit">Gửi</button>
+                                        </form>
                                     </td>
                                 </tr>
                             ))}
