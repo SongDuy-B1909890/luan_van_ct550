@@ -33,6 +33,7 @@ const StaffGroup01Page = () => {
 
     if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 01
 
+
         return (
             <div>
                 {/* HeaderPage  */}
@@ -59,7 +60,7 @@ const StaffGroup01Page = () => {
                             <tr>
                                 <th className="w-1/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Danh Mục</th>
                                 <th className="w-2/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Tiêu Chuẩn Nội Dung Danh Mục</th>
-                                <th className="w-2/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Đề Xuất Sửa Đổi Tiêu Chuẩn Nội Dung</th>
+                                <th className="w-2/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Sửa Đổi Tiêu Chuẩn Nội Dung Danh Mục</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
@@ -67,7 +68,9 @@ const StaffGroup01Page = () => {
                                 <tr key={category.id} className="hover:bg-blue-200">
                                     <td className="w-1/5 px-6 py-4 whitespace-normal border-r-2"> {category.name}</td>
                                     <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2"> {category.description}</td>
-                                    <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2">{category.suggestion}</td>
+                                    <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2">
+
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

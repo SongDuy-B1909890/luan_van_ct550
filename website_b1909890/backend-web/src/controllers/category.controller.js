@@ -54,6 +54,7 @@ const changeCategory = async (req, res) => {
             update(categoriesRef, {
                 name: req.body.name,
                 description: req.body.description,
+                suggestion: req.body.suggestion,
             });
 
             res.status(200).json({ message: 'Danh mục đã được thay đổi thành công' });
