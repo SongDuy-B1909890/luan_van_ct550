@@ -22,6 +22,7 @@ const createCategory = async (req, res) => {
             id: newCategoryId,
             name: req.body.name,
             description: req.body.description,
+            suggestion: req.body.suggestion,
             created_at: reversedDate,
         });
 
@@ -34,7 +35,7 @@ const createCategory = async (req, res) => {
 
 const changeCategory = async (req, res) => {
     try {
-        // Kiểm tra email và mật khẩu hiện tại
+
         const categoriesSnapshot = await get(child(dbRef, 'categories'));
         const categories = categoriesSnapshot.val();
 
