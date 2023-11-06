@@ -99,7 +99,8 @@ const StaffGroup01Page = () => {
     const formik01 = useFormik({
         initialValues: {
             id: currentCategoryId,
-            modification: currentCategoryModification
+            modification: currentCategoryModification,
+            suggestion: '   Sửa Đổi: <<< Đã Xem Xét >>>'
         },
         enableReinitialize: true, // Thêm dòng này
         onSubmit: (values) => {
@@ -142,7 +143,8 @@ const StaffGroup01Page = () => {
     const formik02 = useFormik({
         initialValues: {
             id: currentCategoryId,
-            description: currentCategoryDescription
+            description: currentCategoryDescription,
+            modification: currentCategoryDescription,
         },
         enableReinitialize: true, // Thêm dòng này
         onSubmit: (values) => {
@@ -157,7 +159,7 @@ const StaffGroup01Page = () => {
                     console.log(response.data);
                     // Hiển thị thông báo cập nhật thành công
                     alert('Cập nhật thành công')
-                    window.location.href = '/staff/group01'; // Sử dụng history để chuyển hướng
+                    window.location.href = '/staff/group01'; // Sử dụng history để chuyển hướng 
                 })
                 .catch((error) => {
                     // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
@@ -170,7 +172,7 @@ const StaffGroup01Page = () => {
 
     if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 01
         return (
-            <div>
+            <div className="mb-8">
                 {/* HeaderPage  */}
                 <div className="text-center mt-5 ml-8">
                     <b>Trang Nhân Viên Đề Xuất - Nội Dung Danh Mục </b>
@@ -206,12 +208,12 @@ const StaffGroup01Page = () => {
                                     <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2">
                                         <form onSubmit={formik.handleSubmit}>
                                             <textarea
-                                                className="w-full h-full px-2 py-2 border"
+                                                className="w-full h-[250px] px-2 py-2 border"
                                                 type="text"
                                                 id={category.id}
                                                 name="suggestion"
                                                 placeholder="suggestion"
-                                                value={formik.values[category.id]?.suggestion || ''}
+                                                value={formik.values[category.id]?.suggestion || category.suggestion}
                                                 onChange={(e) => {
                                                     formik.handleChange(e);
                                                     formik.setFieldValue(`${category.id}.suggestion`, e.target.value);
@@ -220,7 +222,7 @@ const StaffGroup01Page = () => {
                                             <button
                                                 className="w-12 float-right bg-blue-400 px-1 py-1 rounded-md"
                                                 type="submit"
-                                                onClick={() => handleCategorySuggestionClick(category.id, (formik.values[category.id]?.suggestion || ''))}
+                                                onClick={() => handleCategorySuggestionClick(category.id, (formik.values[category.id]?.suggestion || category.suggestion))}
                                             >
                                                 Gửi
                                             </button>
@@ -237,7 +239,7 @@ const StaffGroup01Page = () => {
 
     } if (staff.level === 2) { // Giao diện trang tổ phản biện nhóm 01
         return (
-            <div>
+            <div className="mb-8">
 
                 <div>
                     <div className="text-center mt-5 ml-8">
@@ -263,9 +265,9 @@ const StaffGroup01Page = () => {
                         <thead className="bg-gray-100">
                             <tr>
                                 <th className="w-[50px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Danh Mục</th>
-                                <th className="w-[300px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Đề xuất Sửa Đổi Nội Dung Danh Mục</th>
-                                <th className="w-[500px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Đề xuất Sửa Đổi Nội Dung Danh Mục</th>
-                                <th className="w-[500px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Tổ Phản Biện Đề Xuất Tiêu Chuẩn Nội Dung Danh Mục Mới</th>
+                                <th className="w-[300px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Nhân Viên Đề Xuất Sửa Đổi</th>
+                                <th className="w-[500px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Tiêu Chuẩn Nội Dung Danh Mục Đã Chỉnh Sửa, Bổ Sung</th>
+                                <th className="w-[500px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Tổ Phản Biện Xem Xét, Chỉnh Sửa Tiêu Chuẩn Nội Dung Danh Mục</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
@@ -277,7 +279,7 @@ const StaffGroup01Page = () => {
                                     <td className="w-[500px] px-6 py-4 whitespace-normal border-r-2">
                                         <form onSubmit={formik01.handleSubmit}>
                                             <textarea
-                                                className="w-full h-full px-2 py-2 border"
+                                                className="w-full h-[250px] px-2 py-2 border"
                                                 type="text"
                                                 id={category.id}
                                                 name="modification"
@@ -308,7 +310,7 @@ const StaffGroup01Page = () => {
 
     } else { // Giao diện trang quản lý trưởng nhóm 01
         return (
-            <div>
+            <div className="mb-8">
 
                 <div>
                     <div className="text-center mt-5 ml-8">
@@ -334,9 +336,9 @@ const StaffGroup01Page = () => {
                         <thead className="bg-gray-100">
                             <tr>
                                 <th className="w-[50px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Danh Mục</th>
-                                <th className="w-[300px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Đề xuất Sửa Đổi Nội Dung Danh Mục</th>
-                                <th className="w-[500px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Đề xuất Sửa Đổi Nội Dung Danh Mục</th>
-                                <th className="w-[500px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Tổ Phản Biện Đề Xuất Tiêu Chuẩn Nội Dung Danh Mục Mới</th>
+                                <th className="w-[300px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Phương Châm Danh Mục</th>
+                                <th className="w-[500px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Tiêu Chuẩn Nội Dung Danh Mục</th>
+                                <th className="w-[500px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Quản Lý Trưởng Xem Xét, Cập Nhật Tiêu Chuẩn Nội Dung Danh Mục</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
@@ -344,11 +346,11 @@ const StaffGroup01Page = () => {
                                 <tr key={category.id} className="hover:bg-blue-200">
                                     <td className="w-[50px] px-6 py-4 whitespace-normal border-r-2"> {category.name}</td>
                                     <td className="w-[300px] px-6 py-4 whitespace-pre-wrap border-r-2"> {category.suggestion}</td>
-                                    <td className="w-[500px] px-6 py-4 whitespace-pre-wrap border-r-2"> {category.modification}</td>
+                                    <td className="w-[500px] px-6 py-4 whitespace-pre-wrap border-r-2"> {category.description}</td>
                                     <td className="w-[500px] px-6 py-4 whitespace-normal border-r-2">
                                         <form onSubmit={formik02.handleSubmit}>
                                             <textarea
-                                                className="w-full h-full px-2 py-2 border"
+                                                className="w-full h-[250px] px-2 py-2 border"
                                                 type="text"
                                                 id={category.id}
                                                 name="description"
@@ -360,11 +362,11 @@ const StaffGroup01Page = () => {
                                                 }}
                                             />
                                             <button
-                                                className="w-12 float-right bg-blue-400 px-1 py-1 rounded-md"
+                                                className="w-20 float-right bg-blue-400 px-1 py-1 rounded-md"
                                                 type="submit"
                                                 onClick={() => handleCategoryDescriptionClick(category.id, (formik02.values[category.id]?.description || category.description))}
                                             >
-                                                Gửi
+                                                Cập Nhật
                                             </button>
                                         </form>
                                     </td>

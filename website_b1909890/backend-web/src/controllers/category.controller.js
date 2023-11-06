@@ -113,6 +113,7 @@ const changeCategoryModification = async (req, res) => {
             const categoriesRef = child(dbRef, `categories/${existingCategoryKey}`);
             update(categoriesRef, {
                 modification: req.body.modification,
+                suggestion: req.body.suggestion,
             });
 
             res.status(200).json({ message: 'Danh mục đã được thay đổi thành công' });
@@ -142,6 +143,7 @@ const changeCategoryDescription = async (req, res) => {
             const categoriesRef = child(dbRef, `categories/${existingCategoryKey}`);
             update(categoriesRef, {
                 description: req.body.description,
+                modification: req.body.modification,
             });
 
             res.status(200).json({ message: 'Danh mục đã được thay đổi thành công' });
