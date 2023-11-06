@@ -37,13 +37,16 @@ const StaffGroup01Page = () => {
 
     // Khởi tạo state variable
     const [currentCategoryId, setCurrentCategoryId] = useState('');
+    const [currentCategory, setCurrentCategorySuggestion] = useState('');
 
-    const handleCategoryClick = (categoryId) => {
+    const handleCategoryClick = (categoryId, categorySuggestion) => {
         // Lưu giá trị mới vào localStorage
         localStorage.setItem('currentCategoryId', categoryId);
+        localStorage.setItem('currentCategorySuggestion', categorySuggestion);
 
         // Cập nhật state variable
         setCurrentCategoryId(categoryId);
+        setCurrentCategorySuggestion(categorySuggestion);
     };
 
     // // Sử dụng useEffect để lắng nghe sự thay đổi của currentCategoryId
@@ -54,7 +57,7 @@ const StaffGroup01Page = () => {
     const formik = useFormik({
         initialValues: {
             id: currentCategoryId,
-            suggestion: '',
+            suggestion: currentCategory
         },
         enableReinitialize: true, // Thêm dòng này
         onSubmit: (values) => {
@@ -133,7 +136,7 @@ const StaffGroup01Page = () => {
                                             <button
                                                 className="w-12 float-right bg-blue-400 px-1 py-1 rounded-md"
                                                 type="submit"
-                                                onClick={() => handleCategoryClick(category.id)}
+                                                onClick={() => handleCategoryClick(category.id, (formik.values[category.id]?.suggestion || ''))}
                                             >
                                                 Gửi
                                             </button>
