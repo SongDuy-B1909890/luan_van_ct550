@@ -84,7 +84,6 @@ const StaffGroup01Page = () => {
     //const inputFirstName = formik.values.firstname === user.firstname ? user.firstname : formik.values.firstname;
 
     if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 01
-
         return (
             <div>
                 {/* HeaderPage  */}
@@ -111,7 +110,7 @@ const StaffGroup01Page = () => {
                             <tr>
                                 <th className="w-1/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Danh Mục</th>
                                 <th className="w-2/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Tiêu Chuẩn Nội Dung Danh Mục</th>
-                                <th className="w-2/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Sửa Đổi Tiêu Chuẩn Nội Dung Danh Mục</th>
+                                <th className="w-2/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2"> Nhân Viên Đề Xuất Sửa Đổi Tiêu Chuẩn Nội Dung Danh Mục</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
@@ -173,21 +172,49 @@ const StaffGroup01Page = () => {
                     </div>
                 </div>
 
-                <div>
-                    <ul>
-                        <li className='mb-2 hover:bg-gray-300 w-[160px] ml-8 tex-center'>
-                            Quản lý danh mục
-                        </li>
-                        <li className='mb-2 hover:bg-gray-300 w-[160px] ml-8 tex-center'>
-                            Quản lý video
-                        </li>
-                        <li className='mb-2 hover:bg-gray-300 w-[160px] ml-8 tex-center'>
-                            Quản lý bình luận
-                        </li>
-                        <li className='mb-2 hover:bg-gray-300 w-[160px] ml-8 tex-center'>
-                            Quản lý báo cáo
-                        </li>
-                    </ul>
+                {/* Nội dung */}
+                <div className="mt-8">
+                    <table className="min-w-full divide-y divide-gray-100 table-fixed">
+                        <thead className="bg-gray-100">
+                            <tr>
+                                <th className="w-1/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Danh Mục</th>
+                                <th className="w-2/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Đề xuất Sửa Đổi Nội Dung Danh Mục</th>
+                                <th className="w-2/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Tổ Phản Biện Đề Xuất Tiêu Chuẩn Nội Dung Danh Mục</th>
+                            </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                            {categories.map((category) => (
+                                <tr key={category.id} className="hover:bg-blue-200">
+                                    <td className="w-1/5 px-6 py-4 whitespace-normal border-r-2"> {category.name}</td>
+                                    <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2"> {category.suggestion}</td>
+                                    <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2">
+                                        <form onSubmit={formik.handleSubmit}>
+                                            <textarea
+                                                className="w-full h-full px-2 py-2 border"
+                                                type="text"
+                                                id={category.id}
+                                                name="suggestion"
+                                                placeholder="suggestion"
+                                                value={formik.values[category.id]?.suggestion || category.description}
+                                                onChange={(e) => {
+                                                    const updatedValue = e.target.value;
+                                                    formik.setFieldValue(`${category.id}.suggestion`, updatedValue);
+                                                }}
+                                            />
+                                            <button
+                                                className="w-12 float-right bg-blue-400 px-1 py-1 rounded-md"
+                                                type="submit"
+                                                onClick={() => handleCategoryClick(category.id, (formik.values[category.id]?.suggestion || ''))}
+                                            >
+                                                Gửi
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+
                 </div>
             </div>
         );
