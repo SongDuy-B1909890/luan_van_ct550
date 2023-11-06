@@ -122,6 +122,35 @@ const changeCategoryModification = async (req, res) => {
     }
 };
 
+const changeCategoryDescription = async (req, res) => {
+    try {
+
+        const categoriesSnapshot = await get(child(dbRef, 'categories'));
+        const categories = categoriesSnapshot.val();
+
+        const existingCategoryKey = Object.keys(categories).find(
+            (categoryKey) => categories[categoryKey].id === req.body.id
+        );
+
+        if (!existingCategoryKey) {
+            // Sai thông tin đăng nhập
+            res.status(401).json({ error: 'Sai thông tin đăng nhập' });
+            return;
+        } else {
+
+            // Cập nhật mật khẩu mới
+            const categoriesRef = child(dbRef, `categories/${existingCategoryKey}`);
+            update(categoriesRef, {
+                description: req.body.description,
+            });
+
+            res.status(200).json({ message: 'Danh mục đã được thay đổi thành công' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi thay đổi danh mục', errorMessage: error.message });
+    }
+};
+
 const deleteCategory = async (req, res) => {
     try {
         const categoriesSnapshot = await get(child(dbRef, 'categories'));
@@ -166,6 +195,7 @@ module.exports = {
     changeCategory,
     changeCategorySuggestion,
     changeCategoryModification,
+    changeCategoryDescription,
     deleteCategory,
     categories,
 

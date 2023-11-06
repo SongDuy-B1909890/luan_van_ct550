@@ -14,6 +14,9 @@ router.put('/admin/changeCategorySuggestion', CategoryController.changeCategoryS
 // Chỉnh sửa tiêu chuẩn nội dung danh mục
 router.put('/admin/changeCategoryModification', CategoryController.changeCategoryModification);
 
+// Cập nhật tiêu chuẩn nội dung danh mục
+router.put('/admin/changeCategoryDescription', CategoryController.changeCategoryDescription);
+
 // Xóa danh mục
 router.delete('/admin/deleteCategory', CategoryController.deleteCategory);
 
