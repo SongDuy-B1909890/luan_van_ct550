@@ -35,11 +35,15 @@ const StaffGroup01Page = () => {
 
     }, []);
 
-    // Khởi tạo state variable
     const [currentCategoryId, setCurrentCategoryId] = useState('');
-    const [currentCategory, setCurrentCategorySuggestion] = useState('');
 
-    const handleCategoryClick = (categoryId, categorySuggestion) => {
+    // Dành Cho Nhân Viên
+
+    // Khởi tạo state variable
+
+    const [currentCategorySuggestion, setCurrentCategorySuggestion] = useState('');
+
+    const handleCategorySuggestionClick = (categoryId, categorySuggestion) => {
         // Lưu giá trị mới vào localStorage
         localStorage.setItem('currentCategoryId', categoryId);
         localStorage.setItem('currentCategorySuggestion', categorySuggestion);
@@ -49,30 +53,68 @@ const StaffGroup01Page = () => {
         setCurrentCategorySuggestion(categorySuggestion);
     };
 
-    // // Sử dụng useEffect để lắng nghe sự thay đổi của currentCategoryId
-    // useEffect(() => {
-    //     console.log(currentCategoryId);
-    // }, [currentCategoryId]);
-
     const formik = useFormik({
         initialValues: {
             id: currentCategoryId,
-            suggestion: currentCategory
+            suggestion: currentCategorySuggestion
         },
         enableReinitialize: true, // Thêm dòng này
         onSubmit: (values) => {
             // Cập nhật currentCategoryId trước khi gửi form
-            handleCategoryClick(values.id);
+            handleCategorySuggestionClick(values.id);
             console.log('value.id', values.id)
             console.log('value.suggestion', values.suggestion)
             axios
-                .put('http://localhost:5000/api/admin/changeCategory', values)
+                .put('http://localhost:5000/api/admin/changeCategorySuggestion', values)
                 .then((response) => {
                     // Xử lý thành công
                     console.log(response.data);
                     // Hiển thị thông báo cập nhật thành công
                     alert('Cập nhật thành công')
-                    //window.location.href = '/staff/group01'; // Sử dụng history để chuyển hướng
+                    window.location.href = '/staff/group01'; // Sử dụng history để chuyển hướng
+                })
+                .catch((error) => {
+                    // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
+                    console.error(error);
+                });
+        },
+    });
+
+    // Dành Cho Tổ Phản Biện
+
+    // Khởi tạo state variable
+
+    const [currentCategoryModification, setCurrentCategoryModification] = useState('');
+
+    const handleCategoryModificationClick = (categoryId, categoryModification) => {
+        // Lưu giá trị mới vào localStorage
+        localStorage.setItem('currentCategoryId', categoryId);
+        localStorage.setItem('currentCategoryModification', categoryModification);
+
+        // Cập nhật state variable
+        setCurrentCategoryId(categoryId);
+        setCurrentCategoryModification(categoryModification);
+    };
+
+    const formik01 = useFormik({
+        initialValues: {
+            id: currentCategoryId,
+            modification: currentCategoryModification
+        },
+        enableReinitialize: true, // Thêm dòng này
+        onSubmit: (values) => {
+            // Cập nhật currentCategoryId trước khi gửi form
+            handleCategoryModificationClick(values.id);
+            console.log('value.id', values.id)
+            console.log('value.modification', values.modification)
+            axios
+                .put('http://localhost:5000/api/admin/changeCategoryModification', values)
+                .then((response) => {
+                    // Xử lý thành công
+                    console.log(response.data);
+                    // Hiển thị thông báo cập nhật thành công
+                    alert('Cập nhật thành công')
+                    window.location.href = '/staff/group01'; // Sử dụng history để chuyển hướng
                 })
                 .catch((error) => {
                     // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
@@ -135,7 +177,7 @@ const StaffGroup01Page = () => {
                                             <button
                                                 className="w-12 float-right bg-blue-400 px-1 py-1 rounded-md"
                                                 type="submit"
-                                                onClick={() => handleCategoryClick(category.id, (formik.values[category.id]?.suggestion || ''))}
+                                                onClick={() => handleCategorySuggestionClick(category.id, (formik.values[category.id]?.suggestion || ''))}
                                             >
                                                 Gửi
                                             </button>
@@ -179,32 +221,32 @@ const StaffGroup01Page = () => {
                             <tr>
                                 <th className="w-1/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Danh Mục</th>
                                 <th className="w-2/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Đề xuất Sửa Đổi Nội Dung Danh Mục</th>
-                                <th className="w-2/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Tổ Phản Biện Đề Xuất Tiêu Chuẩn Nội Dung Danh Mục</th>
+                                <th className="w-2/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Tổ Phản Biện Đề Xuất Tiêu Chuẩn Nội Dung Danh Mục Mới</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                             {categories.map((category) => (
                                 <tr key={category.id} className="hover:bg-blue-200">
                                     <td className="w-1/5 px-6 py-4 whitespace-normal border-r-2"> {category.name}</td>
-                                    <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2"> {category.suggestion}</td>
+                                    <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2"> {category.modification}</td>
                                     <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2">
-                                        <form onSubmit={formik.handleSubmit}>
+                                        <form onSubmit={formik01.handleSubmit}>
                                             <textarea
                                                 className="w-full h-full px-2 py-2 border"
                                                 type="text"
                                                 id={category.id}
-                                                name="suggestion"
-                                                placeholder="suggestion"
-                                                value={formik.values[category.id]?.suggestion || category.description}
+                                                name="modification"
+                                                placeholder="modification"
+                                                value={formik01.values[category.id]?.modification || category.description}
                                                 onChange={(e) => {
                                                     const updatedValue = e.target.value;
-                                                    formik.setFieldValue(`${category.id}.suggestion`, updatedValue);
+                                                    formik01.setFieldValue(`${category.id}.modification`, updatedValue);
                                                 }}
                                             />
                                             <button
                                                 className="w-12 float-right bg-blue-400 px-1 py-1 rounded-md"
                                                 type="submit"
-                                                onClick={() => handleCategoryClick(category.id, (formik.values[category.id]?.suggestion || ''))}
+                                                onClick={() => handleCategoryModificationClick(category.id, (formik01.values[category.id]?.modification || category.description))}
                                             >
                                                 Gửi
                                             </button>

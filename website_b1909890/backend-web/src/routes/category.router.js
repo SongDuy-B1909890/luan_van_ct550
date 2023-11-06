@@ -8,6 +8,12 @@ router.post('/admin/createCategory', CategoryController.createCategory);
 // Đổi danh mục
 router.put('/admin/changeCategory', CategoryController.changeCategory);
 
+// Đề Xuất tiêu chuẩn nội dung danh mục
+router.put('/admin/changeCategorySuggestion', CategoryController.changeCategorySuggestion);
+
+// Chỉnh sửa tiêu chuẩn nội dung danh mục
+router.put('/admin/changeCategoryModification', CategoryController.changeCategoryModification);
+
 // Xóa danh mục
 router.delete('/admin/deleteCategory', CategoryController.deleteCategory);
 
