@@ -219,17 +219,19 @@ const StaffGroup01Page = () => {
                     <table className="min-w-full divide-y divide-gray-100 table-fixed">
                         <thead className="bg-gray-100">
                             <tr>
-                                <th className="w-1/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Danh Mục</th>
-                                <th className="w-2/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Đề xuất Sửa Đổi Nội Dung Danh Mục</th>
-                                <th className="w-2/5 px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Tổ Phản Biện Đề Xuất Tiêu Chuẩn Nội Dung Danh Mục Mới</th>
+                                <th className="w-[50px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Danh Mục</th>
+                                <th className="w-[300px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Đề xuất Sửa Đổi Nội Dung Danh Mục</th>
+                                <th className="w-[500px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Đề xuất Sửa Đổi Nội Dung Danh Mục</th>
+                                <th className="w-[500px] px-6 py-3 text-center text-xs font-medium text-gray-800 uppercase tracking-wider border-r-2">Tổ Phản Biện Đề Xuất Tiêu Chuẩn Nội Dung Danh Mục Mới</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                             {categories.map((category) => (
                                 <tr key={category.id} className="hover:bg-blue-200">
-                                    <td className="w-1/5 px-6 py-4 whitespace-normal border-r-2"> {category.name}</td>
-                                    <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2"> {category.modification}</td>
-                                    <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2">
+                                    <td className="w-[50px] px-6 py-4 whitespace-normal border-r-2"> {category.name}</td>
+                                    <td className="w-[300px] px-6 py-4 whitespace-pre-wrap border-r-2"> {category.suggestion}</td>
+                                    <td className="w-[500px] px-6 py-4 whitespace-pre-wrap border-r-2"> {category.modification}</td>
+                                    <td className="w-[500px] px-6 py-4 whitespace-normal border-r-2">
                                         <form onSubmit={formik01.handleSubmit}>
                                             <textarea
                                                 className="w-full h-full px-2 py-2 border"
