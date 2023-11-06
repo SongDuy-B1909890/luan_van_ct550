@@ -35,22 +35,33 @@ const StaffGroup01Page = () => {
 
     }, []);
 
-    const handleCategoryClick = (categoryId) => {
+    // Khởi tạo state variable
+    const [currentCategoryId, setCurrentCategoryId] = useState('');
 
+    const handleCategoryClick = (categoryId) => {
         // Lưu giá trị mới vào localStorage
         localStorage.setItem('currentCategoryId', categoryId);
 
-        // Khi currentCategoryId đã được cập nhật, tiến hành các thao tác khác ở đây
-        console.log(localStorage.getItem('currentCategoryId'));
+        // Cập nhật state variable
+        setCurrentCategoryId(categoryId);
     };
-    const id_category = localStorage.getItem('currentCategoryId');
+
+    // // Sử dụng useEffect để lắng nghe sự thay đổi của currentCategoryId
+    // useEffect(() => {
+    //     console.log(currentCategoryId);
+    // }, [currentCategoryId]);
+
     const formik = useFormik({
         initialValues: {
-            id: id_category,
+            id: currentCategoryId,
             suggestion: '',
         },
+        enableReinitialize: true, // Thêm dòng này
         onSubmit: (values) => {
-            //console.log(values.id)
+            // Cập nhật currentCategoryId trước khi gửi form
+            handleCategoryClick(values.id);
+            console.log('value.id', values.id)
+            console.log('value.suggestion', values.suggestion)
             axios
                 .put('http://localhost:5000/api/admin/changeCategory', values)
                 .then((response) => {
@@ -58,7 +69,7 @@ const StaffGroup01Page = () => {
                     console.log(response.data);
                     // Hiển thị thông báo cập nhật thành công
                     alert('Cập nhật thành công')
-                    window.location.href = '/staff/group01'; // Sử dụng history để chuyển hướng
+                    //window.location.href = '/staff/group01'; // Sử dụng history để chuyển hướng
                 })
                 .catch((error) => {
                     // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
