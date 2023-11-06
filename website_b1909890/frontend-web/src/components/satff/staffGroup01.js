@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useFormik } from "formik"
+//import { useNavigate } from 'react-router-dom';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const staffString = localStorage.getItem('staff');
 const staff = staffString ? JSON.parse(staffString) : null;
+
+
 
 const closeLogout = () => {
     localStorage.setItem('loginStaffGroup01', 'false');
@@ -15,7 +18,7 @@ const closeLogout = () => {
 
 
 const StaffGroup01Page = () => {
-
+    // const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -32,21 +35,22 @@ const StaffGroup01Page = () => {
 
     }, []);
 
-    const handleCategoryClick = (currentCategoryId) => {
+    const handleCategoryClick = (categoryId) => {
 
-        localStorage.setItem('currentCategoryId', currentCategoryId);
-        // window.location.href = '/staff/group01';
-        console.log(currentCategoryId)
+        // Lưu giá trị mới vào localStorage
+        localStorage.setItem('currentCategoryId', categoryId);
+
+        // Khi currentCategoryId đã được cập nhật, tiến hành các thao tác khác ở đây
+        console.log(localStorage.getItem('currentCategoryId'));
     };
     const id_category = localStorage.getItem('currentCategoryId');
-
     const formik = useFormik({
         initialValues: {
             id: id_category,
             suggestion: '',
         },
         onSubmit: (values) => {
-            console.log(values.id)
+            //console.log(values.id)
             axios
                 .put('http://localhost:5000/api/admin/changeCategory', values)
                 .then((response) => {
@@ -54,14 +58,14 @@ const StaffGroup01Page = () => {
                     console.log(response.data);
                     // Hiển thị thông báo cập nhật thành công
                     alert('Cập nhật thành công')
-                    window.location.href = '/staff/group01';
+                    window.location.href = '/staff/group01'; // Sử dụng history để chuyển hướng
                 })
                 .catch((error) => {
                     // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
                     console.error(error);
                 });
         },
-    })
+    });
 
     //const inputFirstName = formik.values.firstname === user.firstname ? user.firstname : formik.values.firstname;
 
@@ -106,11 +110,14 @@ const StaffGroup01Page = () => {
                                             <textarea
                                                 className="w-full h-full px-2 py-2 border"
                                                 type="text"
-                                                id={`suggestion-${category.id}`} // Thay đổi id của textarea
-                                                name={`suggestion-${category.id}`} // Thay đổi name của textarea
+                                                id={category.id}
+                                                name="suggestion"
                                                 placeholder="suggestion"
-                                                value={formik.values[`suggestion-${category.id}`]}
-                                                onChange={formik.handleChange}
+                                                value={formik.values[category.id]?.suggestion || ''}
+                                                onChange={(e) => {
+                                                    formik.handleChange(e);
+                                                    formik.setFieldValue(`${category.id}.suggestion`, e.target.value);
+                                                }}
                                             />
                                             <button
                                                 className="w-12 float-right bg-blue-400 px-1 py-1 rounded-md"
