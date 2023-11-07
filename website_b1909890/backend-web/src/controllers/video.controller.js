@@ -1,5 +1,5 @@
 const cloudinary = require("../configs/cloudinary.config");
-const { ref, child, push, get, set } = require('firebase/database');
+const { ref, child, push, get, set, update, } = require('firebase/database');
 
 const { database } = require('../models/database');
 const dbRef = ref(database);
@@ -71,6 +71,7 @@ const uploadVideo = async (req, res) => {
             title: req.body.title,
             description: req.body.description,
             id_category: req.body.id_category,
+            status: 'chờ xem xét',
             created_at: reversedDate
         };
 
@@ -179,6 +180,115 @@ const videos = async (req, res) => {
     }
 };
 
+const videosStatus01 = async (req, res) => {
+    try {
+        const snapshot = await get(child(dbRef, 'videos'));
+        if (snapshot.exists()) {
+            const videoList = [];
+            snapshot.forEach((childSnapshot) => {
+                const video = childSnapshot.val();
+                if (video.status === 'chờ xem xét') {
+                    videoList.push(video);
+                }
+            });
+            res.status(200).json(videoList);
+        } else {
+            res.status(404).json({ message: 'No data available' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const videosStatus02 = async (req, res) => {
+    try {
+        const snapshot = await get(child(dbRef, 'videos'));
+        if (snapshot.exists()) {
+            const videoList = [];
+            snapshot.forEach((childSnapshot) => {
+                const video = childSnapshot.val();
+                if (video.status === 'xem xét') {
+                    videoList.push(video);
+                }
+            });
+            res.status(200).json(videoList);
+        } else {
+            res.status(404).json({ message: 'No data available' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const videosStatus03 = async (req, res) => {
+    try {
+        const snapshot = await get(child(dbRef, 'videos'));
+        if (snapshot.exists()) {
+            const videoList = [];
+            snapshot.forEach((childSnapshot) => {
+                const video = childSnapshot.val();
+                if (video.status === 'phản biện') {
+                    videoList.push(video);
+                }
+            });
+            res.status(200).json(videoList);
+        } else {
+            res.status(404).json({ message: 'No data available' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const videosStatus04 = async (req, res) => {
+    try {
+        const snapshot = await get(child(dbRef, 'videos'));
+        if (snapshot.exists()) {
+            const videoList = [];
+            snapshot.forEach((childSnapshot) => {
+                const video = childSnapshot.val();
+                if (video.status === 'xác nhận') {
+                    videoList.push(video);
+                }
+            });
+            res.status(200).json(videoList);
+        } else {
+            res.status(404).json({ message: 'No data available' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const changeVideoStatus = async (req, res) => {
+    try {
+
+        const videosSnapshot = await get(child(dbRef, 'videos'));
+        const videos = videosSnapshot.val();
+
+        const existingVideoKey = Object.keys(videos).find(
+            (videoKey) => videos[videoKey].cloudinary_id === req.body.id
+        );
+
+        if (!existingVideoKey) {
+            // Sai thông tin đăng nhập
+            res.status(401).json({ error: 'Sai id video' });
+            return;
+        } else {
+
+            // Cập nhật mật khẩu mới
+            const videosRef = child(dbRef, `videos/${existingVideoKey}`);
+            update(videosRef, {
+                status: req.body.status,
+            });
+
+            res.status(200).json({ message: 'Trạng thái video đã được thay đổi thành công' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi thay đổi trạng thái', errorMessage: error.message });
+    }
+};
+
 const searchVideosByTitle = async (req, res) => {
     try {
         const searchTitle = req.body.title; // Lấy tiêu đề video từ body parameter
@@ -212,6 +322,11 @@ const searchVideosByTitle = async (req, res) => {
 module.exports = {
     uploadVideo,
     videos,
+    videosStatus01,
+    videosStatus02,
+    videosStatus03,
+    videosStatus04,
+    changeVideoStatus,
     deleteVideoAndContent,
     searchVideosByTitle,
 }
