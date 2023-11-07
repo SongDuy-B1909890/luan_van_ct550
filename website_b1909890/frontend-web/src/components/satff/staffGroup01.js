@@ -172,7 +172,7 @@ const StaffGroup01Page = () => {
 
     if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 01
         return (
-            <div className="mb-8">
+            <div className="mb-8 ml-8 mr-8">
                 {/* HeaderPage  */}
                 <div className="text-center mt-5 ml-8">
                     <b>Trang Nhân Viên Đề Xuất - Nội Dung Danh Mục </b>
@@ -191,7 +191,7 @@ const StaffGroup01Page = () => {
                     </div>
                 </div>
                 {/* Nội dung */}
-                <div className="mt-8">
+                <div className="mt-8 border">
                     <table className="min-w-full divide-y divide-gray-100 table-fixed">
                         <thead className="bg-gray-100">
                             <tr>
@@ -202,13 +202,13 @@ const StaffGroup01Page = () => {
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                             {categories.map((category) => (
-                                <tr key={category.id} className="hover:bg-blue-200">
-                                    <td className="w-1/5 px-6 py-4 whitespace-normal border-r-2"> {category.name}</td>
-                                    <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2"> {category.description}</td>
-                                    <td className="w-2/5 px-6 py-4 whitespace-normal border-r-2">
+                                <tr key={category.id} className="bg-gray-50">
+                                    <td className="w-1/5 px-6 py-4 whitespace-pre-line border-r-2"> {category.name}</td>
+                                    <td className="w-2/5 px-6 py-4 whitespace-pre-line border-r-2 overflow-auto"> <div style={{ maxHeight: '500px' }}> {category.description} </div></td>
+                                    <td className="w-2/5 px-6 py-4 whitespace-pre-line border-r-2">
                                         <form onSubmit={formik.handleSubmit}>
                                             <textarea
-                                                className="w-full h-[250px] px-2 py-2 border"
+                                                className="w-full h-[500px] px-2 py-2 border"
                                                 type="text"
                                                 id={category.id}
                                                 name="suggestion"
@@ -239,7 +239,7 @@ const StaffGroup01Page = () => {
 
     } if (staff.level === 2) { // Giao diện trang tổ phản biện nhóm 01
         return (
-            <div className="mb-8">
+            <div className="mb-8 ml-8 mr-8">
 
                 <div>
                     <div className="text-center mt-5 ml-8">
@@ -272,14 +272,14 @@ const StaffGroup01Page = () => {
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                             {categories.map((category) => (
-                                <tr key={category.id} className="hover:bg-blue-200">
-                                    <td className="w-[50px] px-6 py-4 whitespace-normal border-r-2"> {category.name}</td>
-                                    <td className="w-[300px] px-6 py-4 whitespace-pre-wrap border-r-2"> {category.suggestion}</td>
-                                    <td className="w-[500px] px-6 py-4 whitespace-pre-wrap border-r-2"> {category.modification}</td>
-                                    <td className="w-[500px] px-6 py-4 whitespace-normal border-r-2">
+                                <tr key={category.id} className="bg-gray-50">
+                                    <td className="w-[50px] px-6 py-4 whitespace-pre-line border-r-2"> {category.name}</td>
+                                    <td className="w-[300px] px-6 py-4 whitespace-pre-line border-r-2 overflow-auto"> <div style={{ maxHeight: '500px' }}>{category.suggestion}</div></td>
+                                    <td className="w-[500px] px-6 py-4 whitespace-pre-line border-r-2 overflow-auto"> <div style={{ maxHeight: '500px' }}>{category.modification}</div></td>
+                                    <td className="w-[500px] px-6 py-4 whitespace-pre-line border-r-2">
                                         <form onSubmit={formik01.handleSubmit}>
                                             <textarea
-                                                className="w-full h-[250px] px-2 py-2 border"
+                                                className="w-full h-[500px] px-2 py-2 border"
                                                 type="text"
                                                 id={category.id}
                                                 name="modification"
@@ -310,7 +310,7 @@ const StaffGroup01Page = () => {
 
     } else { // Giao diện trang quản lý trưởng nhóm 01
         return (
-            <div className="mb-8">
+            <div className="mb-8 ml-8 mr-8">
 
                 <div>
                     <div className="text-center mt-5 ml-8">
@@ -343,14 +343,14 @@ const StaffGroup01Page = () => {
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                             {categories.map((category) => (
-                                <tr key={category.id} className="hover:bg-blue-200">
-                                    <td className="w-[50px] px-6 py-4 whitespace-normal border-r-2"> {category.name}</td>
-                                    <td className="w-[300px] px-6 py-4 whitespace-pre-wrap border-r-2"> {category.suggestion}</td>
-                                    <td className="w-[500px] px-6 py-4 whitespace-pre-wrap border-r-2"> {category.description}</td>
-                                    <td className="w-[500px] px-6 py-4 whitespace-normal border-r-2">
+                                <tr key={category.id} className="bg-gray-50">
+                                    <td className="w-[50px] px-6 py-4 whitespace-pre-line border-r-2"> {category.name}</td>
+                                    <td className="w-[300px] px-6 py-4 whitespace-pre-line border-r-2 overflow-auto"> <div style={{ maxHeight: '500px' }}> {category.suggestion} </div> </td>
+                                    <td className="w-[500px] px-6 py-4 whitespace-pre-line border-r-2 overflow-auto"> <div style={{ maxHeight: '500px' }}> {category.description} </div></td>
+                                    <td className="w-[500px] px-6 py-4 whitespace-pre-line border-r-2">
                                         <form onSubmit={formik02.handleSubmit}>
                                             <textarea
-                                                className="w-full h-[250px] px-2 py-2 border"
+                                                className="w-full h-[500px] px-2 py-2 border"
                                                 type="text"
                                                 id={category.id}
                                                 name="description"
