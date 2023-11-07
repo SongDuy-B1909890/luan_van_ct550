@@ -27,29 +27,10 @@ const StaffGroup02Page = () => {
         axios
             .get('http://localhost:5000/api/videos')
             .then((response) => {
-                // response.data.filter((video) => {
-                //     if (video.status === "chờ xem xét") {
-                //         setVideos((prevVideos) => [...prevVideos, video]);
-                //         console.log(video);
-                //     }
-                // });
-
-                const newVideos = response.data.filter(
-                    (video) => video.status === 'chờ xem xét'
-                );
-
-                setVideos((prevVideos) => {
-                    const updatedVideos = [...prevVideos];
-
-                    newVideos.forEach((video) => {
-                        if (!updatedVideos.some((prevVideo) => prevVideo.cloudinary_id === video.cloudinary_id)) {
-                            updatedVideos.push(video);
-                        }
-                    });
-
-                    return updatedVideos;
-                });
-
+                const videosData = response.data;
+                // Giao đoạn nhân viên sơ tuyển
+                const filteredVideos = videosData.filter((video) => video.status === "chờ xem xét");
+                setVideos(filteredVideos);
             })
             .catch((error) => {
                 console.error(error);

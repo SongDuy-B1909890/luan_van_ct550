@@ -43,7 +43,7 @@ const CategoryVideoPage = () => {
     }, []);
 
     useEffect(() => {
-        // Lọc danh sách người dùng dựa trên id_user của video
+        // Lọc danh sách người dùng dựa trên id_category của video
         const filteredUsers = users.filter((user) =>
             videos.some((video) => video.id_user === user.id && video.id_category === id_category)
         );
