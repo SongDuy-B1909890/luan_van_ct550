@@ -179,6 +179,38 @@ const videos = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+// // Danh sách từ mới đến củ
+// const videos = async (req, res) => {
+//     try {
+//         const snapshot = await get(child(dbRef, 'videos'));
+//         if (snapshot.exists()) {
+//             const videoList = [];
+//             snapshot.forEach((childSnapshot) => {
+//                 const video = childSnapshot.val();
+//                 videoList.push(video);
+//             });
+
+//             // Sắp xếp mảng videoList từ mới đến cũ dựa trên trường "created_at"
+//             videoList.sort((a, b) => {
+//                 const dateA = new Date(convertDateFormat(a.created_at));
+//                 const dateB = new Date(convertDateFormat(b.created_at));
+//                 return dateB - dateA;
+//             });
+
+//             res.status(200).json(videoList);
+//         } else {
+//             res.status(404).json({ message: 'No data available' });
+//         }
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// };
+
+// // Chuyển đổi định dạng ngày tháng từ "DD/MM/YYYY" sang "MM/DD/YYYY"
+// const convertDateFormat = (dateString) => {
+//     const [day, month, year] = dateString.split('/');
+//     return `${month}/${day}/${year}`;
+// };
 
 const videosStatus01 = async (req, res) => {
     try {
