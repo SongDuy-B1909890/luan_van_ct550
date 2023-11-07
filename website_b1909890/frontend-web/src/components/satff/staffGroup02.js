@@ -19,7 +19,9 @@ const closeLogout = () => {
 
 const StaffGroup02Page = () => {
 
-    const [videos, setVideos] = useState([]);
+    const [videosStatus01, setVideosStatus01] = useState([]);
+    const [videosStatus02, setVideosStatus02] = useState([]);
+    const [videosStatus03, setVideosStatus03] = useState([]);
     const [users, setUsers] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
 
@@ -28,9 +30,18 @@ const StaffGroup02Page = () => {
             .get('http://localhost:5000/api/videos')
             .then((response) => {
                 const videosData = response.data;
+
                 // Giao đoạn nhân viên sơ tuyển
-                const filteredVideos = videosData.filter((video) => video.status === "chờ xem xét");
-                setVideos(filteredVideos);
+                const VideosStatus01 = videosData.filter((video) => video.status === "chờ xem xét");
+                setVideosStatus01(VideosStatus01);
+
+                // Giao đoạn nhân viên sơ tuyển
+                const VideosStatus02 = videosData.filter((video) => video.status === "xem xét");
+                setVideosStatus02(VideosStatus02);
+
+                // Giao đoạn nhân viên sơ tuyển
+                const VideosStatus03 = videosData.filter((video) => video.status === "phản biện");
+                setVideosStatus03(VideosStatus03);
             })
             .catch((error) => {
                 console.error(error);
@@ -48,13 +59,32 @@ const StaffGroup02Page = () => {
             });
     }, []);
 
+    // Giao đoạn nhân viên sơ tuyển
     useEffect(() => {
         // Lọc danh sách người dùng dựa trên id_user của video
         const filteredUsers = users.filter((user) =>
-            videos.some((video) => video.id_user === user.id)
+            videosStatus01.some((video) => video.id_user === user.id)
         );
         setFilteredUsers(filteredUsers);
-    }, [videos, users]);
+    }, [videosStatus01, users]);
+
+    // Giao đoạn tổ phản biện
+    useEffect(() => {
+        // Lọc danh sách người dùng dựa trên id_user của video
+        const filteredUsers = users.filter((user) =>
+            videosStatus02.some((video) => video.id_user === user.id)
+        );
+        setFilteredUsers(filteredUsers);
+    }, [videosStatus02, users]);
+
+    // Giao đoạn quản lý trưởng
+    useEffect(() => {
+        // Lọc danh sách người dùng dựa trên id_user của video
+        const filteredUsers = users.filter((user) =>
+            videosStatus03.some((video) => video.id_user === user.id)
+        );
+        setFilteredUsers(filteredUsers);
+    }, [videosStatus03, users]);
 
     if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 02
         return (
@@ -80,7 +110,7 @@ const StaffGroup02Page = () => {
 
                 {/* Nội dung */}
                 <div className="w-full h-full overflow-auto bg-white mt-[70px]">
-                    {videos.map((video, index) => (
+                    {videosStatus01.map((video, index) => (
                         <div className="flex justify-center items-center" key={index}>
                             <div className="flex flex-wrap justify-center items-center mb-8">
                                 <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl border shadow">
@@ -184,7 +214,7 @@ const StaffGroup02Page = () => {
                 </div>
                 {/* Nội dung */}
                 <div className="w-full h-full overflow-auto bg-white mt-[70px]">
-                    {videos.map((video, index) => (
+                    {videosStatus02.map((video, index) => (
                         <div className="flex justify-center items-center" key={index}>
                             <div className="flex flex-wrap justify-center items-center mb-8">
                                 <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl border shadow">
@@ -289,7 +319,7 @@ const StaffGroup02Page = () => {
 
                 {/* Nội dung */}
                 <div className="w-full h-full overflow-auto bg-white mt-[70px]">
-                    {videos.map((video, index) => (
+                    {videosStatus03.map((video, index) => (
                         <div className="flex justify-center items-center" key={index}>
                             <div className="flex flex-wrap justify-center items-center mb-8">
                                 <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl border shadow">
