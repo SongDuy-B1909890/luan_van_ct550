@@ -36,7 +36,7 @@ const StaffGroup02Page = () => {
                 setVideosStatus01(VideosStatus01);
 
                 // Giao đoạn nhân viên sơ tuyển
-                const VideosStatus02 = videosData.filter((video) => video.status === "xem xét");
+                const VideosStatus02 = videosData.filter((video) => video.status === "sơ tuyển");
                 setVideosStatus02(VideosStatus02);
 
                 // Giao đoạn nhân viên sơ tuyển
@@ -194,22 +194,21 @@ const StaffGroup02Page = () => {
         return (
             <div>
 
-                <div>
-                    <div className="text-center mt-8 ml-8">
-                        Trang Tổ Phản Biện Nhóm 02
-                    </div>
-                    <div className="float-right mr-4">
-                        <button
-                            className="flex justify-center items-center text-blue-500 mt-1 w-[120px] h-10 hover:bg-blue-100 rounded-full border border-blue-500"
-                            title="Đăng xuất"
-                            onClick={closeLogout}
-                        >
-                            <div className="mr-2">
-                                <AccountCircleIcon />
-                            </div>
-                            Sign out
-                        </button>
-                        {staff.id}
+                <div className="fixed top-0 left-0 w-full h-[65px] bg-white shadow z-50">
+                    <div className="text-center mt-2 ml-8">
+                        <b className="text-3xl ml-8 text-blue-800">Trang Tổ Phản Biện - Nội Dung Video Theo Danh Mục</b>
+                        <div className="float-right mr-4">
+                            <button
+                                className="flex justify-center items-center text-blue-500 mt-1 w-[120px] h-10 hover:bg-blue-100 rounded-full border border-blue-500"
+                                title="Đăng xuất"
+                                onClick={closeLogout}
+                            >
+                                <div className="mr-2">
+                                    <AccountCircleIcon />
+                                </div>
+                                Sign out
+                            </button>
+                        </div>
                     </div>
                 </div>
                 {/* Nội dung */}
@@ -298,22 +297,21 @@ const StaffGroup02Page = () => {
         return (
             <div>
 
-                <div>
-                    <div className="text-center mt-8 ml-8">
-                        Trang Quản Lý Trưởng Nhóm 02
-                    </div>
-                    <div className="float-right mr-4">
-                        <button
-                            className="flex justify-center items-center text-blue-500 mt-1 w-[120px] h-10 hover:bg-blue-100 rounded-full border border-blue-500"
-                            title="Đăng xuất"
-                            onClick={closeLogout}
-                        >
-                            <div className="mr-2">
-                                <AccountCircleIcon />
-                            </div>
-                            Sign out
-                        </button>
-                        {staff.id}
+                <div className="fixed top-0 left-0 w-full h-[65px] bg-white shadow z-50">
+                    <div className="text-center mt-2 ml-8">
+                        <b className="text-3xl ml-8 text-blue-800">Trang Quản Lý Trưởng - Nội Dung Video Theo Danh Mục</b>
+                        <div className="float-right mr-4">
+                            <button
+                                className="flex justify-center items-center text-blue-500 mt-1 w-[120px] h-10 hover:bg-blue-100 rounded-full border border-blue-500"
+                                title="Đăng xuất"
+                                onClick={closeLogout}
+                            >
+                                <div className="mr-2">
+                                    <AccountCircleIcon />
+                                </div>
+                                Sign out
+                            </button>
+                        </div>
                     </div>
                 </div>
 
