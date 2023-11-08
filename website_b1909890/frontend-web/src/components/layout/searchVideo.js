@@ -9,7 +9,8 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import FlagIcon from '@mui/icons-material/Flag';
 
 import HeaderPage from './header';
-import CommentPage from './comment';
+//import CommentPage from './comment';
+import DescriptionPage from './description';
 
 const title = localStorage.getItem('title');
 
@@ -71,14 +72,27 @@ const SearchVideoPage = () => {
         setFilteredCategories(filteredCategories);
     }, [videos, users, categories]);
 
+    const [isSelectVideo, setIsSelectVideo] = useState(null);
     const [isCommentModal, setIsCommentModal] = useState(false);
-    const CommentModal = () => {
-        if (isCommentModal === true) {
-            setIsCommentModal(false);
-        } else {
+    const CommentModal = (videoId) => {
+
+        if (isCommentModal === false) {
+            //console.log(videoId);
+            setIsSelectVideo(videoId);
             setIsCommentModal(true);
         }
+        if (isCommentModal === true) {
+            //  console.log(videoId);
+            setIsSelectVideo(videoId);
+            setIsCommentModal(true);
+        }
+        if (isCommentModal === true && isSelectVideo === videoId) {
+            console.log(videoId);
+            setIsSelectVideo(videoId);
+            setIsCommentModal(false);
+        }
     };
+
 
     return (
         <div>
@@ -123,7 +137,12 @@ const SearchVideoPage = () => {
                                                             {filteredCategories
                                                                 .filter((category) => category.id === video.id_category)
                                                                 .map((category) => (
-                                                                    <li key={category.id} className="mr-4 text-blue-900 text-xl font-bold">
+                                                                    <li
+                                                                        key={category.id}
+                                                                        className="mr-4 text-blue-900 text-xl font-bold"
+                                                                        onClick={() => CommentModal(video.cloudinary_id)}
+
+                                                                    >
                                                                         <button
                                                                             className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
                                                                         >
@@ -140,7 +159,6 @@ const SearchVideoPage = () => {
 
                                                             <li
                                                                 className="mr-4"
-                                                                onClick={CommentModal}
                                                             >
                                                                 <button
                                                                     className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
@@ -171,7 +189,7 @@ const SearchVideoPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            {isCommentModal && <CommentPage />}
+                            {isSelectVideo === video.cloudinary_id && isCommentModal && <DescriptionPage value={video.description} />}
                         </div>
                     </div>
                 ))}

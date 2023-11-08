@@ -9,6 +9,9 @@ import CommentRoundedIcon from '@mui/icons-material/CommentRounded';
 import ReplyIcon from '@mui/icons-material/Reply';
 import FlagIcon from '@mui/icons-material/Flag';
 
+//import CommentPage from '../layout/comment';
+import DescriptionPage from '../layout/description';
+
 const staffString = localStorage.getItem('staff');
 const staff = staffString ? JSON.parse(staffString) : null;
 
@@ -128,6 +131,27 @@ const StaffGroup02Page = () => {
         setFilteredCategories03(filteredCategories);
     }, [videosStatus03, users, categories]);
 
+    const [isSelectVideo, setIsSelectVideo] = useState(null);
+    const [isCommentModal, setIsCommentModal] = useState(false);
+    const CommentModal = (videoId) => {
+
+        if (isCommentModal === false) {
+            //console.log(videoId);
+            setIsSelectVideo(videoId);
+            setIsCommentModal(true);
+        }
+        if (isCommentModal === true) {
+            //  console.log(videoId);
+            setIsSelectVideo(videoId);
+            setIsCommentModal(true);
+        }
+        if (isCommentModal === true && isSelectVideo === videoId) {
+            //console.log(videoId);
+            setIsSelectVideo(videoId);
+            setIsCommentModal(false);
+        }
+    };
+
     if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 02
         return (
             <div>
@@ -170,7 +194,7 @@ const StaffGroup02Page = () => {
                                             />
                                         </div>
                                         <div className="mt-2 w-full h-full">
-                                            <h1 className="font-bold text-xl">{video.title}</h1>
+                                            <h1 className="font-bold text-xl overflow-hidden line-clamp-1 mr-5 text-blue-900">{video.title} </h1>
                                             {filteredUsers01
                                                 .filter((user) => user.id === video.id_user)
                                                 .map((user) => (
@@ -181,17 +205,20 @@ const StaffGroup02Page = () => {
                                                             src={user.avatar}
                                                             sx={{ width: 50, height: 50 }}
                                                         />
-                                                        <span className="ml-2 text-md">{user.firstname + " " + user.lastname}</span>
-
+                                                        <span className="ml-2 font-bold max-w-[180px] overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
                                                         <div className="text-right ml-auto">
                                                             <ul className="flex">
 
                                                                 {filteredCategories01
                                                                     .filter((category) => category.id === video.id_category)
                                                                     .map((category) => (
-                                                                        <div key={category.id} className="mr-4 text-blue-800 text-xl font-bold">
+                                                                        <div
+                                                                            key={category.id}
+                                                                            className="mr-4 text-blue-800 text-xl font-bold"
+                                                                            onClick={() => CommentModal(video.cloudinary_id)}
+                                                                        >
                                                                             <button
-                                                                                className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-200 rounded-full hover:bg-gray-300"
+                                                                                className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
                                                                             >
                                                                                 {category.name}
                                                                             </button>
@@ -232,6 +259,7 @@ const StaffGroup02Page = () => {
                                         </div>
                                     </div>
                                 </div>
+                                {isSelectVideo === video.cloudinary_id && isCommentModal && <DescriptionPage value={video.description} />}
 
                             </div>
 
@@ -283,7 +311,7 @@ const StaffGroup02Page = () => {
                                             />
                                         </div>
                                         <div className="mt-2 w-full h-full">
-                                            <h1 className="font-bold text-xl">{video.title}</h1>
+                                            <h1 className="font-bold text-xl overflow-hidden line-clamp-1 mr-5 text-blue-900">{video.title} </h1>
                                             {filteredUsers02
                                                 .filter((user) => user.id === video.id_user)
                                                 .map((user) => (
@@ -294,7 +322,7 @@ const StaffGroup02Page = () => {
                                                             src={user.avatar}
                                                             sx={{ width: 50, height: 50 }}
                                                         />
-                                                        <span className="ml-2 text-md">{user.firstname + " " + user.lastname}</span>
+                                                        <span className="ml-2 font-bold max-w-[180px] overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
                                                         <button
                                                             className="w-[80px] h-[30px] ml-5 bg-red-200 text-black text-xs font-bold rounded-full hover:bg-gray-200">
                                                             Đăng ký
@@ -305,9 +333,13 @@ const StaffGroup02Page = () => {
                                                                 {filteredCategories02
                                                                     .filter((category) => category.id === video.id_category)
                                                                     .map((category) => (
-                                                                        <div key={category.id} className="mr-4 text-blue-800 text-xl font-bold">
+                                                                        <div
+                                                                            key={category.id}
+                                                                            className="mr-4 text-blue-800 text-xl font-bold"
+                                                                            onClick={() => CommentModal(video.cloudinary_id)}
+                                                                        >
                                                                             <button
-                                                                                className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-200 rounded-full hover:bg-gray-300"
+                                                                                className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
                                                                             >
                                                                                 {category.name}
                                                                             </button>
@@ -348,6 +380,7 @@ const StaffGroup02Page = () => {
                                         </div>
                                     </div>
                                 </div>
+                                {isSelectVideo === video.cloudinary_id && isCommentModal && <DescriptionPage value={video.description} />}
 
                             </div>
 
@@ -400,7 +433,7 @@ const StaffGroup02Page = () => {
                                             />
                                         </div>
                                         <div className="mt-2 w-full h-full">
-                                            <h1 className="font-bold text-xl">{video.title}</h1>
+                                            <h1 className="font-bold text-xl overflow-hidden line-clamp-1 mr-5 text-blue-900">{video.title} </h1>
                                             {filteredUsers03
                                                 .filter((user) => user.id === video.id_user)
                                                 .map((user) => (
@@ -411,7 +444,7 @@ const StaffGroup02Page = () => {
                                                             src={user.avatar}
                                                             sx={{ width: 50, height: 50 }}
                                                         />
-                                                        <span className="ml-2 text-md">{user.firstname + " " + user.lastname}</span>
+                                                        <span className="ml-2 font-bold max-w-[180px] overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
                                                         <button
                                                             className="w-[80px] h-[30px] ml-5 bg-red-200 text-black text-xs font-bold rounded-full hover:bg-gray-200">
                                                             Đăng ký
@@ -422,9 +455,13 @@ const StaffGroup02Page = () => {
                                                                 {filteredCategories03
                                                                     .filter((category) => category.id === video.id_category)
                                                                     .map((category) => (
-                                                                        <div key={category.id} className="mr-4 text-blue-800 text-xl font-bold">
+                                                                        <div
+                                                                            key={category.id}
+                                                                            className="mr-4 text-blue-800 text-xl font-bold"
+                                                                            onClick={() => CommentModal(video.cloudinary_id)}
+                                                                        >
                                                                             <button
-                                                                                className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-200 rounded-full hover:bg-gray-300"
+                                                                                className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
                                                                             >
                                                                                 {category.name}
                                                                             </button>
@@ -465,7 +502,7 @@ const StaffGroup02Page = () => {
                                         </div>
                                     </div>
                                 </div>
-
+                                {isSelectVideo === video.cloudinary_id && isCommentModal && <DescriptionPage value={video.description} />}
                             </div>
 
                             {/* <CommentPage /> */}

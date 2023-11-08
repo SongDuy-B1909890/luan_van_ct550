@@ -8,7 +8,8 @@ import CommentRoundedIcon from '@mui/icons-material/CommentRounded';
 import ReplyIcon from '@mui/icons-material/Reply';
 import FlagIcon from '@mui/icons-material/Flag';
 
-import CommentPage from './comment';
+//import CommentPage from './comment';
+import DescriptionPage from './description';
 
 const VideoPage = () => {
     const [videos, setVideos] = useState([]);
@@ -130,7 +131,11 @@ const VideoPage = () => {
                                                         {filteredCategories
                                                             .filter((category) => category.id === video.id_category)
                                                             .map((category) => (
-                                                                <li key={category.id} className="mr-4 text-blue-900 text-xl font-bold">
+                                                                <li
+                                                                    key={category.id}
+                                                                    className="mr-4 text-blue-900 text-xl font-bold"
+                                                                    onClick={() => CommentModal(video.cloudinary_id)}
+                                                                >
                                                                     <button
                                                                         className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
                                                                     >
@@ -139,15 +144,20 @@ const VideoPage = () => {
                                                                 </li>
 
                                                             ))}
-                                                        <li className="mr-4">
-                                                            <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 " title='Yêu thích'>
+                                                        <li
+                                                            className="mr-4"
+                                                        >
+                                                            <button
+                                                                className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 "
+                                                                title='Yêu thích'
+                                                            >
                                                                 <FavoriteRoundedIcon />
                                                             </button>
                                                         </li>
 
                                                         <li
                                                             className="mr-4"
-                                                            onClick={() => CommentModal(video.cloudinary_id)}
+
                                                         >
                                                             <button
                                                                 className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
@@ -158,15 +168,22 @@ const VideoPage = () => {
 
                                                         </li>
 
-                                                        <li className="mr-4">
+                                                        <li
+                                                            className="mr-4"
+                                                        >
                                                             <button
                                                                 className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 transform scale-x-[-1]">
                                                                 <ReplyIcon />
                                                             </button>
                                                         </li>
 
-                                                        <li className="">
-                                                            <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Báo cáo'>
+                                                        <li
+                                                            className=""
+                                                        >
+                                                            <button
+                                                                className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                title='Báo cáo'
+                                                            >
                                                                 <FlagIcon />
                                                             </button>
                                                         </li>
@@ -179,7 +196,8 @@ const VideoPage = () => {
                                 </div>
                             </div>
                         </div>
-                        {isSelectVideo === video.cloudinary_id && isCommentModal && <CommentPage />}
+                        {isSelectVideo === video.cloudinary_id && isCommentModal && <DescriptionPage value={video.description} />}
+
                     </div>
                 </div>
             ))}
