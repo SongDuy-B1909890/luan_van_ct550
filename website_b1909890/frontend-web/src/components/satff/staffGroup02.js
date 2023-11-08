@@ -31,7 +31,9 @@ const StaffGroup02Page = () => {
     const [filteredUsers02, setFilteredUsers02] = useState([]);
     const [filteredUsers03, setFilteredUsers03] = useState([]);
 
-    const [filteredCategories, setFilteredCategories] = useState([]);
+    const [filteredCategories01, setFilteredCategories01] = useState([]);
+    const [filteredCategories02, setFilteredCategories02] = useState([]);
+    const [filteredCategories03, setFilteredCategories03] = useState([]);
 
 
     useEffect(() => {
@@ -73,7 +75,6 @@ const StaffGroup02Page = () => {
                 // console.log(response.data);
                 const categoriesData = response.data;
                 setCategories(categoriesData);
-                console.log(categoriesData);
             })
             .catch((error) => {
                 console.error(error);
@@ -86,12 +87,15 @@ const StaffGroup02Page = () => {
         const filteredUsers = users.filter((user) =>
             videosStatus01.some((video) => video.id_user === user.id)
         );
+
+        setFilteredUsers01(filteredUsers);
+
         // Lọc danh mục dựa trên id_category của video
         const filteredCategories = categories.filter((category) =>
             videosStatus01.some((video) => video.id_category === category.id)
         );
-        setFilteredUsers01(filteredUsers);
-        setFilteredCategories(filteredCategories);
+
+        setFilteredCategories01(filteredCategories);
     }, [videosStatus01, users, categories]);
 
     // Giao đoạn tổ phản biện
@@ -101,7 +105,13 @@ const StaffGroup02Page = () => {
             videosStatus02.some((video) => video.id_user === user.id)
         );
         setFilteredUsers02(filteredUsers);
-    }, [videosStatus02, users]);
+
+        // Lọc danh mục dựa trên id_category của video
+        const filteredCategories = categories.filter((category) =>
+            videosStatus02.some((video) => video.id_category === category.id)
+        );
+        setFilteredCategories02(filteredCategories);
+    }, [videosStatus02, users, categories]);
 
     // Giao đoạn quản lý trưởng
     useEffect(() => {
@@ -110,7 +120,13 @@ const StaffGroup02Page = () => {
             videosStatus03.some((video) => video.id_user === user.id)
         );
         setFilteredUsers03(filteredUsers);
-    }, [videosStatus03, users]);
+
+        // Lọc danh mục dựa trên id_category của video
+        const filteredCategories = categories.filter((category) =>
+            videosStatus03.some((video) => video.id_category === category.id)
+        );
+        setFilteredCategories03(filteredCategories);
+    }, [videosStatus03, users, categories]);
 
     if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 02
         return (
@@ -170,16 +186,16 @@ const StaffGroup02Page = () => {
                                                         <div className="text-right ml-auto">
                                                             <ul className="flex">
 
-                                                                {filteredCategories
+                                                                {filteredCategories01
                                                                     .filter((category) => category.id === video.id_category)
                                                                     .map((category) => (
-                                                                        <li className="mr-4 text-blue-800 text-xl font-bold">
+                                                                        <div key={category.id} className="mr-4 text-blue-800 text-xl font-bold">
                                                                             <button
-                                                                                className="min-w-[150px] max-w-[150px] h-[50px] bg-gray-200 rounded-full hover:bg-gray-200"
+                                                                                className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-200 rounded-full hover:bg-gray-300"
                                                                             >
                                                                                 {category.name}
                                                                             </button>
-                                                                        </li>
+                                                                        </div>
 
                                                                     ))}
 
@@ -286,16 +302,16 @@ const StaffGroup02Page = () => {
                                                         <div className="text-right ml-auto">
                                                             <ul className="flex">
 
-                                                                {filteredCategories
+                                                                {filteredCategories02
                                                                     .filter((category) => category.id === video.id_category)
                                                                     .map((category) => (
-                                                                        <li className="mr-4 text-blue-800 text-xl font-bold">
+                                                                        <div key={category.id} className="mr-4 text-blue-800 text-xl font-bold">
                                                                             <button
-                                                                                className="min-w-[150px] max-w-[150px] h-[50px] bg-gray-200 rounded-full hover:bg-gray-200"
+                                                                                className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-200 rounded-full hover:bg-gray-300"
                                                                             >
                                                                                 {category.name}
                                                                             </button>
-                                                                        </li>
+                                                                        </div>
 
                                                                     ))}
 
@@ -403,16 +419,16 @@ const StaffGroup02Page = () => {
                                                         <div className="text-right ml-auto">
                                                             <ul className="flex">
 
-                                                                {filteredCategories
+                                                                {filteredCategories03
                                                                     .filter((category) => category.id === video.id_category)
                                                                     .map((category) => (
-                                                                        <li className="mr-4 text-blue-800 text-xl font-bold">
+                                                                        <div key={category.id} className="mr-4 text-blue-800 text-xl font-bold">
                                                                             <button
-                                                                                className="min-w-[150px] max-w-[150px] h-[50px] bg-gray-200 rounded-full hover:bg-gray-200"
+                                                                                className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-200 rounded-full hover:bg-gray-300"
                                                                             >
                                                                                 {category.name}
                                                                             </button>
-                                                                        </li>
+                                                                        </div>
 
                                                                     ))}
 
