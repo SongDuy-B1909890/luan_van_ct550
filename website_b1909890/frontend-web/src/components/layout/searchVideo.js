@@ -15,8 +15,12 @@ const title = localStorage.getItem('title');
 
 const SearchVideoPage = () => {
     const [videos, setVideos] = useState([]);
+
     const [users, setUsers] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
+
+    const [categories, setCategories] = useState([]);
+    const [filteredCategories, setFilteredCategories] = useState([]);
 
     useEffect(() => {
         axios
@@ -40,6 +44,17 @@ const SearchVideoPage = () => {
             .catch((error) => {
                 console.error(error);
             });
+
+        axios
+            .get('http://localhost:5000/api/admin/categories')
+            .then((response) => {
+                // console.log(response.data);
+                const categoriesData = response.data;
+                setCategories(categoriesData);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }, []);
 
     useEffect(() => {
@@ -48,16 +63,22 @@ const SearchVideoPage = () => {
             videos.some((video) => video.id_user === user.id)
         );
         setFilteredUsers(filteredUsers);
-    }, [videos, users]);
+
+        // Lọc danh mục dựa trên id_category của video
+        const filteredCategories = categories.filter((category) =>
+            videos.some((video) => video.id_category === category.id)
+        );
+        setFilteredCategories(filteredCategories);
+    }, [videos, users, categories]);
 
     return (
         <div>
             <HeaderPage />
             <div className="w-full h-full overflow-auto bg-white mt-[70px]">
                 {videos.map((video, index) => (
-                    <div className="flex justify-center items-center" key={index}>
+                    <div key={index} className="flex justify-center items-center" >
                         <div className="flex flex-wrap justify-center items-center mb-8">
-                            <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl border shadow">
+                            <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] px-5 bg-white rouder-xl flex justify-center rounded-2xl border shadow">
                                 <div className="overflow-hidden" >
 
                                     <div className="mt-5" >
@@ -72,7 +93,7 @@ const SearchVideoPage = () => {
                                         />
                                     </div>
                                     <div className="mt-2 w-full h-full">
-                                        <h1 className="font-bold text-xl">{video.title}</h1>
+                                        <h1 className="font-bold text-xl overflow-hidden line-clamp-1 mr-5">{video.title}</h1>
                                         {filteredUsers
                                             .filter((user) => user.id === video.id_user)
                                             .map((user) => (
@@ -90,7 +111,18 @@ const SearchVideoPage = () => {
                                                     </button>
                                                     <div className="text-right ml-auto">
                                                         <ul className="flex">
+                                                            {filteredCategories
+                                                                .filter((category) => category.id === video.id_category)
+                                                                .map((category) => (
+                                                                    <li key={category.id} className="mr-4 text-blue-800 text-xl font-bold">
+                                                                        <button
+                                                                            className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-200 rounded-full hover:bg-gray-300"
+                                                                        >
+                                                                            {category.name}
+                                                                        </button>
+                                                                    </li>
 
+                                                                ))}
                                                             <li className="mr-4">
                                                                 <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 " title='Yêu thích'>
                                                                     <FavoriteRoundedIcon />

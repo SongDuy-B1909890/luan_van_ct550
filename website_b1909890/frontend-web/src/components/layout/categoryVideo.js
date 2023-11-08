@@ -77,9 +77,9 @@ const CategoryVideoPage = () => {
             <HeaderPage />
             <div className="w-full h-full overflow-auto bg-white mt-[70px]">
                 {videos.map((video, index) => (
-                    <div className="flex justify-center items-center" key={index}>
+                    <div key={index} className="flex justify-center items-center" >
                         <div className="flex flex-wrap justify-center items-center mb-8">
-                            <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl border shadow">
+                            <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] px-5 bg-white rouder-xl flex justify-center rounded-2xl border shadow">
                                 <div className="overflow-hidden" >
 
                                     <div className="mt-5" >
@@ -94,7 +94,7 @@ const CategoryVideoPage = () => {
                                         />
                                     </div>
                                     <div className="mt-2 w-full h-full">
-                                        <h1 className="font-bold text-xl">{video.title}</h1>
+                                        <h1 className="font-bold text-xl overflow-hidden line-clamp-1 mr-5">{video.title} </h1>
                                         {filteredUsers
                                             .filter((user) => user.id === video.id_user)
                                             .map((user) => (
