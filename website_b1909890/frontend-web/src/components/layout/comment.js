@@ -2,7 +2,7 @@ import React from 'react';
 
 const CommentPage = () => {
     return (
-        <div className="flex justify-center items-center mb-8 w-[450px] h-[675px] bg-white rounded-xl border shadow">
+        <div className="flex justify-center w-[450px] h-[675px] bg-white rounded-xl border shadow">
 
         </div>
     );
