@@ -22,8 +22,17 @@ const StaffGroup02Page = () => {
     const [videosStatus01, setVideosStatus01] = useState([]);
     const [videosStatus02, setVideosStatus02] = useState([]);
     const [videosStatus03, setVideosStatus03] = useState([]);
+
     const [users, setUsers] = useState([]);
-    const [filteredUsers, setFilteredUsers] = useState([]);
+
+    const [categories, setCategories] = useState([]);
+
+    const [filteredUsers01, setFilteredUsers01] = useState([]);
+    const [filteredUsers02, setFilteredUsers02] = useState([]);
+    const [filteredUsers03, setFilteredUsers03] = useState([]);
+
+    const [filteredCategories, setFilteredCategories] = useState([]);
+
 
     useEffect(() => {
         axios
@@ -57,6 +66,18 @@ const StaffGroup02Page = () => {
             .catch((error) => {
                 console.error(error);
             });
+
+        axios
+            .get('http://localhost:5000/api/admin/categories')
+            .then((response) => {
+                // console.log(response.data);
+                const categoriesData = response.data;
+                setCategories(categoriesData);
+                console.log(categoriesData);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }, []);
 
     // Giao đoạn nhân viên sơ tuyển
@@ -65,8 +86,13 @@ const StaffGroup02Page = () => {
         const filteredUsers = users.filter((user) =>
             videosStatus01.some((video) => video.id_user === user.id)
         );
-        setFilteredUsers(filteredUsers);
-    }, [videosStatus01, users]);
+        // Lọc danh mục dựa trên id_category của video
+        const filteredCategories = categories.filter((category) =>
+            videosStatus01.some((video) => video.id_category === category.id)
+        );
+        setFilteredUsers01(filteredUsers);
+        setFilteredCategories(filteredCategories);
+    }, [videosStatus01, users, categories]);
 
     // Giao đoạn tổ phản biện
     useEffect(() => {
@@ -74,7 +100,7 @@ const StaffGroup02Page = () => {
         const filteredUsers = users.filter((user) =>
             videosStatus02.some((video) => video.id_user === user.id)
         );
-        setFilteredUsers(filteredUsers);
+        setFilteredUsers02(filteredUsers);
     }, [videosStatus02, users]);
 
     // Giao đoạn quản lý trưởng
@@ -83,7 +109,7 @@ const StaffGroup02Page = () => {
         const filteredUsers = users.filter((user) =>
             videosStatus03.some((video) => video.id_user === user.id)
         );
-        setFilteredUsers(filteredUsers);
+        setFilteredUsers03(filteredUsers);
     }, [videosStatus03, users]);
 
     if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 02
@@ -129,7 +155,7 @@ const StaffGroup02Page = () => {
                                         </div>
                                         <div className="mt-2 w-full h-full">
                                             <h1 className="font-bold text-xl">{video.title}</h1>
-                                            {filteredUsers
+                                            {filteredUsers01
                                                 .filter((user) => user.id === video.id_user)
                                                 .map((user) => (
                                                     <div key={user.id} className="flex items-center mt-3">
@@ -140,37 +166,47 @@ const StaffGroup02Page = () => {
                                                             sx={{ width: 50, height: 50 }}
                                                         />
                                                         <span className="ml-2 text-md">{user.firstname + " " + user.lastname}</span>
-                                                        <button
-                                                            className="w-[80px] h-[30px] ml-5 bg-red-200 text-black text-xs font-bold rounded-full hover:bg-gray-200">
-                                                            Đăng ký
-                                                        </button>
+
                                                         <div className="text-right ml-auto">
                                                             <ul className="flex">
 
+                                                                {filteredCategories
+                                                                    .filter((category) => category.id === video.id_category)
+                                                                    .map((category) => (
+                                                                        <li className="mr-4 text-blue-800 text-xl font-bold">
+                                                                            <button
+                                                                                className="min-w-[150px] max-w-[150px] h-[50px] bg-gray-200 rounded-full hover:bg-gray-200"
+                                                                            >
+                                                                                {category.name}
+                                                                            </button>
+                                                                        </li>
+
+                                                                    ))}
+
                                                                 <li className="mr-4">
-                                                                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 " title='Yêu thích'>
+                                                                    <button
+                                                                        className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 " title='Yêu thích'
+                                                                    >
                                                                         <FavoriteRoundedIcon />
                                                                     </button>
                                                                 </li>
 
                                                                 <li className="mr-4">
-                                                                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Bình luận'>
+                                                                    <button
+                                                                        className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Bình luận'
+                                                                    >
                                                                         <CommentRoundedIcon />
                                                                     </button>
                                                                 </li>
 
                                                                 <li className="mr-4">
                                                                     <button
-                                                                        className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 transform scale-x-[-1]">
+                                                                        className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 transform scale-x-[-1]"
+                                                                    >
                                                                         <ReplyIcon />
                                                                     </button>
                                                                 </li>
 
-                                                                <li className="">
-                                                                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Báo cáo'>
-                                                                        <FlagIcon />
-                                                                    </button>
-                                                                </li>
 
                                                             </ul>
 
@@ -232,7 +268,7 @@ const StaffGroup02Page = () => {
                                         </div>
                                         <div className="mt-2 w-full h-full">
                                             <h1 className="font-bold text-xl">{video.title}</h1>
-                                            {filteredUsers
+                                            {filteredUsers02
                                                 .filter((user) => user.id === video.id_user)
                                                 .map((user) => (
                                                     <div key={user.id} className="flex items-center mt-3">
@@ -249,6 +285,19 @@ const StaffGroup02Page = () => {
                                                         </button>
                                                         <div className="text-right ml-auto">
                                                             <ul className="flex">
+
+                                                                {filteredCategories
+                                                                    .filter((category) => category.id === video.id_category)
+                                                                    .map((category) => (
+                                                                        <li className="mr-4 text-blue-800 text-xl font-bold">
+                                                                            <button
+                                                                                className="min-w-[150px] max-w-[150px] h-[50px] bg-gray-200 rounded-full hover:bg-gray-200"
+                                                                            >
+                                                                                {category.name}
+                                                                            </button>
+                                                                        </li>
+
+                                                                    ))}
 
                                                                 <li className="mr-4">
                                                                     <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 " title='Yêu thích'>
@@ -336,7 +385,7 @@ const StaffGroup02Page = () => {
                                         </div>
                                         <div className="mt-2 w-full h-full">
                                             <h1 className="font-bold text-xl">{video.title}</h1>
-                                            {filteredUsers
+                                            {filteredUsers03
                                                 .filter((user) => user.id === video.id_user)
                                                 .map((user) => (
                                                     <div key={user.id} className="flex items-center mt-3">
@@ -353,6 +402,19 @@ const StaffGroup02Page = () => {
                                                         </button>
                                                         <div className="text-right ml-auto">
                                                             <ul className="flex">
+
+                                                                {filteredCategories
+                                                                    .filter((category) => category.id === video.id_category)
+                                                                    .map((category) => (
+                                                                        <li className="mr-4 text-blue-800 text-xl font-bold">
+                                                                            <button
+                                                                                className="min-w-[150px] max-w-[150px] h-[50px] bg-gray-200 rounded-full hover:bg-gray-200"
+                                                                            >
+                                                                                {category.name}
+                                                                            </button>
+                                                                        </li>
+
+                                                                    ))}
 
                                                                 <li className="mr-4">
                                                                     <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 " title='Yêu thích'>
