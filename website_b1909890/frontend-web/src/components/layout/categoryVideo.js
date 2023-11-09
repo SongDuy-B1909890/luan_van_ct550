@@ -26,7 +26,7 @@ const CategoryVideoPage = () => {
 
     useEffect(() => {
         axios
-            .get('http://localhost:5000/api/videos')
+            .get('http://localhost:5000/api/acceptedVideos')
             .then((response) => {
                 // console.log(response.data);
                 const videosData = response.data;

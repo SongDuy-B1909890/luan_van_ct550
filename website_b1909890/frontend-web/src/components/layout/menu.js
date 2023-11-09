@@ -36,7 +36,7 @@ const MenuPage = ({ closeModal }) => {
 
     const handleCategoryClick = (categoryId,) => {
         localStorage.setItem('id_category', categoryId);
-        window.location.href = '/category/' + categoryId;
+        window.location.href = '/category/id:' + categoryId;
 
     };
 

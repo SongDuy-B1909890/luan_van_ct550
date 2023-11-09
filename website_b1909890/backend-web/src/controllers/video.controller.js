@@ -179,6 +179,33 @@ const videos = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+const acceptedVideos = async (req, res) => {
+    try {
+        const snapshot = await get(child(dbRef, 'videos'));
+        if (snapshot.exists()) {
+            const videoList = [];
+            snapshot.forEach((childSnapshot) => {
+                const video = childSnapshot.val();
+                videoList.push(video);
+            });
+
+            // Lọc danh sách video với status === "chấp nhận"
+            const acceptedVideosList = videoList.filter(video => video.status === "chấp nhận");
+
+            if (acceptedVideosList.length > 0) {
+                res.status(200).json(acceptedVideosList);
+            } else {
+                res.status(404).json({ message: 'No accepted videos available' });
+            }
+        } else {
+            res.status(404).json({ message: 'No data available' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 // // Danh sách từ mới đến củ
 // const videos = async (req, res) => {
 //     try {
@@ -211,86 +238,6 @@ const videos = async (req, res) => {
 //     const [day, month, year] = dateString.split('/');
 //     return `${month}/${day}/${year}`;
 // };
-
-const videosStatus01 = async (req, res) => {
-    try {
-        const snapshot = await get(child(dbRef, 'videos'));
-        if (snapshot.exists()) {
-            const videoList = [];
-            snapshot.forEach((childSnapshot) => {
-                const video = childSnapshot.val();
-                if (video.status === 'chờ xem xét') {
-                    videoList.push(video);
-                }
-            });
-            res.status(200).json(videoList);
-        } else {
-            res.status(404).json({ message: 'No data available' });
-        }
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-const videosStatus02 = async (req, res) => {
-    try {
-        const snapshot = await get(child(dbRef, 'videos'));
-        if (snapshot.exists()) {
-            const videoList = [];
-            snapshot.forEach((childSnapshot) => {
-                const video = childSnapshot.val();
-                if (video.status === 'xem xét') {
-                    videoList.push(video);
-                }
-            });
-            res.status(200).json(videoList);
-        } else {
-            res.status(404).json({ message: 'No data available' });
-        }
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-const videosStatus03 = async (req, res) => {
-    try {
-        const snapshot = await get(child(dbRef, 'videos'));
-        if (snapshot.exists()) {
-            const videoList = [];
-            snapshot.forEach((childSnapshot) => {
-                const video = childSnapshot.val();
-                if (video.status === 'phản biện') {
-                    videoList.push(video);
-                }
-            });
-            res.status(200).json(videoList);
-        } else {
-            res.status(404).json({ message: 'No data available' });
-        }
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-const videosStatus04 = async (req, res) => {
-    try {
-        const snapshot = await get(child(dbRef, 'videos'));
-        if (snapshot.exists()) {
-            const videoList = [];
-            snapshot.forEach((childSnapshot) => {
-                const video = childSnapshot.val();
-                if (video.status === 'xác nhận') {
-                    videoList.push(video);
-                }
-            });
-            res.status(200).json(videoList);
-        } else {
-            res.status(404).json({ message: 'No data available' });
-        }
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
 
 const changeVideoStatus = async (req, res) => {
     try {
@@ -354,10 +301,7 @@ const searchVideosByTitle = async (req, res) => {
 module.exports = {
     uploadVideo,
     videos,
-    videosStatus01,
-    videosStatus02,
-    videosStatus03,
-    videosStatus04,
+    acceptedVideos,
     changeVideoStatus,
     deleteVideoAndContent,
     searchVideosByTitle,

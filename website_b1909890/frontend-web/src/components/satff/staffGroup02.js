@@ -199,8 +199,8 @@ const StaffGroup02Page = () => {
                 .put('http://localhost:5000/api/admin/video/changeStatus', values)
                 .then((response) => {
                     console.log(response.data);
-                    alert('Chấp nhận nội dung danh mục thành công');
-                    window.location.href = '/staff/group02'; // Sử dụng history để chuyển hướng 
+                    alert('Chấp nhận nội dung theo danh mục thành công');
+                    window.location.href = '/staff/group02/id:' + staff.id; // Sử dụng history để chuyển hướng 
 
                 })
                 .catch((error) => {
@@ -577,7 +577,6 @@ const StaffGroup02Page = () => {
                                                                         </div>
                                                                     ))}
                                                             </ul>
-
                                                         </div>
                                                     </div>
                                                 ))}
