@@ -4,12 +4,9 @@ import axios from 'axios';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
-import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
-import CommentRoundedIcon from '@mui/icons-material/CommentRounded';
-import ReplyIcon from '@mui/icons-material/Reply';
-import FlagIcon from '@mui/icons-material/Flag';
+import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined';
 
-//import CommentPage from '../layout/comment';
+import StandardPage from '../layout/standard';
 import DescriptionPage from '../layout/description';
 
 const staffString = localStorage.getItem('staff');
@@ -131,25 +128,54 @@ const StaffGroup02Page = () => {
         setFilteredCategories03(filteredCategories);
     }, [videosStatus03, users, categories]);
 
-    const [isSelectVideo, setIsSelectVideo] = useState(null);
-    const [isCommentModal, setIsCommentModal] = useState(false);
-    const CommentModal = (videoId) => {
+    const [isSelectVideoDescription, setIsSelectVideoDescription] = useState(null);
+    const [isSelectVideoStandard, setIsSelectVideoStandard] = useState(null);
 
-        if (isCommentModal === false) {
+    const [isDescriptionModal, setIsDescriptionModal] = useState(false);
+    const [isStandardModal, setIsStandardModal] = useState(false);
+
+    const DescriptionModal = (videoId) => {
+
+        if (isDescriptionModal === false) {
             //console.log(videoId);
-            setIsSelectVideo(videoId);
-            setIsCommentModal(true);
+            setIsSelectVideoDescription(videoId);
+            setIsDescriptionModal(true);
+            setIsStandardModal(false);
         }
-        if (isCommentModal === true) {
+        if (isDescriptionModal === true) {
             //  console.log(videoId);
-            setIsSelectVideo(videoId);
-            setIsCommentModal(true);
+            setIsSelectVideoDescription(videoId);
+            setIsDescriptionModal(true);
+            setIsStandardModal(false);
         }
-        if (isCommentModal === true && isSelectVideo === videoId) {
+        if (isDescriptionModal === true && isSelectVideoDescription === videoId) {
             //console.log(videoId);
-            setIsSelectVideo(videoId);
-            setIsCommentModal(false);
+            setIsSelectVideoDescription(null);
+            setIsDescriptionModal(false);
         }
+    };
+    const [isVideoStandard, setIsVideoStandard] = useState(null);
+    const StandardModal = (videoId, videoStandard) => {
+
+        if (isStandardModal === false) {
+            //console.log(videoId);
+            setIsSelectVideoStandard(videoId);
+            setIsStandardModal(true);
+            setIsDescriptionModal(false);
+        }
+        if (isStandardModal === true) {
+            //  console.log(videoId);
+            setIsSelectVideoStandard(videoId);
+            setIsStandardModal(true);
+            setIsDescriptionModal(false);
+        }
+        if (isStandardModal === true && isSelectVideoStandard === videoId) {
+            //console.log(videoId);
+            setIsSelectVideoStandard(null);
+            setIsStandardModal(false);
+        }
+
+        setIsVideoStandard(videoStandard);
     };
 
     if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 02
@@ -214,41 +240,50 @@ const StaffGroup02Page = () => {
                                                                     .map((category) => (
                                                                         <div
                                                                             key={category.id}
-                                                                            className="mr-4 text-blue-800 text-xl font-bold"
-                                                                            onClick={() => CommentModal(video.cloudinary_id)}
+                                                                            className=" flex mr-auto"
                                                                         >
-                                                                            <button
-                                                                                className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                            <li
+                                                                                className="mr-4 text-blue-800 text-xl font-bold"
+                                                                                onClick={() => DescriptionModal(video.cloudinary_id)}
                                                                             >
-                                                                                {category.name}
-                                                                            </button>
+                                                                                <button
+                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                                >
+                                                                                    {category.name}
+                                                                                </button>
+                                                                            </li>
+
+                                                                            <li
+                                                                                className="mr-0"
+                                                                                onClick={() => StandardModal(video.cloudinary_id, category.description)}
+                                                                            >
+                                                                                <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Tiêu chuẩn nội dung danh mục'>
+                                                                                    <GavelOutlinedIcon />
+                                                                                </button>
+                                                                            </li>
+
+                                                                            <li
+                                                                                className="mr-4 text-white text-xl font-bold"
+                                                                            //onClick={() => DescriptionModal(video.cloudinary_id)}
+                                                                            >
+                                                                                <button
+                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-blue-900 rounded-full hover:bg-yellow-600"
+                                                                                >
+                                                                                    Chấp nhận
+                                                                                </button>
+                                                                            </li>
+                                                                            <li
+                                                                                className="mr-auto text-white text-xl font-bold"
+                                                                            //onClick={() => DescriptionModal(video.cloudinary_id)}
+                                                                            >
+                                                                                <button
+                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-red-900 rounded-full hover:bg-yellow-600"
+                                                                                >
+                                                                                    Loại
+                                                                                </button>
+                                                                            </li>
                                                                         </div>
-
                                                                     ))}
-
-                                                                <li className="mr-4">
-                                                                    <button
-                                                                        className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 " title='Yêu thích'
-                                                                    >
-                                                                        <FavoriteRoundedIcon />
-                                                                    </button>
-                                                                </li>
-
-                                                                <li className="mr-4">
-                                                                    <button
-                                                                        className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Bình luận'
-                                                                    >
-                                                                        <CommentRoundedIcon />
-                                                                    </button>
-                                                                </li>
-
-                                                                <li className="mr-4">
-                                                                    <button
-                                                                        className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 transform scale-x-[-1]"
-                                                                    >
-                                                                        <ReplyIcon />
-                                                                    </button>
-                                                                </li>
 
 
                                                             </ul>
@@ -259,11 +294,9 @@ const StaffGroup02Page = () => {
                                         </div>
                                     </div>
                                 </div>
-                                {isSelectVideo === video.cloudinary_id && isCommentModal && <DescriptionPage value={video.description} />}
-
+                                {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage value={video.description} />}
+                                {isSelectVideoStandard === video.cloudinary_id && isStandardModal && <StandardPage value={isVideoStandard} />}
                             </div>
-
-                            {/* <CommentPage /> */}
                         </div>
                     ))}
                 </div>
@@ -323,10 +356,6 @@ const StaffGroup02Page = () => {
                                                             sx={{ width: 50, height: 50 }}
                                                         />
                                                         <span className="ml-2 font-bold max-w-[180px] overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
-                                                        <button
-                                                            className="w-[80px] h-[30px] ml-5 bg-red-200 text-black text-xs font-bold rounded-full hover:bg-gray-200">
-                                                            Đăng ký
-                                                        </button>
                                                         <div className="text-right ml-auto">
                                                             <ul className="flex">
 
@@ -335,43 +364,51 @@ const StaffGroup02Page = () => {
                                                                     .map((category) => (
                                                                         <div
                                                                             key={category.id}
-                                                                            className="mr-4 text-blue-800 text-xl font-bold"
-                                                                            onClick={() => CommentModal(video.cloudinary_id)}
+                                                                            className="flex mr-auto"
                                                                         >
-                                                                            <button
-                                                                                className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                            <li
+
+                                                                                className="mr-4 text-blue-800 text-xl font-bold"
+                                                                                onClick={() => DescriptionModal(video.cloudinary_id)}
                                                                             >
-                                                                                {category.name}
-                                                                            </button>
+                                                                                <button
+                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                                >
+                                                                                    {category.name}
+                                                                                </button>
+                                                                            </li>
+
+                                                                            <li
+                                                                                className="mr-4"
+                                                                                onClick={() => StandardModal(video.cloudinary_id, category.description)}
+                                                                            >
+                                                                                <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Tiêu chuẩn nội dung danh mục'>
+                                                                                    <GavelOutlinedIcon />
+                                                                                </button>
+                                                                            </li>
+
+                                                                            <li
+                                                                                className="mr-4 text-white text-xl font-bold"
+                                                                            //onClick={() => DescriptionModal(video.cloudinary_id)}
+                                                                            >
+                                                                                <button
+                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-blue-900 rounded-full hover:bg-yellow-600"
+                                                                                >
+                                                                                    Chấp nhận
+                                                                                </button>
+                                                                            </li>
+                                                                            <li
+                                                                                className="mr-auto text-white text-xl font-bold"
+                                                                            //onClick={() => DescriptionModal(video.cloudinary_id)}
+                                                                            >
+                                                                                <button
+                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-red-900 rounded-full hover:bg-yellow-600"
+                                                                                >
+                                                                                    Loại
+                                                                                </button>
+                                                                            </li>
                                                                         </div>
-
                                                                     ))}
-
-                                                                <li className="mr-4">
-                                                                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 " title='Yêu thích'>
-                                                                        <FavoriteRoundedIcon />
-                                                                    </button>
-                                                                </li>
-
-                                                                <li className="mr-4">
-                                                                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Bình luận'>
-                                                                        <CommentRoundedIcon />
-                                                                    </button>
-                                                                </li>
-
-                                                                <li className="mr-4">
-                                                                    <button
-                                                                        className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 transform scale-x-[-1]">
-                                                                        <ReplyIcon />
-                                                                    </button>
-                                                                </li>
-
-                                                                <li className="">
-                                                                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Báo cáo'>
-                                                                        <FlagIcon />
-                                                                    </button>
-                                                                </li>
-
                                                             </ul>
 
                                                         </div>
@@ -380,11 +417,9 @@ const StaffGroup02Page = () => {
                                         </div>
                                     </div>
                                 </div>
-                                {isSelectVideo === video.cloudinary_id && isCommentModal && <DescriptionPage value={video.description} />}
-
+                                {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage value={video.description} />}
+                                {isSelectVideoStandard === video.cloudinary_id && isStandardModal && <StandardPage value={isVideoStandard} />}
                             </div>
-
-                            {/* <CommentPage /> */}
                         </div>
                     ))}
                 </div>
@@ -445,10 +480,6 @@ const StaffGroup02Page = () => {
                                                             sx={{ width: 50, height: 50 }}
                                                         />
                                                         <span className="ml-2 font-bold max-w-[180px] overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
-                                                        <button
-                                                            className="w-[80px] h-[30px] ml-5 bg-red-200 text-black text-xs font-bold rounded-full hover:bg-gray-200">
-                                                            Đăng ký
-                                                        </button>
                                                         <div className="text-right ml-auto">
                                                             <ul className="flex">
 
@@ -457,43 +488,51 @@ const StaffGroup02Page = () => {
                                                                     .map((category) => (
                                                                         <div
                                                                             key={category.id}
-                                                                            className="mr-4 text-blue-800 text-xl font-bold"
-                                                                            onClick={() => CommentModal(video.cloudinary_id)}
+                                                                            className="flex mr-auto"
                                                                         >
-                                                                            <button
-                                                                                className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                            <li
+
+                                                                                className="mr-4 text-blue-800 text-xl font-bold"
+                                                                                onClick={() => DescriptionModal(video.cloudinary_id)}
                                                                             >
-                                                                                {category.name}
-                                                                            </button>
+                                                                                <button
+                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                                >
+                                                                                    {category.name}
+                                                                                </button>
+                                                                            </li>
+
+                                                                            <li
+                                                                                className=""
+                                                                                onClick={() => StandardModal(video.cloudinary_id, category.description)}
+                                                                            >
+                                                                                <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Tiêu chuẩn nội dung danh mục'>
+                                                                                    <GavelOutlinedIcon />
+                                                                                </button>
+                                                                            </li>
+
+                                                                            <li
+                                                                                className="mr-4 text-white text-xl font-bold"
+                                                                            //onClick={() => DescriptionModal(video.cloudinary_id)}
+                                                                            >
+                                                                                <button
+                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-blue-900 rounded-full hover:bg-gray-800"
+                                                                                >
+                                                                                    Chấp nhận
+                                                                                </button>
+                                                                            </li>
+                                                                            <li
+                                                                                className="mr-auto text-white text-xl font-bold"
+                                                                            //onClick={() => DescriptionModal(video.cloudinary_id)}
+                                                                            >
+                                                                                <button
+                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-red-900 rounded-full hover:bg-gray-800"
+                                                                                >
+                                                                                    Loại
+                                                                                </button>
+                                                                            </li>
                                                                         </div>
-
                                                                     ))}
-
-                                                                <li className="mr-4">
-                                                                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 " title='Yêu thích'>
-                                                                        <FavoriteRoundedIcon />
-                                                                    </button>
-                                                                </li>
-
-                                                                <li className="mr-4">
-                                                                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Bình luận'>
-                                                                        <CommentRoundedIcon />
-                                                                    </button>
-                                                                </li>
-
-                                                                <li className="mr-4">
-                                                                    <button
-                                                                        className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 transform scale-x-[-1]">
-                                                                        <ReplyIcon />
-                                                                    </button>
-                                                                </li>
-
-                                                                <li className="">
-                                                                    <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Báo cáo'>
-                                                                        <FlagIcon />
-                                                                    </button>
-                                                                </li>
-
                                                             </ul>
 
                                                         </div>
@@ -502,10 +541,9 @@ const StaffGroup02Page = () => {
                                         </div>
                                     </div>
                                 </div>
-                                {isSelectVideo === video.cloudinary_id && isCommentModal && <DescriptionPage value={video.description} />}
+                                {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage value={video.description} />}
+                                {isSelectVideoStandard === video.cloudinary_id && isStandardModal && <StandardPage value={isVideoStandard} />}
                             </div>
-
-                            {/* <CommentPage /> */}
                         </div>
                     ))}
                 </div>

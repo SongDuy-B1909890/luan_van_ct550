@@ -116,7 +116,7 @@ const CategoryVideoPage = () => {
             setIsDescriptionModal(false);
         }
         if (isCommentModal === true && isSelectVideoComment === videoId) {
-            console.log(videoId);
+            //console.log(videoId);
             setIsSelectVideoComment(null);
             setIsCommentModal(false);
         }

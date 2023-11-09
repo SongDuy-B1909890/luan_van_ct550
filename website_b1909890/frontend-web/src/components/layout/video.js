@@ -90,7 +90,7 @@ const VideoPage = () => {
             setIsCommentModal(false);
         }
         if (isDescriptionModal === true && isSelectVideoDescription === videoId) {
-            console.log(videoId);
+            //console.log(videoId);
             setIsSelectVideoDescription(null);
             setIsDescriptionModal(false);
         }
@@ -111,7 +111,7 @@ const VideoPage = () => {
             setIsDescriptionModal(false);
         }
         if (isCommentModal === true && isSelectVideoComment === videoId) {
-            console.log(videoId);
+            //console.log(videoId);
             setIsSelectVideoComment(null);
             setIsCommentModal(false);
         }
