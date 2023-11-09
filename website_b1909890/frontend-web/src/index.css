@@ -32,3 +32,24 @@ code {
 .modal-comment {
   display: none;
 }
+
+.custom-scrollbar {
+  overflow: auto;
+}
+
+.custom-scrollbar-content {
+  padding-right: 20px; /* Khoảng trống giữa nội dung và thanh cuộn */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 4px;
+}

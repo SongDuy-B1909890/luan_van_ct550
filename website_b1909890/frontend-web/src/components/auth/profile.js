@@ -26,7 +26,7 @@ const ProfilePage = () => {
                 .put('http://localhost:5000/api/changeProfile', values)
                 .then((response) => {
                     // Xử lý thành công
-                    console.log(response.data);
+                    //console.log(response.data);
                     // Hiển thị thông báo cập nhật thành công
                     alert('Cập nhật thành công')
                     localStorage.setItem('user', JSON.stringify(response.data.user));
