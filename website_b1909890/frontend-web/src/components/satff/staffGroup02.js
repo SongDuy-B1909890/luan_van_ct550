@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player/lazy';
 import axios from 'axios';
+import { useFormik } from "formik"
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
@@ -178,6 +179,36 @@ const StaffGroup02Page = () => {
         setIsVideoStandard(videoStandard);
     };
 
+    const ChangeVideoStatus = (cloudinaryId, status) => {
+        formik.setValues({
+            cloudinary_id: cloudinaryId, // Gán giá trị cho cloudinary_id
+            status: status, // Gán giá trị cho status
+        });
+        formik.handleSubmit(); // Gọi hàm handleSubmit để gửi dữ liệu
+    };
+
+    const formik = useFormik({
+        initialValues: {
+            cloudinary_id: '',
+            status: '',
+        },
+        enableReinitialize: true, // Thêm dòng này
+        onSubmit: (values) => {
+            console.log(values.cloudinary_id)
+            axios
+                .put('http://localhost:5000/api/admin/video/changeStatus', values)
+                .then((response) => {
+                    console.log(response.data);
+                    alert('Chấp nhận nội dung danh mục thành công');
+                    window.location.href = '/staff/group02'; // Sử dụng history để chuyển hướng 
+
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+    });
+
     if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 02
         return (
             <div>
@@ -231,7 +262,7 @@ const StaffGroup02Page = () => {
                                                             src={user.avatar}
                                                             sx={{ width: 50, height: 50 }}
                                                         />
-                                                        <span className="ml-2 font-bold max-w-[180px] overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                        <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
                                                         <div className="text-right ml-auto">
                                                             <ul className="flex">
 
@@ -254,7 +285,7 @@ const StaffGroup02Page = () => {
                                                                             </li>
 
                                                                             <li
-                                                                                className="mr-0"
+                                                                                className="mr-4"
                                                                                 onClick={() => StandardModal(video.cloudinary_id, category.description)}
                                                                             >
                                                                                 <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Tiêu chuẩn nội dung danh mục'>
@@ -264,14 +295,18 @@ const StaffGroup02Page = () => {
 
                                                                             <li
                                                                                 className="mr-4 text-white text-xl font-bold"
-                                                                            //onClick={() => DescriptionModal(video.cloudinary_id)}
+
+                                                                                onSubmit={formik.handleSubmit}
                                                                             >
                                                                                 <button
+                                                                                    type="submit"
                                                                                     className="min-w-[125px] max-w-[125px] h-[50px] bg-blue-900 rounded-full hover:bg-yellow-600"
+                                                                                    onClick={() => ChangeVideoStatus(video.cloudinary_id, "sơ tuyển")}
                                                                                 >
                                                                                     Chấp nhận
                                                                                 </button>
                                                                             </li>
+
                                                                             <li
                                                                                 className="mr-auto text-white text-xl font-bold"
                                                                             //onClick={() => DescriptionModal(video.cloudinary_id)}
@@ -355,7 +390,7 @@ const StaffGroup02Page = () => {
                                                             src={user.avatar}
                                                             sx={{ width: 50, height: 50 }}
                                                         />
-                                                        <span className="ml-2 font-bold max-w-[180px] overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                        <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
                                                         <div className="text-right ml-auto">
                                                             <ul className="flex">
 
@@ -389,14 +424,18 @@ const StaffGroup02Page = () => {
 
                                                                             <li
                                                                                 className="mr-4 text-white text-xl font-bold"
-                                                                            //onClick={() => DescriptionModal(video.cloudinary_id)}
+
+                                                                                onSubmit={formik.handleSubmit}
                                                                             >
                                                                                 <button
+                                                                                    type="submit"
                                                                                     className="min-w-[125px] max-w-[125px] h-[50px] bg-blue-900 rounded-full hover:bg-yellow-600"
+                                                                                    onClick={() => ChangeVideoStatus(video.cloudinary_id, "phản biện")}
                                                                                 >
                                                                                     Chấp nhận
                                                                                 </button>
                                                                             </li>
+
                                                                             <li
                                                                                 className="mr-auto text-white text-xl font-bold"
                                                                             //onClick={() => DescriptionModal(video.cloudinary_id)}
@@ -433,7 +472,7 @@ const StaffGroup02Page = () => {
                 <div className="fixed top-0 left-0 w-full h-[65px] bg-white shadow z-50">
                     <div className="text-center mt-2 ml-8">
                         <b className="text-3xl ml-8 text-blue-800">Trang Quản Lý Trưởng - Nội Dung Video Theo Danh Mục</b>
-                        <div className="float-right mr-4">
+                        <div className="float-right mr-8">
                             <button
                                 className="flex justify-center items-center text-blue-500 mt-1 w-[120px] h-10 hover:bg-blue-100 rounded-full border border-blue-500"
                                 title="Đăng xuất"
@@ -479,7 +518,7 @@ const StaffGroup02Page = () => {
                                                             src={user.avatar}
                                                             sx={{ width: 50, height: 50 }}
                                                         />
-                                                        <span className="ml-2 font-bold max-w-[180px] overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                        <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
                                                         <div className="text-right ml-auto">
                                                             <ul className="flex">
 
@@ -503,7 +542,7 @@ const StaffGroup02Page = () => {
                                                                             </li>
 
                                                                             <li
-                                                                                className=""
+                                                                                className="mr-4"
                                                                                 onClick={() => StandardModal(video.cloudinary_id, category.description)}
                                                                             >
                                                                                 <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Tiêu chuẩn nội dung danh mục'>
@@ -513,14 +552,18 @@ const StaffGroup02Page = () => {
 
                                                                             <li
                                                                                 className="mr-4 text-white text-xl font-bold"
-                                                                            //onClick={() => DescriptionModal(video.cloudinary_id)}
+
+                                                                                onSubmit={formik.handleSubmit}
                                                                             >
                                                                                 <button
-                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-blue-900 rounded-full hover:bg-gray-800"
+                                                                                    type="submit"
+                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-blue-900 rounded-full hover:bg-yellow-600"
+                                                                                    onClick={() => ChangeVideoStatus(video.cloudinary_id, "chấp nhận")}
                                                                                 >
                                                                                     Chấp nhận
                                                                                 </button>
                                                                             </li>
+
                                                                             <li
                                                                                 className="mr-auto text-white text-xl font-bold"
                                                                             //onClick={() => DescriptionModal(video.cloudinary_id)}

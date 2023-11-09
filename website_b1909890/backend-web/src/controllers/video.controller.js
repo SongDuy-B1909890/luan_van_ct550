@@ -299,7 +299,7 @@ const changeVideoStatus = async (req, res) => {
         const videos = videosSnapshot.val();
 
         const existingVideoKey = Object.keys(videos).find(
-            (videoKey) => videos[videoKey].cloudinary_id === req.body.id
+            (videoKey) => videos[videoKey].cloudinary_id === req.body.cloudinary_id
         );
 
         if (!existingVideoKey) {
