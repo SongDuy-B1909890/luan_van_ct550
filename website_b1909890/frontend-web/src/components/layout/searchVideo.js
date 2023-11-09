@@ -9,7 +9,7 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import FlagIcon from '@mui/icons-material/Flag';
 
 import HeaderPage from './header';
-//import CommentPage from './comment';
+import CommentPage from './comment';
 import DescriptionPage from './description';
 
 const title = localStorage.getItem('title');
@@ -72,27 +72,53 @@ const SearchVideoPage = () => {
         setFilteredCategories(filteredCategories);
     }, [videos, users, categories]);
 
-    const [isSelectVideo, setIsSelectVideo] = useState(null);
+    const [isSelectVideoDescription, setIsSelectVideoDescription] = useState(null);
+    const [isSelectVideoComment, setIsSelectVideoComment] = useState(null);
+
+    const [isDescriptionModal, setIsDescriptionModal] = useState(false);
     const [isCommentModal, setIsCommentModal] = useState(false);
+
+    const DescriptionModal = (videoId) => {
+
+        if (isDescriptionModal === false) {
+            //console.log(videoId);
+            setIsSelectVideoDescription(videoId);
+            setIsDescriptionModal(true);
+            setIsCommentModal(false);
+        }
+        if (isDescriptionModal === true) {
+            //  console.log(videoId);
+            setIsSelectVideoDescription(videoId);
+            setIsDescriptionModal(true);
+            setIsCommentModal(false);
+        }
+        if (isDescriptionModal === true && isSelectVideoDescription === videoId) {
+            console.log(videoId);
+            setIsSelectVideoDescription(null);
+            setIsDescriptionModal(false);
+        }
+    };
+
     const CommentModal = (videoId) => {
 
         if (isCommentModal === false) {
             //console.log(videoId);
-            setIsSelectVideo(videoId);
+            setIsSelectVideoComment(videoId);
             setIsCommentModal(true);
+            setIsDescriptionModal(false);
         }
         if (isCommentModal === true) {
             //  console.log(videoId);
-            setIsSelectVideo(videoId);
+            setIsSelectVideoComment(videoId);
             setIsCommentModal(true);
+            setIsDescriptionModal(false);
         }
-        if (isCommentModal === true && isSelectVideo === videoId) {
+        if (isCommentModal === true && isSelectVideoComment === videoId) {
             console.log(videoId);
-            setIsSelectVideo(videoId);
+            setIsSelectVideoComment(null);
             setIsCommentModal(false);
         }
     };
-
 
     return (
         <div>
@@ -127,7 +153,7 @@ const SearchVideoPage = () => {
                                                         src={user.avatar}
                                                         sx={{ width: 50, height: 50 }}
                                                     />
-                                                    <span className="ml-2 font-bold max-w-[180px] overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                    <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
                                                     <button
                                                         className="w-[100px] h-[35px] ml-3 bg-black text-white font-bold rounded-full hover:bg-gray-800">
                                                         Đăng ký
@@ -140,7 +166,7 @@ const SearchVideoPage = () => {
                                                                     <li
                                                                         key={category.id}
                                                                         className="mr-4 text-blue-900 text-xl font-bold"
-                                                                        onClick={() => CommentModal(video.cloudinary_id)}
+                                                                        onClick={() => DescriptionModal(video.cloudinary_id)}
 
                                                                     >
                                                                         <button
@@ -163,6 +189,7 @@ const SearchVideoPage = () => {
                                                                 <button
                                                                     className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
                                                                     title='Bình luận'
+                                                                    onClick={() => CommentModal(video.cloudinary_id)}
                                                                 >
                                                                     <CommentRoundedIcon />
                                                                 </button>
@@ -189,7 +216,8 @@ const SearchVideoPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            {isSelectVideo === video.cloudinary_id && isCommentModal && <DescriptionPage value={video.description} />}
+                            {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage value={video.description} />}
+                            {isSelectVideoComment === video.cloudinary_id && isCommentModal && <CommentPage value={video.cloudinary_id} />}
                         </div>
                     </div>
                 ))}
