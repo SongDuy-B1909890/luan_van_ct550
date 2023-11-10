@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ReactPlayer from 'react-player/lazy';
 import axios from 'axios';
 
@@ -117,6 +117,21 @@ const VideoPage = () => {
         }
     };
 
+    const [currentPlayingVideo, setCurrentPlayingVideo] = useState(null);
+    const playerRef = useRef(null);
+
+    const handleVideoPlay = (cloudinaryId) => {
+        if (currentPlayingVideo && currentPlayingVideo !== cloudinaryId) {
+            const previousPlayer = playerRef.current;
+            if (previousPlayer) {
+                previousPlayer.pause();
+            }
+        }
+        setCurrentPlayingVideo(cloudinaryId);
+    };
+
+
+
     return (
         <div className="w-full h-full overflow-auto bg-white mt-[70px]">
             {videos.map((video, index) => (
@@ -127,13 +142,17 @@ const VideoPage = () => {
 
                                 <div className="mt-5" >
                                     <ReactPlayer
+                                        id={video.cloudinary_id}
                                         url={video.url_video}
                                         width="960px"
                                         height="540px"
-                                        controls
+                                        controls={true}
                                         allowFullScreen={true}
                                         loading="lazy"
                                         preload="true"
+                                        loop={true}
+                                        playing={currentPlayingVideo === video.cloudinary_id}
+                                        onPlay={() => handleVideoPlay(video.cloudinary_id)}
                                     />
                                 </div>
                                 <div className="mt-2 w-full h-full">
@@ -228,8 +247,9 @@ const VideoPage = () => {
                         {isSelectVideoComment === video.cloudinary_id && isCommentModal && <CommentPage value={video.cloudinary_id} />}
                     </div>
                 </div>
-            ))}
-        </div>
+            ))
+            }
+        </div >
     );
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ReactPlayer from 'react-player/lazy';
 import axios from 'axios';
 
@@ -120,6 +120,20 @@ const SearchVideoPage = () => {
         }
     };
 
+    const [currentPlayingVideo, setCurrentPlayingVideo] = useState(null);
+    const playerRef = useRef(null);
+
+    const handleVideoPlay = (cloudinaryId) => {
+        if (currentPlayingVideo && currentPlayingVideo !== cloudinaryId) {
+            const previousPlayer = playerRef.current;
+            if (previousPlayer) {
+                previousPlayer.pause();
+            }
+        }
+        setCurrentPlayingVideo(cloudinaryId);
+    };
+
+
     return (
         <div>
             <HeaderPage />
@@ -132,13 +146,17 @@ const SearchVideoPage = () => {
 
                                     <div className="mt-5" >
                                         <ReactPlayer
+                                            id={video.cloudinary_id}
                                             url={video.url_video}
                                             width="960px"
                                             height="540px"
-                                            controls
+                                            controls={true}
                                             allowFullScreen={true}
                                             loading="lazy"
                                             preload="true"
+                                            loop={true}
+                                            playing={currentPlayingVideo === video.cloudinary_id}
+                                            onPlay={() => handleVideoPlay(video.cloudinary_id)}
                                         />
                                     </div>
                                     <div className="mt-2 w-full h-full">
