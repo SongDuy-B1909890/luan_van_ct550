@@ -135,7 +135,6 @@ const CategoryVideoPage = () => {
         setCurrentPlayingVideo(cloudinaryId);
     };
 
-
     return (
         <div>
             <HeaderPage />

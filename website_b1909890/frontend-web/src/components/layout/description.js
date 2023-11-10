@@ -4,8 +4,8 @@ import '../../index.css';
 
 const DescriptionPage = (props) => {
     return (
-        <div className="flex w-[450px] h-[675px] py-5 bg-white rounded-xl border shadow overflow-auto ">
-            <div className="w-full h-full custom-scrollbar-content custom-scrollbar ml-5 mr-5">
+        <div className="flex w-[450px] h-[675px] py-5 bg-white rounded-xl border shadow overflow-auto">
+            <div className="w-full h-full custom-scrollbar-content custom-scrollbar ml-5 mr-5 ">
                 {props.value}
                 <ul>
                     <li>h</li>

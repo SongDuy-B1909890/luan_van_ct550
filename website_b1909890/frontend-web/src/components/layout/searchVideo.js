@@ -133,7 +133,6 @@ const SearchVideoPage = () => {
         setCurrentPlayingVideo(cloudinaryId);
     };
 
-
     return (
         <div>
             <HeaderPage />

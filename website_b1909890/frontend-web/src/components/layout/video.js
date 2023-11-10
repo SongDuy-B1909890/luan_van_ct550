@@ -130,8 +130,6 @@ const VideoPage = () => {
         setCurrentPlayingVideo(cloudinaryId);
     };
 
-
-
     return (
         <div className="w-full h-full overflow-auto bg-white mt-[70px]">
             {videos.map((video, index) => (
