@@ -46,7 +46,7 @@ const StaffGroup02Page = () => {
                 // Giao đoạn nhân viên sơ tuyển
                 const VideosStatus01 = videosData.filter((video) => video.status === "chờ xem xét");
                 setVideosStatus01(VideosStatus01);
-
+                console.log(VideosStatus01)
                 // Giao đoạn nhân viên sơ tuyển
                 const VideosStatus02 = videosData.filter((video) => video.status === "sơ tuyển");
                 setVideosStatus02(VideosStatus02);
@@ -232,108 +232,118 @@ const StaffGroup02Page = () => {
                 </div>
 
                 {/* Nội dung */}
-                <div className="w-full h-full overflow-auto bg-white mt-[70px]">
-                    {videosStatus01.map((video, index) => (
-                        <div className="flex justify-center items-center" key={index}>
-                            <div className="flex flex-wrap justify-center items-center mb-8">
-                                <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl border shadow">
-                                    <div className="overflow-hidden" >
+                <div className="w-full h-full overflow-auto bg-white">
+                    {
+                        videosStatus01.length === 0 ? (
+                            <div className="w-full h-screen flex justify-center items-center">
+                                <h1 className="text-2xl text-gray-500">Đã Kiểm Tra Hết Video Trong Danh Sách Sơ Tuyển</h1>
+                            </div>
+                        ) : (
+                            videosStatus01.map((video, index) => (
+                                <div key={index} className="flex justify-center items-center mt-[70px]" >
+                                    <div className="flex flex-wrap justify-center items-center mb-8">
+                                        <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl border shadow">
+                                            <div className="overflow-hidden" >
 
-                                        <div className="mt-5" >
-                                            <ReactPlayer
-                                                url={video.url_video}
-                                                width="960px"
-                                                height="540px"
-                                                controls
-                                                allowFullScreen={true}
-                                                loading="lazy"
-                                                preload="true"
-                                            />
+                                                <div className="mt-5" >
+                                                    <ReactPlayer
+                                                        url={video.url_video}
+                                                        width="960px"
+                                                        height="540px"
+                                                        controls
+                                                        allowFullScreen={true}
+                                                        loading="lazy"
+                                                        preload="true"
+                                                    />
+                                                </div>
+                                                <div className="mt-2 w-full h-full">
+                                                    <h1 className="font-bold text-xl overflow-hidden line-clamp-1 mr-5 text-blue-900">{video.title} </h1>
+                                                    {filteredUsers01
+                                                        .filter((user) => user.id === video.id_user)
+                                                        .map((user) => (
+                                                            <div key={user.id} className="flex items-center mt-3">
+
+                                                                <Avatar
+                                                                    alt="Remy Sharp"
+                                                                    src={user.avatar}
+                                                                    sx={{ width: 50, height: 50 }}
+                                                                />
+                                                                <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                                <div className="text-right ml-auto">
+                                                                    <ul className="flex">
+
+                                                                        {filteredCategories01
+                                                                            .filter((category) => category.id === video.id_category)
+                                                                            .map((category) => (
+                                                                                <div
+                                                                                    key={category.id}
+                                                                                    className=" flex mr-auto"
+                                                                                >
+                                                                                    <li
+                                                                                        className="mr-4 text-blue-800 text-xl font-bold"
+                                                                                        onClick={() => DescriptionModal(video.cloudinary_id)}
+                                                                                    >
+                                                                                        <button
+                                                                                            className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                                        >
+                                                                                            {category.name}
+                                                                                        </button>
+                                                                                    </li>
+
+                                                                                    <li
+                                                                                        className="mr-4"
+                                                                                        onClick={() => StandardModal(video.cloudinary_id, category.description)}
+                                                                                    >
+                                                                                        <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Tiêu chuẩn nội dung danh mục'>
+                                                                                            <GavelOutlinedIcon />
+                                                                                        </button>
+                                                                                    </li>
+
+                                                                                    <li
+                                                                                        className="mr-4 text-white text-xl font-bold"
+
+                                                                                        onSubmit={formik.handleSubmit}
+                                                                                    >
+                                                                                        <button
+                                                                                            type="submit"
+                                                                                            className="min-w-[125px] max-w-[125px] h-[50px] bg-blue-900 rounded-full hover:bg-yellow-600"
+                                                                                            onClick={() => ChangeVideoStatus(video.cloudinary_id, "sơ tuyển")}
+                                                                                        >
+                                                                                            Chấp nhận
+                                                                                        </button>
+                                                                                    </li>
+
+                                                                                    <li
+                                                                                        className="mr-auto text-white text-xl font-bold"
+                                                                                    //onClick={() => DescriptionModal(video.cloudinary_id)}
+                                                                                    >
+                                                                                        <button
+                                                                                            className="min-w-[125px] max-w-[125px] h-[50px] bg-red-900 rounded-full hover:bg-yellow-600"
+                                                                                        >
+                                                                                            Loại
+                                                                                        </button>
+                                                                                    </li>
+                                                                                </div>
+                                                                            ))}
+
+
+                                                                    </ul>
+
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="mt-2 w-full h-full">
-                                            <h1 className="font-bold text-xl overflow-hidden line-clamp-1 mr-5 text-blue-900">{video.title} </h1>
-                                            {filteredUsers01
-                                                .filter((user) => user.id === video.id_user)
-                                                .map((user) => (
-                                                    <div key={user.id} className="flex items-center mt-3">
-
-                                                        <Avatar
-                                                            alt="Remy Sharp"
-                                                            src={user.avatar}
-                                                            sx={{ width: 50, height: 50 }}
-                                                        />
-                                                        <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
-                                                        <div className="text-right ml-auto">
-                                                            <ul className="flex">
-
-                                                                {filteredCategories01
-                                                                    .filter((category) => category.id === video.id_category)
-                                                                    .map((category) => (
-                                                                        <div
-                                                                            key={category.id}
-                                                                            className=" flex mr-auto"
-                                                                        >
-                                                                            <li
-                                                                                className="mr-4 text-blue-800 text-xl font-bold"
-                                                                                onClick={() => DescriptionModal(video.cloudinary_id)}
-                                                                            >
-                                                                                <button
-                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                                >
-                                                                                    {category.name}
-                                                                                </button>
-                                                                            </li>
-
-                                                                            <li
-                                                                                className="mr-4"
-                                                                                onClick={() => StandardModal(video.cloudinary_id, category.description)}
-                                                                            >
-                                                                                <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Tiêu chuẩn nội dung danh mục'>
-                                                                                    <GavelOutlinedIcon />
-                                                                                </button>
-                                                                            </li>
-
-                                                                            <li
-                                                                                className="mr-4 text-white text-xl font-bold"
-
-                                                                                onSubmit={formik.handleSubmit}
-                                                                            >
-                                                                                <button
-                                                                                    type="submit"
-                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-blue-900 rounded-full hover:bg-yellow-600"
-                                                                                    onClick={() => ChangeVideoStatus(video.cloudinary_id, "sơ tuyển")}
-                                                                                >
-                                                                                    Chấp nhận
-                                                                                </button>
-                                                                            </li>
-
-                                                                            <li
-                                                                                className="mr-auto text-white text-xl font-bold"
-                                                                            //onClick={() => DescriptionModal(video.cloudinary_id)}
-                                                                            >
-                                                                                <button
-                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-red-900 rounded-full hover:bg-yellow-600"
-                                                                                >
-                                                                                    Loại
-                                                                                </button>
-                                                                            </li>
-                                                                        </div>
-                                                                    ))}
-
-
-                                                            </ul>
-
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                        </div>
+                                        {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage value={video.description} />}
+                                        {isSelectVideoStandard === video.cloudinary_id && isStandardModal && <StandardPage value={isVideoStandard} />}
                                     </div>
                                 </div>
-                                {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage value={video.description} />}
-                                {isSelectVideoStandard === video.cloudinary_id && isStandardModal && <StandardPage value={isVideoStandard} />}
-                            </div>
-                        </div>
-                    ))}
+                            ))
+
+                        )
+                    }
+
                 </div>
             </div>
         );
@@ -360,107 +370,115 @@ const StaffGroup02Page = () => {
                     </div>
                 </div>
                 {/* Nội dung */}
-                <div className="w-full h-full overflow-auto bg-white mt-[70px]">
-                    {videosStatus02.map((video, index) => (
-                        <div className="flex justify-center items-center" key={index}>
-                            <div className="flex flex-wrap justify-center items-center mb-8">
-                                <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl border shadow">
-                                    <div className="overflow-hidden" >
+                <div className="w-full h-full overflow-auto bg-white">
+                    {
+                        videosStatus02.length === 0 ? (
+                            <div className="w-full h-screen flex justify-center items-center">
+                                <h1 className="text-2xl text-gray-500">Đã Kiểm Tra Hết Video Trong Danh Sách Phản Biện</h1>
+                            </div>
+                        ) : (
+                            videosStatus02.map((video, index) => (
+                                <div key={index} className="flex justify-center items-center mt-[70px]" >
+                                    <div className="flex flex-wrap justify-center items-center mb-8">
+                                        <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl border shadow">
+                                            <div className="overflow-hidden" >
 
-                                        <div className="mt-5" >
-                                            <ReactPlayer
-                                                url={video.url_video}
-                                                width="960px"
-                                                height="540px"
-                                                controls
-                                                allowFullScreen={true}
-                                                loading="lazy"
-                                                preload="true"
-                                            />
+                                                <div className="mt-5" >
+                                                    <ReactPlayer
+                                                        url={video.url_video}
+                                                        width="960px"
+                                                        height="540px"
+                                                        controls
+                                                        allowFullScreen={true}
+                                                        loading="lazy"
+                                                        preload="true"
+                                                    />
+                                                </div>
+                                                <div className="mt-2 w-full h-full">
+                                                    <h1 className="font-bold text-xl overflow-hidden line-clamp-1 mr-5 text-blue-900">{video.title} </h1>
+                                                    {filteredUsers02
+                                                        .filter((user) => user.id === video.id_user)
+                                                        .map((user) => (
+                                                            <div key={user.id} className="flex items-center mt-3">
+
+                                                                <Avatar
+                                                                    alt="Remy Sharp"
+                                                                    src={user.avatar}
+                                                                    sx={{ width: 50, height: 50 }}
+                                                                />
+                                                                <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                                <div className="text-right ml-auto">
+                                                                    <ul className="flex">
+
+                                                                        {filteredCategories02
+                                                                            .filter((category) => category.id === video.id_category)
+                                                                            .map((category) => (
+                                                                                <div
+                                                                                    key={category.id}
+                                                                                    className="flex mr-auto"
+                                                                                >
+                                                                                    <li
+
+                                                                                        className="mr-4 text-blue-800 text-xl font-bold"
+                                                                                        onClick={() => DescriptionModal(video.cloudinary_id)}
+                                                                                    >
+                                                                                        <button
+                                                                                            className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                                        >
+                                                                                            {category.name}
+                                                                                        </button>
+                                                                                    </li>
+
+                                                                                    <li
+                                                                                        className="mr-4"
+                                                                                        onClick={() => StandardModal(video.cloudinary_id, category.description)}
+                                                                                    >
+                                                                                        <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Tiêu chuẩn nội dung danh mục'>
+                                                                                            <GavelOutlinedIcon />
+                                                                                        </button>
+                                                                                    </li>
+
+                                                                                    <li
+                                                                                        className="mr-4 text-white text-xl font-bold"
+
+                                                                                        onSubmit={formik.handleSubmit}
+                                                                                    >
+                                                                                        <button
+                                                                                            type="submit"
+                                                                                            className="min-w-[125px] max-w-[125px] h-[50px] bg-blue-900 rounded-full hover:bg-yellow-600"
+                                                                                            onClick={() => ChangeVideoStatus(video.cloudinary_id, "phản biện")}
+                                                                                        >
+                                                                                            Chấp nhận
+                                                                                        </button>
+                                                                                    </li>
+
+                                                                                    <li
+                                                                                        className="mr-auto text-white text-xl font-bold"
+                                                                                    //onClick={() => DescriptionModal(video.cloudinary_id)}
+                                                                                    >
+                                                                                        <button
+                                                                                            className="min-w-[125px] max-w-[125px] h-[50px] bg-red-900 rounded-full hover:bg-yellow-600"
+                                                                                        >
+                                                                                            Loại
+                                                                                        </button>
+                                                                                    </li>
+                                                                                </div>
+                                                                            ))}
+                                                                    </ul>
+
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="mt-2 w-full h-full">
-                                            <h1 className="font-bold text-xl overflow-hidden line-clamp-1 mr-5 text-blue-900">{video.title} </h1>
-                                            {filteredUsers02
-                                                .filter((user) => user.id === video.id_user)
-                                                .map((user) => (
-                                                    <div key={user.id} className="flex items-center mt-3">
-
-                                                        <Avatar
-                                                            alt="Remy Sharp"
-                                                            src={user.avatar}
-                                                            sx={{ width: 50, height: 50 }}
-                                                        />
-                                                        <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
-                                                        <div className="text-right ml-auto">
-                                                            <ul className="flex">
-
-                                                                {filteredCategories02
-                                                                    .filter((category) => category.id === video.id_category)
-                                                                    .map((category) => (
-                                                                        <div
-                                                                            key={category.id}
-                                                                            className="flex mr-auto"
-                                                                        >
-                                                                            <li
-
-                                                                                className="mr-4 text-blue-800 text-xl font-bold"
-                                                                                onClick={() => DescriptionModal(video.cloudinary_id)}
-                                                                            >
-                                                                                <button
-                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                                >
-                                                                                    {category.name}
-                                                                                </button>
-                                                                            </li>
-
-                                                                            <li
-                                                                                className="mr-4"
-                                                                                onClick={() => StandardModal(video.cloudinary_id, category.description)}
-                                                                            >
-                                                                                <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Tiêu chuẩn nội dung danh mục'>
-                                                                                    <GavelOutlinedIcon />
-                                                                                </button>
-                                                                            </li>
-
-                                                                            <li
-                                                                                className="mr-4 text-white text-xl font-bold"
-
-                                                                                onSubmit={formik.handleSubmit}
-                                                                            >
-                                                                                <button
-                                                                                    type="submit"
-                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-blue-900 rounded-full hover:bg-yellow-600"
-                                                                                    onClick={() => ChangeVideoStatus(video.cloudinary_id, "phản biện")}
-                                                                                >
-                                                                                    Chấp nhận
-                                                                                </button>
-                                                                            </li>
-
-                                                                            <li
-                                                                                className="mr-auto text-white text-xl font-bold"
-                                                                            //onClick={() => DescriptionModal(video.cloudinary_id)}
-                                                                            >
-                                                                                <button
-                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-red-900 rounded-full hover:bg-yellow-600"
-                                                                                >
-                                                                                    Loại
-                                                                                </button>
-                                                                            </li>
-                                                                        </div>
-                                                                    ))}
-                                                            </ul>
-
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                        </div>
+                                        {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage value={video.description} />}
+                                        {isSelectVideoStandard === video.cloudinary_id && isStandardModal && <StandardPage value={isVideoStandard} />}
                                     </div>
                                 </div>
-                                {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage value={video.description} />}
-                                {isSelectVideoStandard === video.cloudinary_id && isStandardModal && <StandardPage value={isVideoStandard} />}
-                            </div>
-                        </div>
-                    ))}
+                            ))
+                        )
+                    }
                 </div>
             </div>
         );
@@ -488,106 +506,114 @@ const StaffGroup02Page = () => {
                 </div>
 
                 {/* Nội dung */}
-                <div className="w-full h-full overflow-auto bg-white mt-[70px]">
-                    {videosStatus03.map((video, index) => (
-                        <div className="flex justify-center items-center" key={index}>
-                            <div className="flex flex-wrap justify-center items-center mb-8">
-                                <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl border shadow">
-                                    <div className="overflow-hidden" >
+                <div className="w-full h-full overflow-auto bg-white">
+                    {
+                        videosStatus03.length === 0 ? (
+                            <div className="w-full h-screen flex justify-center items-center">
+                                <h1 className="text-2xl text-gray-500">Đã Kiểm Tra Hết Video Trong Danh Sách Chờ Quản Lý Trưởng Chấp Nhận</h1>
+                            </div>
+                        ) : (
+                            videosStatus03.map((video, index) => (
+                                <div key={index} className="flex justify-center items-center mt-[70px]" >
+                                    <div className="flex flex-wrap justify-center items-center mb-8">
+                                        <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl border shadow">
+                                            <div className="overflow-hidden" >
 
-                                        <div className="mt-5" >
-                                            <ReactPlayer
-                                                url={video.url_video}
-                                                width="960px"
-                                                height="540px"
-                                                controls
-                                                allowFullScreen={true}
-                                                loading="lazy"
-                                                preload="true"
-                                            />
+                                                <div className="mt-5" >
+                                                    <ReactPlayer
+                                                        url={video.url_video}
+                                                        width="960px"
+                                                        height="540px"
+                                                        controls
+                                                        allowFullScreen={true}
+                                                        loading="lazy"
+                                                        preload="true"
+                                                    />
+                                                </div>
+                                                <div className="mt-2 w-full h-full">
+                                                    <h1 className="font-bold text-xl overflow-hidden line-clamp-1 mr-5 text-blue-900">{video.title} </h1>
+                                                    {filteredUsers03
+                                                        .filter((user) => user.id === video.id_user)
+                                                        .map((user) => (
+                                                            <div key={user.id} className="flex items-center mt-3">
+
+                                                                <Avatar
+                                                                    alt="Remy Sharp"
+                                                                    src={user.avatar}
+                                                                    sx={{ width: 50, height: 50 }}
+                                                                />
+                                                                <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                                <div className="text-right ml-auto">
+                                                                    <ul className="flex">
+
+                                                                        {filteredCategories03
+                                                                            .filter((category) => category.id === video.id_category)
+                                                                            .map((category) => (
+                                                                                <div
+                                                                                    key={category.id}
+                                                                                    className="flex mr-auto"
+                                                                                >
+                                                                                    <li
+
+                                                                                        className="mr-4 text-blue-800 text-xl font-bold"
+                                                                                        onClick={() => DescriptionModal(video.cloudinary_id)}
+                                                                                    >
+                                                                                        <button
+                                                                                            className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                                        >
+                                                                                            {category.name}
+                                                                                        </button>
+                                                                                    </li>
+
+                                                                                    <li
+                                                                                        className="mr-4"
+                                                                                        onClick={() => StandardModal(video.cloudinary_id, category.description)}
+                                                                                    >
+                                                                                        <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Tiêu chuẩn nội dung danh mục'>
+                                                                                            <GavelOutlinedIcon />
+                                                                                        </button>
+                                                                                    </li>
+
+                                                                                    <li
+                                                                                        className="mr-4 text-white text-xl font-bold"
+
+                                                                                        onSubmit={formik.handleSubmit}
+                                                                                    >
+                                                                                        <button
+                                                                                            type="submit"
+                                                                                            className="min-w-[125px] max-w-[125px] h-[50px] bg-blue-900 rounded-full hover:bg-yellow-600"
+                                                                                            onClick={() => ChangeVideoStatus(video.cloudinary_id, "chấp nhận")}
+                                                                                        >
+                                                                                            Chấp nhận
+                                                                                        </button>
+                                                                                    </li>
+
+                                                                                    <li
+                                                                                        className="mr-auto text-white text-xl font-bold"
+                                                                                    //onClick={() => DescriptionModal(video.cloudinary_id)}
+                                                                                    >
+                                                                                        <button
+                                                                                            className="min-w-[125px] max-w-[125px] h-[50px] bg-red-900 rounded-full hover:bg-gray-800"
+                                                                                        >
+                                                                                            Loại
+                                                                                        </button>
+                                                                                    </li>
+                                                                                </div>
+                                                                            ))}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="mt-2 w-full h-full">
-                                            <h1 className="font-bold text-xl overflow-hidden line-clamp-1 mr-5 text-blue-900">{video.title} </h1>
-                                            {filteredUsers03
-                                                .filter((user) => user.id === video.id_user)
-                                                .map((user) => (
-                                                    <div key={user.id} className="flex items-center mt-3">
-
-                                                        <Avatar
-                                                            alt="Remy Sharp"
-                                                            src={user.avatar}
-                                                            sx={{ width: 50, height: 50 }}
-                                                        />
-                                                        <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
-                                                        <div className="text-right ml-auto">
-                                                            <ul className="flex">
-
-                                                                {filteredCategories03
-                                                                    .filter((category) => category.id === video.id_category)
-                                                                    .map((category) => (
-                                                                        <div
-                                                                            key={category.id}
-                                                                            className="flex mr-auto"
-                                                                        >
-                                                                            <li
-
-                                                                                className="mr-4 text-blue-800 text-xl font-bold"
-                                                                                onClick={() => DescriptionModal(video.cloudinary_id)}
-                                                                            >
-                                                                                <button
-                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                                >
-                                                                                    {category.name}
-                                                                                </button>
-                                                                            </li>
-
-                                                                            <li
-                                                                                className="mr-4"
-                                                                                onClick={() => StandardModal(video.cloudinary_id, category.description)}
-                                                                            >
-                                                                                <button className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200" title='Tiêu chuẩn nội dung danh mục'>
-                                                                                    <GavelOutlinedIcon />
-                                                                                </button>
-                                                                            </li>
-
-                                                                            <li
-                                                                                className="mr-4 text-white text-xl font-bold"
-
-                                                                                onSubmit={formik.handleSubmit}
-                                                                            >
-                                                                                <button
-                                                                                    type="submit"
-                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-blue-900 rounded-full hover:bg-yellow-600"
-                                                                                    onClick={() => ChangeVideoStatus(video.cloudinary_id, "chấp nhận")}
-                                                                                >
-                                                                                    Chấp nhận
-                                                                                </button>
-                                                                            </li>
-
-                                                                            <li
-                                                                                className="mr-auto text-white text-xl font-bold"
-                                                                            //onClick={() => DescriptionModal(video.cloudinary_id)}
-                                                                            >
-                                                                                <button
-                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-red-900 rounded-full hover:bg-gray-800"
-                                                                                >
-                                                                                    Loại
-                                                                                </button>
-                                                                            </li>
-                                                                        </div>
-                                                                    ))}
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                        </div>
+                                        {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage value={video.description} />}
+                                        {isSelectVideoStandard === video.cloudinary_id && isStandardModal && <StandardPage value={isVideoStandard} />}
                                     </div>
                                 </div>
-                                {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage value={video.description} />}
-                                {isSelectVideoStandard === video.cloudinary_id && isStandardModal && <StandardPage value={isVideoStandard} />}
-                            </div>
-                        </div>
-                    ))}
+                            ))
+                        )
+                    }
                 </div>
             </div>
         );
