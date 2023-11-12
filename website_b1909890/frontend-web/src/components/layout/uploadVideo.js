@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useFormik } from "formik"
@@ -8,6 +8,8 @@ const userString = localStorage.getItem('user');
 const user = userString ? JSON.parse(userString) : null;
 
 const UploadVideoPage = () => {
+    const [loading, setLoading] = useState(false);
+    const [progress, setProgress] = useState(0);
 
     const validationSchema = Yup.object({
         id_category: Yup.string().required('Vui lòng chọn danh mục'),
@@ -28,6 +30,8 @@ const UploadVideoPage = () => {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
+
+            setLoading(true); // Đặt giá trị loading thành true trước khi gọi API
             console.log(values);
 
             const formData = new FormData();
@@ -43,6 +47,15 @@ const UploadVideoPage = () => {
                     headers: {
                         "Content-Type": "multipart/form-data",
                     },
+
+                    onUploadProgress: (progressEvent) => {
+                        const percentCompleted = Math.round(
+                            (progressEvent.loaded * 100) / progressEvent.total
+                        );
+                        console.log("Phần trăm đã tải:", percentCompleted);
+                        // Cập nhật giá trị phần trăm đã tải vào biến trạng thái của bạn
+                        setProgress(percentCompleted);
+                    },
                 })
                 .then((response) => {
                     // Xử lý thành công
@@ -50,6 +63,8 @@ const UploadVideoPage = () => {
                     // Hiển thị thông báo đăng ký thành công
                     alert("Tải video lên thành công");
                     window.location.href = "/";
+
+
                 })
                 .catch((error) => {
                     if (error.response) {
@@ -63,8 +78,11 @@ const UploadVideoPage = () => {
                         console.error(errorMessage);
                         console.error(error);
                     }
+                })
+                .finally(() => {
+                    setLoading(false);// Đặt giá trị loading thành false sau khi gọi API hoàn tất
                 });
-        }
+        },
     });
 
     return (
@@ -87,7 +105,12 @@ const UploadVideoPage = () => {
                             </p>
                         </div>
 
-
+                        {loading && (
+                            <div className="flex justify-center mt-4">
+                                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900"></div>
+                                <p className="ml-2">Đang tải... {progress}%</p>
+                            </div>
+                        )}
                         <div>
                             <form className="space-y-6" onSubmit={formik.handleSubmit} encType="multipart/form-data">
 

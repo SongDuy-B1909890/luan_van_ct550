@@ -195,17 +195,21 @@ const StaffGroup02Page = () => {
         enableReinitialize: true, // Thêm dòng này
         onSubmit: (values) => {
             console.log(values.cloudinary_id)
-            axios
-                .put('http://localhost:5000/api/admin/video/changeStatus', values)
-                .then((response) => {
-                    console.log(response.data);
-                    alert('Chấp nhận nội dung theo danh mục thành công');
-                    window.location.href = '/staff/group02/id:' + staff.id; // Sử dụng history để chuyển hướng 
 
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+            // Hiển thị hộp thoại xác nhận
+            if (window.confirm('Bạn có chắc muốn chấp nhận video không?')) {
+                axios
+                    .put('http://localhost:5000/api/admin/video/changeStatus', values)
+                    .then((response) => {
+                        console.log(response.data);
+                        alert('Chấp nhận nội dung theo danh mục thành công');
+                        window.location.href = '/staff/group02/id:' + staff.id; // Sử dụng history để chuyển hướng 
+
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
         },
     });
 
@@ -314,11 +318,14 @@ const StaffGroup02Page = () => {
                                                                                     </li>
 
                                                                                     <li
-                                                                                        className="mr-auto text-white text-xl font-bold"
-                                                                                    //onClick={() => DescriptionModal(video.cloudinary_id)}
+                                                                                        className="mr-4 text-white text-xl font-bold"
+
+                                                                                        onSubmit={formik.handleSubmit}
                                                                                     >
                                                                                         <button
+                                                                                            type="submit"
                                                                                             className="min-w-[125px] max-w-[125px] h-[50px] bg-red-900 rounded-full hover:bg-yellow-600"
+                                                                                            onClick={() => ChangeVideoStatus(video.cloudinary_id, "loại")}
                                                                                         >
                                                                                             Loại
                                                                                         </button>
@@ -584,7 +591,7 @@ const StaffGroup02Page = () => {
                                                                                             className="min-w-[125px] max-w-[125px] h-[50px] bg-blue-900 rounded-full hover:bg-yellow-600"
                                                                                             onClick={() => ChangeVideoStatus(video.cloudinary_id, "chấp nhận")}
                                                                                         >
-                                                                                            Chấp nhận
+                                                                                            Đăng tải
                                                                                         </button>
                                                                                     </li>
 

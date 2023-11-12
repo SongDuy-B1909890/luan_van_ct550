@@ -64,19 +64,23 @@ const StaffGroup01Page = () => {
             handleCategorySuggestionClick(values.id);
             console.log('value.id', values.id)
             console.log('value.suggestion', values.suggestion)
-            axios
-                .put('http://localhost:5000/api/admin/changeCategorySuggestion', values)
-                .then((response) => {
-                    // Xử lý thành công
-                    console.log(response.data);
-                    // Hiển thị thông báo cập nhật thành công
-                    alert('Cập nhật thành công')
-                    window.location.href = '/staff/group01'; // Sử dụng history để chuyển hướng
-                })
-                .catch((error) => {
-                    // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
-                    console.error(error);
-                });
+
+            // Hiển thị hộp thoại xác nhận
+            if (window.confirm('Bạn có chắc muốn cập nhật không?')) {
+                axios
+                    .put('http://localhost:5000/api/admin/changeCategorySuggestion', values)
+                    .then((response) => {
+                        // Xử lý thành công
+                        console.log(response.data);
+                        // Hiển thị thông báo cập nhật thành công
+                        alert('Cập nhật thành công')
+                        window.location.href = '/staff/group01/id:' + staff.id; // Sử dụng history để chuyển hướng
+                    })
+                    .catch((error) => {
+                        // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
+                        console.error(error);
+                    });
+            }
         },
     });
 
@@ -108,19 +112,23 @@ const StaffGroup01Page = () => {
             handleCategoryModificationClick(values.id);
             console.log('value.id', values.id)
             console.log('value.modification', values.modification)
-            axios
-                .put('http://localhost:5000/api/admin/changeCategoryModification', values)
-                .then((response) => {
-                    // Xử lý thành công
-                    console.log(response.data);
-                    // Hiển thị thông báo cập nhật thành công
-                    alert('Cập nhật thành công')
-                    window.location.href = '/staff/group01'; // Sử dụng history để chuyển hướng
-                })
-                .catch((error) => {
-                    // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
-                    console.error(error);
-                });
+
+            // Hiển thị hộp thoại xác nhận
+            if (window.confirm('Bạn có chắc muốn cập nhật không?')) {
+                axios
+                    .put('http://localhost:5000/api/admin/changeCategoryModification', values)
+                    .then((response) => {
+                        // Xử lý thành công
+                        console.log(response.data);
+                        // Hiển thị thông báo cập nhật thành công
+                        alert('Cập nhật thành công')
+                        window.location.href = '/staff/group01/id:' + staff.id; // Sử dụng history để chuyển hướng
+                    })
+                    .catch((error) => {
+                        // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
+                        console.error(error);
+                    });
+            }
         },
     });
 
@@ -152,21 +160,26 @@ const StaffGroup01Page = () => {
             handleCategoryDescriptionClick(values.id);
             console.log('value.id', values.id)
             console.log('value.description', values.description)
-            axios
-                .put('http://localhost:5000/api/admin/changeCategoryDescription', values)
-                .then((response) => {
-                    // Xử lý thành công
-                    console.log(response.data);
-                    // Hiển thị thông báo cập nhật thành công
-                    alert('Cập nhật thành công')
-                    window.location.href = '/staff/group01'; // Sử dụng history để chuyển hướng 
-                })
-                .catch((error) => {
-                    // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
-                    console.error(error);
-                });
+
+            // Hiển thị hộp thoại xác nhận
+            if (window.confirm('Bạn có chắc muốn cập nhật không?')) {
+                axios
+                    .put('http://localhost:5000/api/admin/changeCategoryDescription', values)
+                    .then((response) => {
+                        // Xử lý thành công
+                        console.log(response.data);
+                        // Hiển thị thông báo cập nhật thành công
+                        alert('Cập nhật thành công')
+                        window.location.href = '/staff/group01/id:' + staff.id; // Sử dụng history để chuyển hướng 
+                    })
+                    .catch((error) => {
+                        // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
+                        console.error(error);
+                    });
+            }
         },
     });
+
 
     //const inputFirstName = formik.values.firstname === user.firstname ? user.firstname : formik.values.firstname;
 
@@ -215,8 +228,8 @@ const StaffGroup01Page = () => {
                                                 placeholder="suggestion"
                                                 value={formik.values[category.id]?.suggestion || category.suggestion}
                                                 onChange={(e) => {
-                                                    formik.handleChange(e);
-                                                    formik.setFieldValue(`${category.id}.suggestion`, e.target.value);
+                                                    const updatedValue = e.target.value;
+                                                    formik.setFieldValue(`${category.id}.suggestion`, updatedValue);
                                                 }}
                                             />
                                             <button
