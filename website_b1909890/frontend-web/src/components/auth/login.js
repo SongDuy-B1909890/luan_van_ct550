@@ -30,6 +30,9 @@ const LoginPage = ({ closeModal }) => {
           localStorage.setItem('user', JSON.stringify(response.data.user));
           console.log(localStorage.getItem('user'))
 
+          // Trả về id user
+          localStorage.setItem('id_user', JSON.stringify(response.data.user.id));
+
           // Hiển thị thông báo đăng ký thành công
           alert('Đăng nhập thành công')
           window.location.href = '/';

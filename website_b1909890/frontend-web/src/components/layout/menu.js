@@ -11,6 +11,9 @@ import FooterPage from './footer';
 import '../../index.css';
 import { Link } from 'react-router-dom';
 
+const userString = localStorage.getItem('user');
+const user = userString ? JSON.parse(userString) : null;
+
 const MenuPage = ({ closeModal }) => {
     const handleBackdropClick = (event) => {
         if (event.target === event.currentTarget) {
@@ -37,6 +40,12 @@ const MenuPage = ({ closeModal }) => {
     const handleCategoryClick = (categoryId,) => {
         localStorage.setItem('id_category', categoryId);
         window.location.href = '/category/id:' + categoryId;
+
+    };
+
+    const handleMyChannelClick = (userId,) => {
+        localStorage.setItem('id_user', userId);
+        window.location.href = '/myChannel/id:' + userId;
 
     };
 
@@ -72,7 +81,9 @@ const MenuPage = ({ closeModal }) => {
                                 </Link>
 
                                 <Link to="/">
-                                    <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer">
+                                    <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"
+                                        onClick={() => handleMyChannelClick(user.id)}
+                                    >
                                         <LiveTvOutlinedIcon className="mr-4" />
                                         Kênh Của Tôi
                                     </li>
@@ -99,7 +110,9 @@ const MenuPage = ({ closeModal }) => {
                         {categories.map((category) => (
                             <div key={category.id}>
                                 <ul className="mt-2">
-                                    <li className="hover:bg-gray-200 hover:text-blue-500 py-2 px-2 rounded-xl cursor-pointer text-blue-900 font-bold" onClick={() => handleCategoryClick(category.id)}>
+                                    <li className="hover:bg-gray-200 hover:text-blue-500 py-2 px-2 rounded-xl cursor-pointer text-blue-900 font-bold"
+                                        onClick={() => handleCategoryClick(category.id)}
+                                    >
                                         <SubscriptionsOutlinedIcon className="mr-4" />
                                         {category.name}
                                     </li>

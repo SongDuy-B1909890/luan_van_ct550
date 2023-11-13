@@ -7,6 +7,8 @@ import ForgotPasswordPage from './components/auth/forgotPassword';
 import MenuPage from './components/layout/menu';
 import FooterPage from './components/layout/footer';
 import CommentPage from './components/layout/comment';
+import MyChannel from './components/layout/myChannel';
+
 import LoginAdminPage from './components/admin/loginAdmin';
 import AdminPage from './components/admin/admin';
 
@@ -53,6 +55,8 @@ function App() {
         <Route path="/forgotPassword" element={<ForgotPasswordPage />}></Route>
         <Route path="/video" element={<VideoPage />}></Route>
         <Route path="/category/:categoryId" element={<CategoryVideoPage />}> </Route>
+
+        <Route path="/myChannel/:userId" element={<MyChannel />}> </Route>
 
         <Route path="/menu" element={<MenuPage />}></Route>
         <Route path="/footer" element={<FooterPage />}></Route>

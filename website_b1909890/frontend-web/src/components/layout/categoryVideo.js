@@ -32,6 +32,7 @@ const CategoryVideoPage = () => {
                 const videosData = response.data;
                 const filteredVideos = videosData.filter((video) => video.id_category === id_category);
                 setVideos(filteredVideos);
+                console.log(id_category);
             })
             .catch((error) => {
                 console.error(error);
