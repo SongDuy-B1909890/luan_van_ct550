@@ -54,6 +54,23 @@ const createFavorite = async (req, res) => {
     }
 };
 
+const favorites = async (req, res) => {
+    try {
+        const snapshot = await get(child(dbRef, 'favorites'));
+        if (snapshot.exists()) {
+            const favoritesData = snapshot.val();
+            const favoritesArray = Object.values(favoritesData);
+            res.status(200).json(favoritesArray);
+        } else {
+            res.status(404).json({ message: 'No data available' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+
 module.exports = {
     createFavorite,
+    favorites,
 };
