@@ -6,7 +6,7 @@ import Avatar from '@mui/material/Avatar';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import CommentRoundedIcon from '@mui/icons-material/CommentRounded';
 import ReplyIcon from '@mui/icons-material/Reply';
-import FlagIcon from '@mui/icons-material/Flag';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import HeaderPage from './header';
 import CommentPage from './comment';
@@ -174,10 +174,7 @@ const MyChannel = () => {
                                                         sx={{ width: 50, height: 50 }}
                                                     />
                                                     <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
-                                                    <button
-                                                        className="w-[100px] h-[35px] ml-3 bg-black text-white font-bold rounded-full hover:bg-gray-800">
-                                                        Đăng ký
-                                                    </button>
+
                                                     <div className="text-right ml-auto">
                                                         <ul className="flex">
                                                             {filteredCategories
@@ -232,13 +229,12 @@ const MyChannel = () => {
                                                             </li>
 
                                                             <li
-                                                                className=""
+                                                                className="mr-auto text-white"
                                                             >
                                                                 <button
-                                                                    className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                    title='Báo cáo'
+                                                                    className="w-[50px] h-[50px] bg-yellow-600 rounded-full hover:bg-yellow-600 transform scale-x-[-1]"
                                                                 >
-                                                                    <FlagIcon />
+                                                                    <DeleteIcon />
                                                                 </button>
                                                             </li>
 

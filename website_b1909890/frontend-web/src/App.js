@@ -4,9 +4,9 @@ import Home from './components/layout/index';
 // import LoginPage from './components/auth/login';
 import RegisterPage from './components/auth/register';
 import ForgotPasswordPage from './components/auth/forgotPassword';
-import MenuPage from './components/layout/menu';
-import FooterPage from './components/layout/footer';
-import CommentPage from './components/layout/comment';
+// import MenuPage from './components/layout/menu';
+// import FooterPage from './components/layout/footer';
+// import CommentPage from './components/layout/comment';
 import MyChannel from './components/layout/myChannel';
 
 import LoginAdminPage from './components/admin/loginAdmin';
@@ -56,11 +56,6 @@ function App() {
         <Route path="/video" element={<VideoPage />}></Route>
         <Route path="/category/:categoryId" element={<CategoryVideoPage />}> </Route>
 
-        <Route path="/myChannel/:userId" element={<MyChannel />}> </Route>
-
-        <Route path="/menu" element={<MenuPage />}></Route>
-        <Route path="/footer" element={<FooterPage />}></Route>
-        <Route path="/comment" element={<CommentPage />}></Route>
         <Route path="/search/:searchValue" element={<SearchVideoPage />}></Route>
 
         {/* Chỉ cho phép truy cập khi đã đăng nhập */}
@@ -68,7 +63,7 @@ function App() {
           <>
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/upload/video" element={<UploadVideoPage />}></Route>
-
+            <Route path="/myChannel/:userId" element={<MyChannel />}> </Route>
           </>
         )}
 
