@@ -20,6 +20,7 @@ const adminRouter = require('./src/routes/admin.router');
 const VideoRouter = require('./src/routes/video.router');
 const CategoryRouter = require('./src/routes/category.router');
 const FavoriteRouter = require('./src/routes/favorite.router');
+const FollowRouter = require('./src/routes/follow.router');
 
 //authRouter.use(authenticateToken)
 // staffRouter.use(staffenticateToken)
@@ -31,6 +32,7 @@ app.use('/api', adminRouter);
 app.use('/api', VideoRouter);
 app.use('/api', CategoryRouter);
 app.use('/api', FavoriteRouter);
+app.use('/api', FollowRouter);
 
 get(child(dbRef, `users`)).then((snapshot) => {
   if (snapshot.exists()) {

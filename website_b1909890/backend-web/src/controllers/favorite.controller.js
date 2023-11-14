@@ -54,6 +54,42 @@ const createFavorite = async (req, res) => {
     }
 };
 
+const deleteFavorite = async (req, res) => {
+    try {
+        const id = req.body.id;
+        const id_video = req.body.id_video;
+
+        if (!id_video) {
+            throw new Error('Missing id_video');
+        }
+
+        const favoritesRef = child(dbRef, 'favorites');
+        const snapshot = await get(favoritesRef);
+
+        if (snapshot.exists()) {
+            const favorites = snapshot.val();
+            const existingFavoriteKey = Object.keys(favorites).find(key => favorites[key].id === id);
+
+            if (existingFavoriteKey) {
+                const existingFavorite = favorites[existingFavoriteKey];
+                const existingIdVideos = Array.isArray(existingFavorite.id_videos) ? existingFavorite.id_videos : [];
+                const updatedIdVideos = existingIdVideos.filter(videoId => videoId !== id_video);
+
+                await update(child(favoritesRef, `${existingFavoriteKey}`), { id_videos: updatedIdVideos });
+
+                res.status(200).json({ success: true, message: 'Video đã được xóa khỏi danh mục yêu thích' });
+            } else {
+                res.status(404).json({ success: false, message: 'Không tìm thấy danh mục yêu thích cho id đã cho' });
+            }
+        } else {
+            res.status(404).json({ success: false, message: 'Không tìm thấy danh mục yêu thích' });
+        }
+    } catch (error) {
+        console.error('Lỗi khi xóa video khỏi danh mục yêu thích:', error);
+        res.status(500).json({ success: false, message: 'Đã xảy ra lỗi khi xóa video khỏi danh mục yêu thích' });
+    }
+};
+
 const favorites = async (req, res) => {
     try {
         const snapshot = await get(child(dbRef, 'favorites'));
@@ -72,5 +108,6 @@ const favorites = async (req, res) => {
 
 module.exports = {
     createFavorite,
+    deleteFavorite,
     favorites,
 };
