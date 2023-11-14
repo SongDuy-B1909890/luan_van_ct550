@@ -8,7 +8,7 @@ const createFavorite = async (req, res) => {
         const id_video = req.body.id_video;
 
         if (!id_video) {
-            throw new Error('Missing id_video');
+            return res.status(400).json({ error: 'Missing id_video' });
         }
 
         const now = Date.now();

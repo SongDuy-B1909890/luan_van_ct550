@@ -18,6 +18,7 @@ import ProfilePage from './components/auth/profile';
 import UploadVideoPage from './components/layout/uploadVideo';
 import CategoryVideoPage from './components/layout/categoryVideo';
 import SearchVideoPage from './components/layout/searchVideo';
+import FavoriteVideoPage from './components/layout/favoriteVideo';
 
 import StaffGroup01Page from './components/satff/staffGroup01';
 import StaffGroup02Page from './components/satff/staffGroup02';
@@ -57,6 +58,8 @@ function App() {
         <Route path="/category/:categoryId" element={<CategoryVideoPage />}> </Route>
 
         <Route path="/search/:searchValue" element={<SearchVideoPage />}></Route>
+
+        <Route path="/favorite" element={<FavoriteVideoPage />}></Route>
 
         {/* Chỉ cho phép truy cập khi đã đăng nhập */}
         {isLoggedIn === "true" && (
