@@ -140,27 +140,35 @@ const FavoriteVideoPage = () => {
         setCurrentPlayingVideo(cloudinaryId);
     };
 
-    const [videoId, setVideoId] = useState('');
-
     const handleFavoriteClick = (videoId) => {
-        setVideoId(videoId);
-        //console.log(user.id);
+        formik.setValues({
+            id: user.id, // Gán giá trị cho cloudinary_id
+            id_video: videoId, // Gán giá trị cho status
+        });
+        formik.handleSubmit(); // Gọi hàm handleSubmit để gửi dữ liệu
     };
 
-    useEffect(() => {
-        if (videoId) {
+    const formik = useFormik({
+        initialValues: {
+            id: '',
+            id_video: '',
+        },
+        onSubmit: (values) => {
+            console.log(values.id)
+            console.log(values.id_video)
+
             axios
-                .post('http://localhost:5000/api/createFavorite', { id: user.id, id_video: videoId })
+                .post('http://localhost:5000/api/createFavorite', values)
                 .then((response) => {
-                    // console.log(response.data);
-                    const videosData = response.data;
-                    console.log(videosData);
+                    console.log(response.data);
+                    //alert('Chấp nhận nội dung theo danh mục thành công');
                 })
                 .catch((error) => {
                     console.error(error);
                 });
         }
-    }, [videoId, user.id]);
+
+    });
 
     return (
         <div>
@@ -225,9 +233,10 @@ const FavoriteVideoPage = () => {
                                                                 ))}
                                                             <li
                                                                 className="mr-4"
-                                                            // onSubmit={formik.handleSubmit}
+                                                                onSubmit={formik.handleSubmit}
                                                             >
                                                                 <button
+                                                                    type="submit"
                                                                     className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
                                                                     title='Yêu thích'
                                                                     onClick={() => handleFavoriteClick(video.cloudinary_id)}
