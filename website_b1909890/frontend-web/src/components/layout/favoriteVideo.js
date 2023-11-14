@@ -140,12 +140,14 @@ const FavoriteVideoPage = () => {
         setCurrentPlayingVideo(cloudinaryId);
     };
 
+    const [favorite, setFavorite] = useState(false);
     const handleFavoriteClick = (videoId) => {
         formik.setValues({
             id: user.id, // Gán giá trị cho cloudinary_id
             id_video: videoId, // Gán giá trị cho status
         });
         formik.handleSubmit(); // Gọi hàm handleSubmit để gửi dữ liệu
+        setFavorite(true);
     };
 
     const formik = useFormik({
@@ -231,23 +233,40 @@ const FavoriteVideoPage = () => {
                                                                     </li>
 
                                                                 ))}
-                                                            <li
-                                                                className="mr-4"
-                                                                onSubmit={formik.handleSubmit}
-                                                            >
-                                                                <button
-                                                                    type="submit"
-                                                                    className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                    title='Yêu thích'
-                                                                    onClick={() => handleFavoriteClick(video.cloudinary_id)}
-
+                                                            {favorite === false ? (
+                                                                <li
+                                                                    className="mr-4"
+                                                                    onSubmit={formik.handleSubmit}
                                                                 >
-                                                                    <FavoriteRoundedIcon />
-                                                                </button>
-                                                            </li>
+                                                                    <button
+                                                                        type="submit"
+                                                                        className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                        title='Yêu thích'
+                                                                        onClick={() => handleFavoriteClick(video.cloudinary_id)}
+
+                                                                    >
+                                                                        <FavoriteRoundedIcon />
+                                                                    </button>
+                                                                </li>
+                                                            ) : (
+                                                                <li
+                                                                    className="mr-4 text-white"
+                                                                // onSubmit={formik.handleSubmit}
+                                                                >
+                                                                    <button
+                                                                        type="submit"
+                                                                        className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                        title='Yêu thích'
+                                                                        onClick={() => handleFavoriteClick(video.cloudinary_id)}
+
+                                                                    >
+                                                                        <FavoriteRoundedIcon />
+                                                                    </button>
+                                                                </li>
+                                                            )}
 
                                                             <li
-                                                                className="mr-4"
+                                                                className="mr-4 "
                                                             >
                                                                 <button
                                                                     className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
