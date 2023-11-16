@@ -144,25 +144,38 @@ const deleteFavorite = async (req, res) => {
         res.status(500).json({ success: false, message: 'Đã xảy ra lỗi khi xóa video khỏi danh mục yêu thích' });
     }
 };
-
 const favorites = async (req, res) => {
     try {
+        const id_user = req.params.id_user; // Thay đổi từ req.query.id_user thành req.params.id_user
+
         const snapshot = await get(child(dbRef, 'favorites'));
         if (snapshot.exists()) {
             const favoritesData = snapshot.val();
             const favoritesArray = Object.values(favoritesData);
-            res.status(200).json(favoritesArray);
+
+            const filteredFavorites = favoritesArray.filter(
+                (favorite) => favorite.id === id_user
+            );
+
+            if (filteredFavorites.length > 0) {
+                res.status(200).json(filteredFavorites);
+            } else {
+                res
+                    .status(404)
+                    .json({ message: 'No data available for the given id' });
+            }
         } else {
             res.status(404).json({ message: 'No data available' });
         }
+
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-}
+};
 
 
 module.exports = {
     createFavorite,
     deleteFavorite,
     favorites,
-};
+}; 

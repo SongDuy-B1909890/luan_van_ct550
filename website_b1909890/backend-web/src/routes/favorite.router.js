@@ -9,6 +9,6 @@ router.post('/createFavorite', FavoriteController.createFavorite);
 router.delete('/deleteFavorite', FavoriteController.deleteFavorite);
 
 // Danh sách danh mục
-router.get('/favorites', FavoriteController.favorites);
+router.get('/favorites/:id_user', FavoriteController.favorites);
 
 module.exports = router;
