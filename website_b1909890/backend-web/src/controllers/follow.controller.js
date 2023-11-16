@@ -8,7 +8,7 @@ const createFollow = async (req, res) => {
         const id_follow = req.body.id_follow;
 
         if (!id_follow) {
-            throw new Error('Missing id_follow');
+            return res.status(400).json({ error: 'Missing id_follow' });
         }
 
         const now = Date.now();
@@ -30,6 +30,9 @@ const createFollow = async (req, res) => {
             if (existingFollowKey) {
                 const existingFollow = follows[existingFollowKey]; // Thay đổi biến favorites thành follows
                 const existingIdFollows = Array.isArray(existingFollow.id_follows) ? existingFollow.id_follows : []; // Thay đổi biến id_follow thành id_follows
+                if (existingIdFollows.includes(id_follow)) {
+                    return res.status(200).json({ success: false, message: 'Đã tồn tại trong danh sách đăng ký' });
+                }
                 const updatedIdFollows = [...existingIdFollows, id_follow];
                 await update(child(followsRef, `${existingFollowKey}`), { id_follows: updatedIdFollows, created_at: reversedDate }); // Thay đổi biến favorites thành follows
             } else {

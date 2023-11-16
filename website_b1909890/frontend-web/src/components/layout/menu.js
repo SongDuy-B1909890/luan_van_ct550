@@ -49,6 +49,12 @@ const MenuPage = ({ closeModal }) => {
 
     };
 
+    const handleFavoriteClick = (userId,) => {
+        localStorage.setItem('id_user', userId);
+        window.location.href = '/favorite/id:' + userId;
+
+    };
+
     return (
 
         <div className="w-screen h-screen bg-black bg-opacity-50 flex py fixed inset-0 z-50 " onClick={handleBackdropClick}>
@@ -97,7 +103,9 @@ const MenuPage = ({ closeModal }) => {
                                 </Link>
 
                                 <Link to="/">
-                                    <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer">
+                                    <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"
+                                        onClick={() => handleFavoriteClick(user.id)}
+                                    >
                                         <FavoriteBorderOutlinedIcon className="mr-4" />
                                         Video yêu thích
                                     </li>

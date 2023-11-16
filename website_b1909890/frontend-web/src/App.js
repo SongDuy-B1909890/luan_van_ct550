@@ -59,14 +59,13 @@ function App() {
 
         <Route path="/search/:searchValue" element={<SearchVideoPage />}></Route>
 
-        <Route path="/favorite" element={<FavoriteVideoPage />}></Route>
-
         {/* Chỉ cho phép truy cập khi đã đăng nhập */}
         {isLoggedIn === "true" && (
           <>
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/upload/video" element={<UploadVideoPage />}></Route>
             <Route path="/myChannel/:userId" element={<MyChannel />}> </Route>
+            <Route path="/favorite/:userId" element={<FavoriteVideoPage />}></Route>
           </>
         )}
 

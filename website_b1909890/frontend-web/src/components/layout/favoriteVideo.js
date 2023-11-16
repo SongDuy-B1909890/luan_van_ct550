@@ -27,7 +27,6 @@ const FavoriteVideoPage = () => {
     const [categories, setCategories] = useState([]);
     const [filteredCategories, setFilteredCategories] = useState([]);
 
-
     useEffect(() => {
         axios
             .get('http://localhost:5000/api/acceptedVideos')
@@ -36,7 +35,7 @@ const FavoriteVideoPage = () => {
                 const videosData = response.data;
                 const filteredVideos = videosData.filter((video) => video.id_category === id_category);
                 setVideos(filteredVideos);
-                console.log(id_category);
+                //console.log(id_category);
             })
             .catch((error) => {
                 console.error(error);
@@ -140,15 +139,61 @@ const FavoriteVideoPage = () => {
         setCurrentPlayingVideo(cloudinaryId);
     };
 
-    const [favorite, setFavorite] = useState(false);
+    // const handleFavoriteClick = (videoId) => {
+    //     let updatedFavorites;
+    //     if (favorites.includes(videoId)) {
+    //         // Xóa video khỏi danh sách yêu thích
+    //         updatedFavorites = favorites.filter((id) => id !== videoId);
+    //     } else {
+    //         // Thêm video vào danh sách yêu thích
+    //         updatedFavorites = [...favorites, videoId];
+    //     }
+    //     setFavorites(updatedFavorites);
+    //     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+
+    //     formik.setValues({
+    //         id: user.id,
+    //         id_video: videoId,
+    //     });
+    //     formik.handleSubmit();
+    // };
+
+    // useEffect(() => {
+    //     const storedFavorites = JSON.parse(localStorage.getItem('favorites'));
+    //     if (storedFavorites) {
+    //         setFavorites(storedFavorites);
+    //     }
+    // }, []);
+
+    const [favorites, setFavorites] = useState([]);
+
     const handleFavoriteClick = (videoId) => {
+        let updatedFavorites;
+        if (favorites.includes(videoId)) {
+            // Xóa video khỏi danh sách yêu thích
+            updatedFavorites = favorites.filter((id) => id !== videoId);
+        } else {
+            // Thêm video vào danh sách yêu thích
+            updatedFavorites = [...favorites, videoId];
+        }
+        setFavorites(updatedFavorites);
+        localStorage.setItem(`favorites_${user.id}`, JSON.stringify(updatedFavorites));
+
         formik.setValues({
-            id: user.id, // Gán giá trị cho cloudinary_id
-            id_video: videoId, // Gán giá trị cho status
+            id: user.id,
+            id_video: videoId,
         });
-        formik.handleSubmit(); // Gọi hàm handleSubmit để gửi dữ liệu
-        setFavorite(true);
+        formik.handleSubmit();
     };
+
+    useEffect(() => {
+        const storedFavorites = JSON.parse(localStorage.getItem(`favorites_${user.id}`));
+        if (storedFavorites) {
+            setFavorites(storedFavorites);
+        }
+    }, []);
+
+    const isVideoFavorite = (videoId) => favorites.includes(videoId);
 
     const formik = useFormik({
         initialValues: {
@@ -158,16 +203,30 @@ const FavoriteVideoPage = () => {
         onSubmit: (values) => {
             console.log(values.id)
             console.log(values.id_video)
+            if (!isVideoFavorite(values.id_video)) {
+                axios
+                    .post('http://localhost:5000/api/createFavorite', values)
+                    .then((response) => {
+                        console.log(response.data);
 
-            axios
-                .post('http://localhost:5000/api/createFavorite', values)
-                .then((response) => {
-                    console.log(response.data);
-                    //alert('Chấp nhận nội dung theo danh mục thành công');
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+                        console.log(response.data.success);
+                        //alert('Chấp nhận nội dung theo danh mục thành công');
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            } else {
+                axios
+                    .delete('http://localhost:5000/api/deleteFavorite', { data: values })
+                    .then((response) => {
+                        console.log(response.data);
+                        //alert('Chấp nhận nội dung theo danh mục thành công');
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
+
         }
 
     });
@@ -233,32 +292,24 @@ const FavoriteVideoPage = () => {
                                                                     </li>
 
                                                                 ))}
-                                                            {favorite === false ? (
-                                                                <li
-                                                                    className="mr-4"
-                                                                    onSubmit={formik.handleSubmit}
-                                                                >
+                                                            {isVideoFavorite(video.cloudinary_id) ? (
+                                                                <li className="mr-4 " onSubmit={formik.handleSubmit}>
                                                                     <button
                                                                         type="submit"
                                                                         className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                        title='Yêu thích'
+                                                                        title="Yêu thích"
                                                                         onClick={() => handleFavoriteClick(video.cloudinary_id)}
-
                                                                     >
                                                                         <FavoriteRoundedIcon />
                                                                     </button>
                                                                 </li>
                                                             ) : (
-                                                                <li
-                                                                    className="mr-4 text-white"
-                                                                // onSubmit={formik.handleSubmit}
-                                                                >
+                                                                <li className="mr-4 text-red-500" onSubmit={formik.handleSubmit}>
                                                                     <button
                                                                         type="submit"
                                                                         className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                        title='Yêu thích'
+                                                                        title="Yêu thích"
                                                                         onClick={() => handleFavoriteClick(video.cloudinary_id)}
-
                                                                     >
                                                                         <FavoriteRoundedIcon />
                                                                     </button>
