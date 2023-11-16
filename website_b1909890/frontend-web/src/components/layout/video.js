@@ -12,8 +12,7 @@ import FlagIcon from '@mui/icons-material/Flag';
 import CommentPage from './comment';
 import DescriptionPage from './description';
 
-const userString = localStorage.getItem('user');
-const user = userString ? JSON.parse(userString) : null;
+const id_user = localStorage.getItem('id_user');
 
 const VideoPage = () => {
     const [videos, setVideos] = useState([]);
@@ -146,17 +145,17 @@ const VideoPage = () => {
             updatedFavorites = [...favorites, videoId];
         }
         setFavorites(updatedFavorites);
-        localStorage.setItem(`favorites_${user.id}`, JSON.stringify(updatedFavorites));
+        localStorage.setItem(`favorites_${id_user}`, JSON.stringify(updatedFavorites));
 
         formik.setValues({
-            id: user.id,
+            id: id_user,
             id_video: videoId,
         });
         formik.handleSubmit();
     };
 
     useEffect(() => {
-        const storedFavorites = JSON.parse(localStorage.getItem(`favorites_${user.id}`));
+        const storedFavorites = JSON.parse(localStorage.getItem(`favorites_${id_user}`));
         if (storedFavorites) {
             setFavorites(storedFavorites);
         }
@@ -170,16 +169,13 @@ const VideoPage = () => {
             id_video: '',
         },
         onSubmit: (values) => {
-            console.log(values.id)
-            console.log(values.id_video)
+
             if (!isVideoFavorite(values.id_video)) {
                 axios
                     .post('http://localhost:5000/api/createFavorite', values)
                     .then((response) => {
                         console.log(response.data);
-
-                        console.log(response.data.success);
-                        //alert('Chấp nhận nội dung theo danh mục thành công');
+                        //alert('Đã thêm video vào danh sách yêu thích');
                     })
                     .catch((error) => {
                         console.error(error);
@@ -189,7 +185,7 @@ const VideoPage = () => {
                     .delete('http://localhost:5000/api/deleteFavorite', { data: values })
                     .then((response) => {
                         console.log(response.data);
-                        //alert('Chấp nhận nội dung theo danh mục thành công');
+                        //alert('Đã thêm video vào danh sách yêu thích');
                     })
                     .catch((error) => {
                         console.error(error);
@@ -199,6 +195,69 @@ const VideoPage = () => {
         }
 
     });
+
+
+    const [follows, setFollows] = useState([]);
+
+    const handleFollowClick = (followId) => {
+        let updatedFollows;
+        if (follows.includes(followId)) {
+            // Xóa kênh khỏi danh sách theo dõi
+            updatedFollows = follows.filter((id) => id !== followId);
+        } else {
+            // Thêm kênh vào danh sách theo dõi
+            updatedFollows = [...follows, followId];
+        }
+        setFollows(updatedFollows);
+        localStorage.setItem(`follows_${id_user}`, JSON.stringify(updatedFollows));
+
+        formik01.setValues({
+            id: id_user,
+            id_follow: followId,
+        });
+        formik01.handleSubmit();
+    };
+
+    useEffect(() => {
+        const storedFollows = JSON.parse(localStorage.getItem(`follows_${id_user}`));
+        if (storedFollows) {
+            setFollows(storedFollows);
+        }
+    }, []);
+
+    const isChannelFollowed = (channelId) => follows.includes(channelId);
+
+    const formik01 = useFormik({
+        initialValues: {
+            id: '',
+            id_follow: '',
+        },
+        onSubmit: (values) => {
+            if (!isChannelFollowed(values.id_follow)) {
+                axios
+                    .post('http://localhost:5000/api/createFollow', values)
+                    .then((response) => {
+                        console.log(response.data);
+                        //alert('Đã thêm kênh vào danh sách theo dõi');
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            } else {
+                axios
+                    .delete('http://localhost:5000/api/deleteFollow', { data: values })
+                    .then((response) => {
+                        console.log(response.data);
+                        //alert('Đã xóa kênh khỏi danh sách theo dõi');
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
+        }
+    });
+
+
     return (
         <div className="w-full h-full overflow-auto bg-white mt-[70px]">
             {videos.map((video, index) => (
@@ -235,10 +294,31 @@ const VideoPage = () => {
                                                     sx={{ width: 50, height: 50 }}
                                                 />
                                                 <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
-                                                <button
-                                                    className="w-[100px] h-[35px] ml-3 bg-black text-white font-bold rounded-full hover:bg-gray-800">
-                                                    Đăng ký
-                                                </button>
+                                                {isChannelFollowed(user.id) ? (
+                                                    <div
+                                                        onSubmit={formik01.handleSubmit}
+                                                    >
+                                                        <button
+                                                            type="submit"
+                                                            className="w-[110px] h-[35px] ml-3 bg-black text-white font-bold rounded-full hover:bg-gray-800"
+                                                            onClick={() => handleFollowClick(user.id)}
+                                                        >
+                                                            Đăng ký
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    <div
+                                                        onSubmit={formik01.handleSubmit}
+                                                    >
+                                                        <button
+                                                            type="submit"
+                                                            className="w-[110px] h-[35px] ml-3 bg-red-100 text-black font-bold rounded-full hover:bg-red-100"
+                                                            onClick={() => handleFollowClick(user.id)}
+                                                        >
+                                                            Đã đăng ký
+                                                        </button>
+                                                    </div>
+                                                )}
                                                 <div className="text-right ml-auto">
                                                     <ul className="flex">
                                                         {filteredCategories

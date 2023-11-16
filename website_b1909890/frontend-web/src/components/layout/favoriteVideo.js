@@ -139,32 +139,6 @@ const FavoriteVideoPage = () => {
         setCurrentPlayingVideo(cloudinaryId);
     };
 
-    // const handleFavoriteClick = (videoId) => {
-    //     let updatedFavorites;
-    //     if (favorites.includes(videoId)) {
-    //         // Xóa video khỏi danh sách yêu thích
-    //         updatedFavorites = favorites.filter((id) => id !== videoId);
-    //     } else {
-    //         // Thêm video vào danh sách yêu thích
-    //         updatedFavorites = [...favorites, videoId];
-    //     }
-    //     setFavorites(updatedFavorites);
-    //     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-
-    //     formik.setValues({
-    //         id: user.id,
-    //         id_video: videoId,
-    //     });
-    //     formik.handleSubmit();
-    // };
-
-    // useEffect(() => {
-    //     const storedFavorites = JSON.parse(localStorage.getItem('favorites'));
-    //     if (storedFavorites) {
-    //         setFavorites(storedFavorites);
-    //     }
-    // }, []);
-
     const [favorites, setFavorites] = useState([]);
 
     const handleFavoriteClick = (videoId) => {
@@ -201,16 +175,13 @@ const FavoriteVideoPage = () => {
             id_video: '',
         },
         onSubmit: (values) => {
-            console.log(values.id)
-            console.log(values.id_video)
+
             if (!isVideoFavorite(values.id_video)) {
                 axios
                     .post('http://localhost:5000/api/createFavorite', values)
                     .then((response) => {
-                        console.log(response.data);
-
-                        console.log(response.data.success);
-                        //alert('Chấp nhận nội dung theo danh mục thành công');
+                        console.log('Đã thêm video vào danh sách yêu thích');
+                        //alert('Đã thêm video vào danh sách yêu thích');
                     })
                     .catch((error) => {
                         console.error(error);
@@ -219,8 +190,8 @@ const FavoriteVideoPage = () => {
                 axios
                     .delete('http://localhost:5000/api/deleteFavorite', { data: values })
                     .then((response) => {
-                        console.log(response.data);
-                        //alert('Chấp nhận nội dung theo danh mục thành công');
+                        console.log('Đã thêm video vào danh sách yêu thích');
+                        //alert('Đã thêm video vào danh sách yêu thích');
                     })
                     .catch((error) => {
                         console.error(error);

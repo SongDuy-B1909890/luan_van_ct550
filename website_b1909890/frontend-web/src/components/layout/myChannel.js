@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ReactPlayer from 'react-player/lazy';
 import axios from 'axios';
+import { useFormik } from "formik"
 
 import Avatar from '@mui/material/Avatar';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
@@ -136,6 +137,69 @@ const MyChannel = () => {
         setCurrentPlayingVideo(cloudinaryId);
     };
 
+    const [favorites, setFavorites] = useState([]);
+
+    const handleFavoriteClick = (videoId) => {
+        let updatedFavorites;
+        if (favorites.includes(videoId)) {
+            // Xóa video khỏi danh sách yêu thích
+            updatedFavorites = favorites.filter((id) => id !== videoId);
+        } else {
+            // Thêm video vào danh sách yêu thích
+            updatedFavorites = [...favorites, videoId];
+        }
+        setFavorites(updatedFavorites);
+        localStorage.setItem(`favorites_${id_user}`, JSON.stringify(updatedFavorites));
+
+        formik.setValues({
+            id: id_user,
+            id_video: videoId,
+        });
+        formik.handleSubmit();
+    };
+
+    useEffect(() => {
+        const storedFavorites = JSON.parse(localStorage.getItem(`favorites_${id_user}`));
+        if (storedFavorites) {
+            setFavorites(storedFavorites);
+        }
+    }, []);
+
+    const isVideoFavorite = (videoId) => favorites.includes(videoId);
+
+    const formik = useFormik({
+        initialValues: {
+            id: '',
+            id_video: '',
+        },
+        onSubmit: (values) => {
+
+            if (!isVideoFavorite(values.id_video)) {
+                axios
+                    .post('http://localhost:5000/api/createFavorite', values)
+                    .then((response) => {
+                        console.log(response.data);
+                        //alert('Đã thêm video vào danh sách yêu thích');
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            } else {
+                axios
+                    .delete('http://localhost:5000/api/deleteFavorite', { data: values })
+                    .then((response) => {
+                        console.log(response.data);
+                        //alert('Đã thêm video vào danh sách yêu thích');
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
+
+        }
+
+    });
+
     return (
         <div>
             <HeaderPage />
@@ -194,16 +258,29 @@ const MyChannel = () => {
                                                                     </li>
 
                                                                 ))}
-                                                            <li
-                                                                className="mr-4"
-                                                            >
-                                                                <button
-                                                                    className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                    title='Yêu thích'
-                                                                >
-                                                                    <FavoriteRoundedIcon />
-                                                                </button>
-                                                            </li>
+                                                            {isVideoFavorite(video.cloudinary_id) ? (
+                                                                <li className="mr-4 " onSubmit={formik.handleSubmit}>
+                                                                    <button
+                                                                        type="submit"
+                                                                        className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                        title="Yêu thích"
+                                                                        onClick={() => handleFavoriteClick(video.cloudinary_id)}
+                                                                    >
+                                                                        <FavoriteRoundedIcon />
+                                                                    </button>
+                                                                </li>
+                                                            ) : (
+                                                                <li className="mr-4 text-red-500" onSubmit={formik.handleSubmit}>
+                                                                    <button
+                                                                        type="submit"
+                                                                        className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                        title="Yêu thích"
+                                                                        onClick={() => handleFavoriteClick(video.cloudinary_id)}
+                                                                    >
+                                                                        <FavoriteRoundedIcon />
+                                                                    </button>
+                                                                </li>
+                                                            )}
 
                                                             <li
                                                                 className="mr-4"

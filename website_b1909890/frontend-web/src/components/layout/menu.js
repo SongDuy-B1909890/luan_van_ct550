@@ -37,9 +37,9 @@ const MenuPage = ({ closeModal }) => {
 
     }, []);
 
-    const handleCategoryClick = (categoryId,) => {
+    const handleCategoryClick = (categoryId, categoryName) => {
         localStorage.setItem('id_category', categoryId);
-        window.location.href = '/category/id:' + categoryId;
+        window.location.href = '/category/name:/id:' + categoryName + categoryId;
 
     };
 
@@ -119,7 +119,7 @@ const MenuPage = ({ closeModal }) => {
                             <div key={category.id}>
                                 <ul className="mt-2">
                                     <li className="hover:bg-gray-200 hover:text-blue-500 py-2 px-2 rounded-xl cursor-pointer text-blue-900 font-bold"
-                                        onClick={() => handleCategoryClick(category.id)}
+                                        onClick={() => handleCategoryClick(category.id, category.name)}
                                     >
                                         <SubscriptionsOutlinedIcon className="mr-4" />
                                         {category.name}
