@@ -5,7 +5,8 @@ import { useFormik } from "formik"
 
 import Avatar from '@mui/material/Avatar';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
-import CommentRoundedIcon from '@mui/icons-material/CommentRounded';
+import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
+import InsertCommentOutlinedIcon from '@mui/icons-material/InsertCommentOutlined';
 import ReplyIcon from '@mui/icons-material/Reply';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -267,7 +268,7 @@ const MyChannel = () => {
                                                                         title="Yêu thích"
                                                                         onClick={() => handleFavoriteClick(video.cloudinary_id)}
                                                                     >
-                                                                        <FavoriteRoundedIcon />
+                                                                        <FavoriteBorderRoundedIcon />
                                                                     </button>
                                                                 </li>
                                                             ) : (
@@ -291,7 +292,7 @@ const MyChannel = () => {
                                                                     title='Bình luận'
                                                                     onClick={() => CommentModal(video.cloudinary_id)}
                                                                 >
-                                                                    <CommentRoundedIcon />
+                                                                    <InsertCommentOutlinedIcon />
                                                                 </button>
 
                                                             </li>

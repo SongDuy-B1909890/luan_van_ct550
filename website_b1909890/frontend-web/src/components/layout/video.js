@@ -5,9 +5,10 @@ import { useFormik } from "formik"
 
 import Avatar from '@mui/material/Avatar';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
-import CommentRoundedIcon from '@mui/icons-material/CommentRounded';
+import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
+import InsertCommentOutlinedIcon from '@mui/icons-material/InsertCommentOutlined';
 import ReplyIcon from '@mui/icons-material/Reply';
-import FlagIcon from '@mui/icons-material/Flag';
+import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined';
 
 import CommentPage from './comment';
 import DescriptionPage from './description';
@@ -346,7 +347,7 @@ const VideoPage = () => {
                                                                     title="Yêu thích"
                                                                     onClick={() => handleFavoriteClick(video.cloudinary_id)}
                                                                 >
-                                                                    <FavoriteRoundedIcon />
+                                                                    <FavoriteBorderRoundedIcon />
                                                                 </button>
                                                             </li>
                                                         ) : (
@@ -371,7 +372,7 @@ const VideoPage = () => {
                                                                 title='Bình luận'
                                                                 onClick={() => CommentModal(video.cloudinary_id)}
                                                             >
-                                                                <CommentRoundedIcon />
+                                                                <InsertCommentOutlinedIcon />
                                                             </button>
 
                                                         </li>
@@ -392,7 +393,7 @@ const VideoPage = () => {
                                                                 className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
                                                                 title='Báo cáo'
                                                             >
-                                                                <FlagIcon />
+                                                                <FlagOutlinedIcon />
                                                             </button>
                                                         </li>
 
