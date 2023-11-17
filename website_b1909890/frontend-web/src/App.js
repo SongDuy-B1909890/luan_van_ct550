@@ -8,6 +8,7 @@ import ForgotPasswordPage from './components/auth/forgotPassword';
 // import FooterPage from './components/layout/footer';
 // import CommentPage from './components/layout/comment';
 import MyChannel from './components/layout/myChannel';
+import ChannelFollowedPage from './components/layout/channelFollowed';
 
 import LoginAdminPage from './components/admin/loginAdmin';
 import AdminPage from './components/admin/admin';
@@ -66,6 +67,7 @@ function App() {
             <Route path="/upload/video" element={<UploadVideoPage />}></Route>
             <Route path="/myChannel/:userId" element={<MyChannel />}> </Route>
             <Route path="/favorite/:userId" element={<FavoriteVideoPage />}></Route>
+            <Route path="/channel/followed/:userId" element={<ChannelFollowedPage />}></Route>
           </>
         )}
 

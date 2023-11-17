@@ -96,14 +96,28 @@ const deleteFollow = async (req, res) => {
 
 const follows = async (req, res) => {
     try {
+        const id_user = req.params.id_user; // Thay đổi từ req.query.id_user thành req.params.id_user
+
         const snapshot = await get(child(dbRef, 'follows'));
         if (snapshot.exists()) {
             const followsData = snapshot.val();
             const followsArray = Object.values(followsData);
-            res.status(200).json(followsArray);
+
+            const filteredFollows = followsArray.filter(
+                (follow) => follow.id === id_user
+            );
+
+            if (filteredFollows.length > 0) {
+                res.status(200).json(filteredFollows);
+            } else {
+                res
+                    .status(404)
+                    .json({ message: 'No data available for the given id' });
+            }
         } else {
             res.status(404).json({ message: 'No data available' });
         }
+
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

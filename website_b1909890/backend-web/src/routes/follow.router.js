@@ -9,6 +9,6 @@ router.post('/createFollow', FollowController.createFollow);
 router.delete('/deleteFollow', FollowController.deleteFollow);
 
 // Danh sách danh mục
-router.get('/follows', FollowController.follows);
+router.get('/follows/:id_user', FollowController.follows);
 
 module.exports = router;

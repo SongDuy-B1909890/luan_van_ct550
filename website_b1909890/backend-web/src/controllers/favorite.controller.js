@@ -72,40 +72,49 @@ const createFavorite = async (req, res) => {
         const reversedDate = `${parts[1]}/${parts[0]}/${parts[2]}`;
 
         const favoritesRef = child(dbRef, 'favorites');
-        const newFavoriteRef = push(favoritesRef);
-        const newFavoriteKey = newFavoriteRef.key;
-
         const snapshot = await get(favoritesRef);
+
         if (snapshot.exists()) {
             const favorites = snapshot.val();
-            const existingFavoriteKey = Object.keys(favorites).find(key => favorites[key].id === id);
+            const existingFavoriteKey = Object.keys(favorites).find((key) => favorites[key].id === id);
+
             if (existingFavoriteKey) {
                 const existingFavorite = favorites[existingFavoriteKey];
                 const existingIdVideos = Array.isArray(existingFavorite.id_videos) ? existingFavorite.id_videos : [];
+
                 if (existingIdVideos.includes(id_video)) {
-                    return res.status(200).json({ success: false, message: 'Đã tồn tại trong danh sách yêu thích' });
+                    return res
+                        .status(200)
+                        .json({ success: false, message: 'Đã tồn tại trong danh sách yêu thích' });
                 }
+
                 const updatedIdVideos = [...existingIdVideos, id_video];
-                await update(child(favoritesRef, `${existingFavoriteKey}`), { id_videos: updatedIdVideos, created_at: reversedDate });
-            } else {
-                await set(child(favoritesRef, newFavoriteKey), {
-                    id: id,
-                    id_videos: [id_video],
+                await update(child(favoritesRef, `${existingFavoriteKey}`), {
+                    id_videos: updatedIdVideos,
                     created_at: reversedDate,
                 });
+
+                return res
+                    .status(200)
+                    .json({ success: true, message: 'Danh mục đã được cập nhật thành công' });
             }
-        } else {
-            await set(child(favoritesRef, newFavoriteKey), {
-                id: id,
-                id_videos: [id_video],
-                created_at: reversedDate,
-            });
         }
 
-        res.status(200).json({ success: true, message: 'Danh mục đã được tạo hoặc cập nhật thành công' });
+        const newFavoriteRef = push(favoritesRef);
+        const newFavoriteKey = newFavoriteRef.key;
+
+        await set(child(favoritesRef, newFavoriteKey), {
+            id: id,
+            id_videos: [id_video],
+            created_at: reversedDate,
+        });
+
+        res.status(200).json({ success: true, message: 'Danh mục đã được tạo thành công' });
     } catch (error) {
         console.error('Lỗi khi tạo hoặc cập nhật danh mục:', error);
-        res.status(500).json({ success: false, message: 'Đã xảy ra lỗi khi tạo hoặc cập nhật danh mục' });
+        res
+            .status(500)
+            .json({ success: false, message: 'Đã xảy ra lỗi khi tạo hoặc cập nhật danh mục' });
     }
 };
 

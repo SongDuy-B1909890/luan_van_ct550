@@ -13,38 +13,46 @@ import HeaderPage from './header';
 import CommentPage from './comment';
 import DescriptionPage from './description';
 
-const id_category = localStorage.getItem('id_category');
-
 const id_user = localStorage.getItem('id_user');
 
-const CategoryVideoPage = () => {
-    const [videos, setVideos] = useState([]);
+const ChannelFollowedPage = () => {
 
+    const [videos, setVideos] = useState([]);
     const [users, setUsers] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
-
     const [categories, setCategories] = useState([]);
     const [filteredCategories, setFilteredCategories] = useState([]);
 
-
     useEffect(() => {
-        axios
-            .get('http://localhost:5000/api/acceptedVideos')
-            .then((response) => {
-                // console.log(response.data);
-                const videosData = response.data;
-                const filteredVideos = videosData.filter((video) => video.id_category === id_category);
-                setVideos(filteredVideos);
-                console.log(id_category);
+        axios.get(`http://localhost:5000/api/follows/${id_user}`)
+            .then((followsResponse) => {
+                const followsData = followsResponse.data;
+
+                axios.get('http://localhost:5000/api/acceptedVideos')
+                    .then((videosResponse) => {
+                        const videosData = videosResponse.data;
+
+                        // Lọc danh sách video dựa trên id_videos và cloudinary_id
+                        const filteredVideos = videosData.filter((video) =>
+                            followsData.some((followed) =>
+                                followed.id_follows && Array.isArray(followed.id_follows) && followed.id_follows.includes(video.id_user)
+                            )
+                        );
+
+                        // Sử dụng danh sách video đã lọc
+                        console.log(filteredVideos);
+                        setVideos(filteredVideos);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
             })
             .catch((error) => {
                 console.error(error);
             });
 
-        axios
-            .get('http://localhost:5000/api/users')
+        axios.get('http://localhost:5000/api/users')
             .then((response) => {
-                // console.log(response.data);
                 const usersData = response.data;
                 setUsers(usersData);
             })
@@ -52,10 +60,8 @@ const CategoryVideoPage = () => {
                 console.error(error);
             });
 
-        axios
-            .get('http://localhost:5000/api/admin/categories')
+        axios.get('http://localhost:5000/api/admin/categories')
             .then((response) => {
-                // console.log(response.data);
                 const categoriesData = response.data;
                 setCategories(categoriesData);
             })
@@ -65,9 +71,9 @@ const CategoryVideoPage = () => {
     }, []);
 
     useEffect(() => {
-        // Lọc danh sách người dùng dựa trên id_category của video
+        // Lọc danh sách người dùng dựa trên id_user của video
         const filteredUsers = users.filter((user) =>
-            videos.some((video) => video.id_user === user.id && video.id_category === id_category)
+            videos.some((video) => video.id_user === user.id)
         );
         setFilteredUsers(filteredUsers);
 
@@ -99,7 +105,7 @@ const CategoryVideoPage = () => {
             setIsCommentModal(false);
         }
         if (isDescriptionModal === true && isSelectVideoDescription === videoId) {
-            console.log(videoId);
+            //console.log(videoId);
             setIsSelectVideoDescription(null);
             setIsDescriptionModal(false);
         }
@@ -262,6 +268,7 @@ const CategoryVideoPage = () => {
         }
     });
 
+
     return (
         <div>
             <HeaderPage />
@@ -344,7 +351,6 @@ const CategoryVideoPage = () => {
                                                                     </li>
 
                                                                 ))}
-
                                                             {isVideoFavorite(video.cloudinary_id) ? (
                                                                 <li className="mr-4 " onSubmit={formik.handleSubmit}>
                                                                     <button
@@ -370,7 +376,7 @@ const CategoryVideoPage = () => {
                                                             )}
 
                                                             <li
-                                                                className="mr-4"
+                                                                className="mr-4 "
                                                             >
                                                                 <button
                                                                     className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
@@ -421,4 +427,4 @@ const CategoryVideoPage = () => {
     );
 };
 
-export default CategoryVideoPage;
+export default ChannelFollowedPage;

@@ -105,12 +105,6 @@ const UploadVideoPage = () => {
                             </p>
                         </div>
 
-                        {loading && (
-                            <div className="flex justify-center mt-4">
-                                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900"></div>
-                                <p className="ml-2">Đang tải... {progress}%</p>
-                            </div>
-                        )}
                         <div>
                             <form className="space-y-6" onSubmit={formik.handleSubmit} encType="multipart/form-data">
 
@@ -211,14 +205,23 @@ const UploadVideoPage = () => {
                                     )}
                                 </div>
 
-                                <div className="z-10 flex justify-center">
-                                    <button
-                                        type="submit"
-                                        className="group py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                    >
-                                        Xong
-                                    </button>
-                                </div>
+                                {
+                                    loading === true ? (
+                                        <div className="flex justify-center mt-4">
+                                            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900"></div>
+                                            <p className="ml-2">Đang tải... {progress}%</p>
+                                        </div>
+                                    ) : (
+                                        <div className="z-10 flex justify-center">
+                                            <button
+                                                type="submit"
+                                                className="group py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                            >
+                                                Xong
+                                            </button>
+                                        </div>
+                                    )
+                                }
 
                             </form>
                         </div>

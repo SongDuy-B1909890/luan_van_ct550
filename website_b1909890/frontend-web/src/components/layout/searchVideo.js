@@ -15,7 +15,8 @@ import DescriptionPage from './description';
 
 const title = localStorage.getItem('title');
 
-const id_user = localStorage.getItem('id_user');
+const userString = localStorage.getItem('user');
+const user = userString ? JSON.parse(userString) : null;
 
 const SearchVideoPage = () => {
     const [videos, setVideos] = useState([]);
@@ -148,17 +149,17 @@ const SearchVideoPage = () => {
             updatedFavorites = [...favorites, videoId];
         }
         setFavorites(updatedFavorites);
-        localStorage.setItem(`favorites_${id_user}`, JSON.stringify(updatedFavorites));
+        localStorage.setItem(`favorites_${user.id}`, JSON.stringify(updatedFavorites));
 
         formik.setValues({
-            id: id_user,
+            id: user.id,
             id_video: videoId,
         });
         formik.handleSubmit();
     };
 
     useEffect(() => {
-        const storedFavorites = JSON.parse(localStorage.getItem(`favorites_${id_user}`));
+        const storedFavorites = JSON.parse(localStorage.getItem(`favorites_${user.id}`));
         if (storedFavorites) {
             setFavorites(storedFavorites);
         }
@@ -211,17 +212,17 @@ const SearchVideoPage = () => {
             updatedFollows = [...follows, followId];
         }
         setFollows(updatedFollows);
-        localStorage.setItem(`follows_${id_user}`, JSON.stringify(updatedFollows));
+        localStorage.setItem(`follows_${user.id}`, JSON.stringify(updatedFollows));
 
         formik01.setValues({
-            id: id_user,
+            id: user.id,
             id_follow: followId,
         });
         formik01.handleSubmit();
     };
 
     useEffect(() => {
-        const storedFollows = JSON.parse(localStorage.getItem(`follows_${id_user}`));
+        const storedFollows = JSON.parse(localStorage.getItem(`follows_${user.id}`));
         if (storedFollows) {
             setFollows(storedFollows);
         }
@@ -341,6 +342,7 @@ const SearchVideoPage = () => {
                                                                     </li>
 
                                                                 ))}
+
                                                             {isVideoFavorite(video.cloudinary_id) ? (
                                                                 <li className="mr-4 " onSubmit={formik.handleSubmit}>
                                                                     <button
@@ -364,6 +366,7 @@ const SearchVideoPage = () => {
                                                                     </button>
                                                                 </li>
                                                             )}
+
                                                             <li
                                                                 className="mr-4"
                                                             >
