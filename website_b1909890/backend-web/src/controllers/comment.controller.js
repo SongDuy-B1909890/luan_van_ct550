@@ -40,7 +40,7 @@ const changeComment = async (req, res) => {
         const comments = commentsSnapshot.val();
 
         const existingCommentKey = Object.keys(comments).find(
-            (commentKey) => comments[categoryKey].id === req.body.id
+            (commentKey) => comments[commentKey].id === req.body.id
         );
 
         if (!existingCommentKey) {
