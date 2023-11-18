@@ -3,6 +3,9 @@ import ReactPlayer from 'react-player/lazy';
 import axios from 'axios';
 import { useFormik } from "formik"
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
 import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined';
@@ -213,6 +216,18 @@ const StaffGroup02Page = () => {
         },
     });
 
+    const handleSpanClick = (event) => {
+        const text = event.target.innerText;
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                toast.success(`Đã sao chép vào clipboard: ${text}`);
+            })
+            .catch((error) => {
+                console.error('Lỗi khi sao chép vào clipboard:', error);
+            });
+    };
+
+
     if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 02
         return (
             <div>
@@ -272,7 +287,19 @@ const StaffGroup02Page = () => {
                                                                     src={user.avatar}
                                                                     sx={{ width: 50, height: 50 }}
                                                                 />
-                                                                <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                                <span className="ml-2 font-bold max-w-[100px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+
+                                                                <button
+                                                                    type="button"
+                                                                    className="w-[250px] h-[35px] ml-3 bg-black text-yellow-500 rounded-full flex justify-center items-center"
+                                                                    onClick={handleSpanClick}
+                                                                >
+                                                                    {video.cloudinary_id}
+
+                                                                </button>
+                                                                <div>
+                                                                    <ToastContainer />
+                                                                </div>
                                                                 <div className="text-right ml-auto">
                                                                     <ul className="flex">
 
@@ -413,7 +440,18 @@ const StaffGroup02Page = () => {
                                                                     src={user.avatar}
                                                                     sx={{ width: 50, height: 50 }}
                                                                 />
-                                                                <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                                <span className="ml-2 font-bold max-w-[100px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                                <button
+                                                                    type="button"
+                                                                    className="w-[250px] h-[35px] ml-3 bg-black text-yellow-500 rounded-full flex justify-center items-center"
+                                                                    onClick={handleSpanClick}
+                                                                >
+                                                                    {video.cloudinary_id}
+
+                                                                </button>
+                                                                <div>
+                                                                    <ToastContainer />
+                                                                </div>
                                                                 <div className="text-right ml-auto">
                                                                     <ul className="flex">
 
@@ -549,7 +587,18 @@ const StaffGroup02Page = () => {
                                                                     src={user.avatar}
                                                                     sx={{ width: 50, height: 50 }}
                                                                 />
-                                                                <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                                <span className="ml-2 font-bold max-w-[100px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                                <button
+                                                                    type="button"
+                                                                    className="w-[250px] h-[35px] ml-3 bg-black text-yellow-500 rounded-full flex justify-center items-center"
+                                                                    onClick={handleSpanClick}
+                                                                >
+                                                                    {video.cloudinary_id}
+
+                                                                </button>
+                                                                <div>
+                                                                    <ToastContainer />
+                                                                </div>
                                                                 <div className="text-right ml-auto">
                                                                     <ul className="flex">
 
