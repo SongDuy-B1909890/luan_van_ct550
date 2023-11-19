@@ -40,25 +40,18 @@ const MenuPage = ({ closeModal }) => {
     const handleCategoryClick = (categoryId, categoryName) => {
         localStorage.setItem('id_category', categoryId);
         window.location.href = '/category/name:/id:' + categoryName + categoryId;
-
     };
 
-    const handleMyChannelClick = (userId,) => {
-        localStorage.setItem('id_user', userId);
+    const handleMyChannelClick = (userId) => {
         window.location.href = '/myChannel/id:' + userId;
-
     };
 
-    const handleFavoriteClick = (userId,) => {
-        localStorage.setItem('id_user', userId);
+    const handleFavoriteClick = (userId) => {
         window.location.href = '/favorite/id:' + userId;
-
     };
 
-    const handleChannelFollowedClick = (userId,) => {
-        localStorage.setItem('id_user', userId);
+    const handleChannelFollowedClick = (userId) => {
         window.location.href = '/channel/followed/:userId' + userId;
-
     };
 
     return (
@@ -93,8 +86,9 @@ const MenuPage = ({ closeModal }) => {
                                 </Link>
 
                                 <Link to="/">
-                                    <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"
-                                        onClick={() => handleMyChannelClick(user.id)}
+                                    <li
+                                        className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"
+                                        onClick={() => user && user.id && handleMyChannelClick(user.id)}
                                     >
                                         <LiveTvOutlinedIcon className="mr-4" />
                                         Kênh Của Tôi
@@ -103,7 +97,7 @@ const MenuPage = ({ closeModal }) => {
 
                                 <Link to="/">
                                     <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"
-                                        onClick={() => handleChannelFollowedClick(user.id)}
+                                        onClick={() => user && user.id && handleChannelFollowedClick(user.id)}
                                     >
                                         <SubscriptionsOutlinedIcon className="mr-4" />
                                         Kênh Đăng Ký
@@ -112,7 +106,7 @@ const MenuPage = ({ closeModal }) => {
 
                                 <Link to="/">
                                     <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"
-                                        onClick={() => handleFavoriteClick(user.id)}
+                                        onClick={() => user && user.id && handleFavoriteClick(user.id)}
                                     >
                                         <FavoriteBorderOutlinedIcon className="mr-4" />
                                         Video yêu thích

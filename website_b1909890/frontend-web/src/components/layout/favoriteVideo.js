@@ -14,7 +14,8 @@ import HeaderPage from './header';
 import CommentPage from './comment';
 import DescriptionPage from './description';
 
-const id_user = localStorage.getItem('id_user');
+const userString = localStorage.getItem('user');
+const user = userString ? JSON.parse(userString) : null;
 
 const FavoriteVideoPage = () => {
 
@@ -25,7 +26,7 @@ const FavoriteVideoPage = () => {
     const [filteredCategories, setFilteredCategories] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/favorites/${id_user}`)
+        axios.get(`http://localhost:5000/api/favorites/${user.id}`)
             .then((favoritesResponse) => {
                 const favoritesData = favoritesResponse.data;
 
@@ -158,19 +159,22 @@ const FavoriteVideoPage = () => {
             updatedFavorites = [...favorites, videoId];
         }
         setFavorites(updatedFavorites);
-        localStorage.setItem(`favorites_${id_user}`, JSON.stringify(updatedFavorites));
+        localStorage.setItem(`favorites_${user.id}`, JSON.stringify(updatedFavorites));
 
         formik.setValues({
-            id: id_user,
+            id: user.id,
             id_video: videoId,
         });
         formik.handleSubmit();
     };
 
     useEffect(() => {
-        const storedFavorites = JSON.parse(localStorage.getItem(`favorites_${id_user}`));
-        if (storedFavorites) {
-            setFavorites(storedFavorites);
+        if (user) {
+            const storedFavorites = JSON.parse(localStorage.getItem(`favorites_${user.id}`));
+            console.log(storedFavorites);
+            if (storedFavorites) {
+                setFavorites(storedFavorites);
+            }
         }
     }, []);
 
@@ -221,21 +225,24 @@ const FavoriteVideoPage = () => {
             updatedFollows = [...follows, followId];
         }
         setFollows(updatedFollows);
-        localStorage.setItem(`follows_${id_user}`, JSON.stringify(updatedFollows));
+        localStorage.setItem(`follows_${user.id}`, JSON.stringify(updatedFollows));
 
         formik01.setValues({
-            id: id_user,
+            id: user.id,
             id_follow: followId,
         });
         formik01.handleSubmit();
     };
 
     useEffect(() => {
-        const storedFollows = JSON.parse(localStorage.getItem(`follows_${id_user}`));
-        if (storedFollows) {
-            setFollows(storedFollows);
+        if (user) {
+            const storedFollows = JSON.parse(localStorage.getItem(`follows_${user.id}`));
+            if (storedFollows) {
+                setFollows(storedFollows);
+            }
         }
     }, []);
+
 
     const isChannelFollowed = (channelId) => follows.includes(channelId);
 

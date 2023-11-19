@@ -14,7 +14,8 @@ import HeaderPage from './header';
 import CommentPage from './comment';
 import DescriptionPage from './description';
 
-const id_user = localStorage.getItem('id_user');
+const userString = localStorage.getItem('user');
+const user = userString ? JSON.parse(userString) : null;
 
 const MyChannel = () => {
 
@@ -32,7 +33,7 @@ const MyChannel = () => {
             .then((response) => {
                 // console.log(response.data);
                 const videosData = response.data;
-                const filteredVideos = videosData.filter((video) => video.id_user === id_user);
+                const filteredVideos = videosData.filter((video) => video.id_user === user.id);
                 setVideos(filteredVideos);
                 //console.log(user.id);
             })
@@ -150,19 +151,22 @@ const MyChannel = () => {
             updatedFavorites = [...favorites, videoId];
         }
         setFavorites(updatedFavorites);
-        localStorage.setItem(`favorites_${id_user}`, JSON.stringify(updatedFavorites));
+        localStorage.setItem(`favorites_${user.id}`, JSON.stringify(updatedFavorites));
 
         formik.setValues({
-            id: id_user,
+            id: user.id,
             id_video: videoId,
         });
         formik.handleSubmit();
     };
 
     useEffect(() => {
-        const storedFavorites = JSON.parse(localStorage.getItem(`favorites_${id_user}`));
-        if (storedFavorites) {
-            setFavorites(storedFavorites);
+        if (user) {
+            const storedFavorites = JSON.parse(localStorage.getItem(`favorites_${user.id}`));
+            console.log(storedFavorites);
+            if (storedFavorites) {
+                setFavorites(storedFavorites);
+            }
         }
     }, []);
 
