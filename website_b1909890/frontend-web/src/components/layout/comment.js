@@ -152,7 +152,8 @@ const CommentPage = (props) => {
         <div className="flex w-[450px] h-[675px] py-5 bg-white rounded-xl border shadow overflow-auto ">
             <div className="w-full h-full custom-scrollbar-content custom-scrollbar ml-5">
                 <div className="box-container">
-                    <div className="h-[600px] custom-scrollbar">
+
+                    <div className="h-[600px] custom-scrollbar-content custom-scrollbar z-10">
 
                         {
                             comments.map((comment, index) => (

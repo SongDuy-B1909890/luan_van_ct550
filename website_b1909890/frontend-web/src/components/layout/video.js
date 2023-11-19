@@ -157,9 +157,12 @@ const VideoPage = () => {
     };
 
     useEffect(() => {
-        const storedFavorites = JSON.parse(localStorage.getItem(`favorites_${user.id}`));
-        if (storedFavorites) {
-            setFavorites(storedFavorites);
+        if (user) {
+            const storedFavorites = JSON.parse(localStorage.getItem(`favorites_${user.id}`));
+            console.log(storedFavorites);
+            if (storedFavorites) {
+                setFavorites(storedFavorites);
+            }
         }
     }, []);
 
@@ -221,9 +224,11 @@ const VideoPage = () => {
     };
 
     useEffect(() => {
-        const storedFollows = JSON.parse(localStorage.getItem(`follows_${user.id}`));
-        if (storedFollows) {
-            setFollows(storedFollows);
+        if (user) {
+            const storedFollows = JSON.parse(localStorage.getItem(`follows_${user.id}`));
+            if (storedFollows) {
+                setFollows(storedFollows);
+            }
         }
     }, []);
 
