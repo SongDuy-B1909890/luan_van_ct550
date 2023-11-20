@@ -25,22 +25,69 @@ const VideoPage = () => {
     const [categories, setCategories] = useState([]);
     const [filteredCategories, setFilteredCategories] = useState([]);
 
+    const [reloadFavorites, setReloadFavorites] = useState(false);
+    const [reloadFollows, setReloadFollows] = useState(false);
+
     useEffect(() => {
-        axios
-            .get('http://localhost:5000/api/acceptedVideos')
-            .then((response) => {
-                // console.log(response.data);
-                const videosData = response.data;
-                setVideos(videosData);
+        axios.get(`http://localhost:5000/api/follows/${user.id}`)
+            .then((followsResponse) => {
+                const followsData = followsResponse.data;
+
+                axios.get(`http://localhost:5000/api/favorites/${user.id}`)
+                    .then((favoritesResponse) => {
+                        const favoritesData = favoritesResponse.data;
+
+                        axios.get('http://localhost:5000/api/acceptedVideos')
+                            .then((videosResponse) => {
+                                const videosData = videosResponse.data;
+
+                                // Lọc danh sách video dựa trên id_videos và cloudinary_id
+                                const filteredVideos = videosData.map((video) => {
+                                    // Kiểm tra điều kiện lọc theo id_videos và cloudinary_id
+                                    const isFavorite = favoritesData.some((favorite) =>
+                                        favorite.id_videos &&
+                                        Array.isArray(favorite.id_videos) &&
+                                        favorite.id_videos.includes(video.cloudinary_id)
+                                    );
+
+                                    // Kiểm tra điều kiện lọc theo id_user
+                                    const isFollowed = followsData.some((followed) =>
+                                        followed.id_follows &&
+                                        Array.isArray(followed.id_follows) &&
+                                        followed.id_follows.includes(video.id_user)
+                                    );
+
+                                    // Trả về video với thuộc tính isFavorite và isFollowed
+                                    return {
+                                        ...video,
+                                        isFavorite: isFavorite,
+                                        isFollowed: isFollowed
+                                    };
+                                });
+
+                                // Sử dụng danh sách video đã lọc
+
+                                setVideos(filteredVideos);
+                                console.log(filteredVideos);
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                            })
+                            .finally(() => {
+                                setReloadFavorites(false);
+                                setReloadFollows(false);
+                            });
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
             })
             .catch((error) => {
                 console.error(error);
             });
 
-        axios
-            .get('http://localhost:5000/api/users')
+        axios.get('http://localhost:5000/api/users')
             .then((response) => {
-                // console.log(response.data);
                 const usersData = response.data;
                 setUsers(usersData);
             })
@@ -48,17 +95,15 @@ const VideoPage = () => {
                 console.error(error);
             });
 
-        axios
-            .get('http://localhost:5000/api/admin/categories')
+        axios.get('http://localhost:5000/api/admin/categories')
             .then((response) => {
-                // console.log(response.data);
                 const categoriesData = response.data;
                 setCategories(categoriesData);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, []);
+    }, [reloadFavorites, reloadFollows]);
 
     useEffect(() => {
         // Lọc danh sách người dùng dựa trên id_user của video
@@ -135,38 +180,17 @@ const VideoPage = () => {
         setCurrentPlayingVideo(cloudinaryId);
     };
 
-    const [favorites, setFavorites] = useState([]);
+    const [favorites, setFavorites] = useState(false);
 
-    const handleFavoriteClick = (videoId) => {
-        let updatedFavorites;
-        if (favorites.includes(videoId)) {
-            // Xóa video khỏi danh sách yêu thích
-            updatedFavorites = favorites.filter((id) => id !== videoId);
-        } else {
-            // Thêm video vào danh sách yêu thích
-            updatedFavorites = [...favorites, videoId];
-        }
-        setFavorites(updatedFavorites);
-        localStorage.setItem(`favorites_${user.id}`, JSON.stringify(updatedFavorites));
-
+    const handleFavoriteClick = (videoId, favorite) => {
         formik.setValues({
             id: user.id,
             id_video: videoId,
         });
         formik.handleSubmit();
+
+        setFavorites(favorite);
     };
-
-    useEffect(() => {
-        if (user) {
-            const storedFavorites = JSON.parse(localStorage.getItem(`favorites_${user.id}`));
-            console.log(storedFavorites);
-            if (storedFavorites) {
-                setFavorites(storedFavorites);
-            }
-        }
-    }, []);
-
-    const isVideoFavorite = (videoId) => favorites.includes(videoId);
 
     const formik = useFormik({
         initialValues: {
@@ -175,12 +199,12 @@ const VideoPage = () => {
         },
         onSubmit: (values) => {
 
-            if (!isVideoFavorite(values.id_video)) {
+            if (favorites !== true) {
                 axios
                     .post('http://localhost:5000/api/createFavorite', values)
                     .then((response) => {
                         console.log(response.data);
-                        //alert('Đã thêm video vào danh sách yêu thích');
+                        setReloadFavorites(true); // Kích hoạt việc tải lại danh sách bình luận
                     })
                     .catch((error) => {
                         console.error(error);
@@ -190,7 +214,7 @@ const VideoPage = () => {
                     .delete('http://localhost:5000/api/deleteFavorite', { data: values })
                     .then((response) => {
                         console.log(response.data);
-                        //alert('Đã thêm video vào danh sách yêu thích');
+                        setReloadFavorites(true); // Kích hoạt việc tải lại danh sách bình luận
                     })
                     .catch((error) => {
                         console.error(error);
@@ -201,38 +225,16 @@ const VideoPage = () => {
 
     });
 
+    const [follows, setFollows] = useState(false);
 
-    const [follows, setFollows] = useState([]);
-
-    const handleFollowClick = (followId) => {
-        let updatedFollows;
-        if (follows.includes(followId)) {
-            // Xóa kênh khỏi danh sách theo dõi
-            updatedFollows = follows.filter((id) => id !== followId);
-        } else {
-            // Thêm kênh vào danh sách theo dõi
-            updatedFollows = [...follows, followId];
-        }
-        setFollows(updatedFollows);
-        localStorage.setItem(`follows_${user.id}`, JSON.stringify(updatedFollows));
-
+    const handleFollowClick = (followId, follow) => {
         formik01.setValues({
             id: user.id,
             id_follow: followId,
         });
         formik01.handleSubmit();
+        setFollows(follow);
     };
-
-    useEffect(() => {
-        if (user) {
-            const storedFollows = JSON.parse(localStorage.getItem(`follows_${user.id}`));
-            if (storedFollows) {
-                setFollows(storedFollows);
-            }
-        }
-    }, []);
-
-    const isChannelFollowed = (channelId) => follows.includes(channelId);
 
     const formik01 = useFormik({
         initialValues: {
@@ -240,12 +242,13 @@ const VideoPage = () => {
             id_follow: '',
         },
         onSubmit: (values) => {
-            if (!isChannelFollowed(values.id_follow)) {
+            if (follows !== true) {
                 axios
                     .post('http://localhost:5000/api/createFollow', values)
                     .then((response) => {
                         console.log(response.data);
-                        //alert('Đã thêm kênh vào danh sách theo dõi');
+                        setReloadFollows(true);
+
                     })
                     .catch((error) => {
                         console.error(error);
@@ -255,7 +258,7 @@ const VideoPage = () => {
                     .delete('http://localhost:5000/api/deleteFollow', { data: values })
                     .then((response) => {
                         console.log(response.data);
-                        //alert('Đã xóa kênh khỏi danh sách theo dõi');
+                        setReloadFollows(true);
                     })
                     .catch((error) => {
                         console.error(error);
@@ -263,7 +266,6 @@ const VideoPage = () => {
             }
         }
     });
-
 
     return (
         <div className="w-full h-full overflow-auto bg-white mt-[70px]">
@@ -301,16 +303,16 @@ const VideoPage = () => {
                                                     sx={{ width: 50, height: 50 }}
                                                 />
                                                 <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
-                                                {isChannelFollowed(user.id) ? (
+                                                {video.isFollowed === true ? (
                                                     <div
                                                         onSubmit={formik01.handleSubmit}
                                                     >
                                                         <button
                                                             type="submit"
-                                                            className="w-[110px] h-[35px] ml-3 bg-black text-white font-bold rounded-full hover:bg-gray-800"
-                                                            onClick={() => handleFollowClick(user.id)}
+                                                            className="w-[110px] h-[35px] ml-3 bg-red-100 text-black font-bold rounded-full hover:bg-red-100"
+                                                            onClick={() => handleFollowClick(user.id, video.isFollowed)}
                                                         >
-                                                            Đăng ký
+                                                            Đã đăng ký
                                                         </button>
                                                     </div>
                                                 ) : (
@@ -319,10 +321,10 @@ const VideoPage = () => {
                                                     >
                                                         <button
                                                             type="submit"
-                                                            className="w-[110px] h-[35px] ml-3 bg-red-100 text-black font-bold rounded-full hover:bg-red-100"
-                                                            onClick={() => handleFollowClick(user.id)}
+                                                            className="w-[110px] h-[35px] ml-3 bg-black text-white font-bold rounded-full hover:bg-gray-800"
+                                                            onClick={() => handleFollowClick(user.id, video.isFollowed)}
                                                         >
-                                                            Đã đăng ký
+                                                            Đăng ký
                                                         </button>
                                                     </div>
                                                 )}
@@ -344,26 +346,26 @@ const VideoPage = () => {
                                                                 </li>
 
                                                             ))}
-                                                        {isVideoFavorite(video.cloudinary_id) ? (
-                                                            <li className="mr-4 " onSubmit={formik.handleSubmit}>
-                                                                <button
-                                                                    type="submit"
-                                                                    className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                    title="Yêu thích"
-                                                                    onClick={() => handleFavoriteClick(video.cloudinary_id)}
-                                                                >
-                                                                    <FavoriteBorderRoundedIcon />
-                                                                </button>
-                                                            </li>
-                                                        ) : (
+                                                        {video.isFavorite === true ? (
                                                             <li className="mr-4 text-red-500" onSubmit={formik.handleSubmit}>
                                                                 <button
                                                                     type="submit"
                                                                     className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
                                                                     title="Yêu thích"
-                                                                    onClick={() => handleFavoriteClick(video.cloudinary_id)}
+                                                                    onClick={() => handleFavoriteClick(video.cloudinary_id, video.isFavorite)}
                                                                 >
                                                                     <FavoriteRoundedIcon />
+                                                                </button>
+                                                            </li>
+                                                        ) : (
+                                                            <li className="mr-4" onSubmit={formik.handleSubmit}>
+                                                                <button
+                                                                    type="submit"
+                                                                    className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                    title="Yêu thích"
+                                                                    onClick={() => handleFavoriteClick(video.cloudinary_id, video.isFavorite)}
+                                                                >
+                                                                    <FavoriteBorderRoundedIcon />
                                                                 </button>
                                                             </li>
                                                         )}

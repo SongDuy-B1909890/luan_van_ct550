@@ -281,10 +281,17 @@ const searchVideosByTitle = async (req, res) => {
         const videosSnapshot = await get(child(dbRef, 'videos'));
         const videos = videosSnapshot.val();
 
+        if (!videos) {
+            // Không có video nào trong cơ sở dữ liệu
+            res.status(404).json({ message: 'Không tìm thấy video phù hợp' });
+            return;
+        }
+
+        // Lọc video có status === 'chấp nhận'
+        const filteredVideos = Object.values(videos).filter((video) => video.status === 'chấp nhận');
+
         const regex = new RegExp(searchTitle, 'i');
-        const matchingVideos = Object.values(videos).filter((video) =>
-            video.title && regex.test(video.title)
-        );
+        const matchingVideos = filteredVideos.filter((video) => video.title && regex.test(video.title));
 
         if (matchingVideos.length === 0) {
             // Không tìm thấy video phù hợp
