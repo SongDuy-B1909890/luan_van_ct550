@@ -17,7 +17,7 @@ router.get('/acceptedVideos', VideoController.acceptedVideos);
 router.put('/admin/video/changeStatus', VideoController.changeVideoStatus);
 
 // Xóa video
-router.delete('/deleteVideo/:id', VideoController.deleteVideoAndContent);
+router.delete('/deleteVideo', VideoController.deleteVideoAndContent);
 
 // Tìm video theo tiêu đề 
 router.post('/searchVideosByTitle', VideoController.searchVideosByTitle);

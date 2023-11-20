@@ -68,7 +68,7 @@ const VideoPage = () => {
                                 // Sử dụng danh sách video đã lọc
 
                                 setVideos(filteredVideos);
-                                console.log(filteredVideos);
+                                //console.log(filteredVideos);
                             })
                             .catch((error) => {
                                 console.error(error);
@@ -203,7 +203,7 @@ const VideoPage = () => {
                 axios
                     .post('http://localhost:5000/api/createFavorite', values)
                     .then((response) => {
-                        console.log(response.data);
+                        //console.log(response.data);
                         setReloadFavorites(true); // Kích hoạt việc tải lại danh sách bình luận
                     })
                     .catch((error) => {
@@ -213,7 +213,7 @@ const VideoPage = () => {
                 axios
                     .delete('http://localhost:5000/api/deleteFavorite', { data: values })
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFavorites(true); // Kích hoạt việc tải lại danh sách bình luận
                     })
                     .catch((error) => {
@@ -246,7 +246,7 @@ const VideoPage = () => {
                 axios
                     .post('http://localhost:5000/api/createFollow', values)
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFollows(true);
 
                     })
@@ -257,7 +257,7 @@ const VideoPage = () => {
                 axios
                     .delete('http://localhost:5000/api/deleteFollow', { data: values })
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFollows(true);
                     })
                     .catch((error) => {

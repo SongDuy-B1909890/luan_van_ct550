@@ -69,7 +69,7 @@ const FavoriteVideoPage = () => {
 
                                 const followVideos = filteredVideos.filter((video) => video.isFavorite === true);
                                 setVideos(followVideos);
-                                console.log(followVideos);
+                                //console.log(followVideos);
                             })
                             .catch((error) => {
                                 console.error(error);
@@ -203,7 +203,7 @@ const FavoriteVideoPage = () => {
                 axios
                     .post('http://localhost:5000/api/createFavorite', values)
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFavorites(true); // Kích hoạt việc tải lại danh sách bình luận
 
                     })
@@ -214,7 +214,7 @@ const FavoriteVideoPage = () => {
                 axios
                     .delete('http://localhost:5000/api/deleteFavorite', { data: values })
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFavorites(true); // Kích hoạt việc tải lại danh sách bình luận
 
                     })
@@ -248,7 +248,7 @@ const FavoriteVideoPage = () => {
                 axios
                     .post('http://localhost:5000/api/createFollow', values)
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFollows(true);
 
                     })
@@ -259,7 +259,7 @@ const FavoriteVideoPage = () => {
                 axios
                     .delete('http://localhost:5000/api/deleteFollow', { data: values })
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFollows(true);
                     })
                     .catch((error) => {

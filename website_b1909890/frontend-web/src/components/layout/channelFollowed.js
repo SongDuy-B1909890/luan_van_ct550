@@ -68,7 +68,7 @@ const ChannelFollowedPage = () => {
 
                                 const followVideos = filteredVideos.filter((video) => video.isFollowed === true);
                                 setVideos(followVideos);
-                                console.log(followVideos);
+                                // console.log(followVideos);
                             })
                             .catch((error) => {
                                 console.error(error);
@@ -202,7 +202,7 @@ const ChannelFollowedPage = () => {
                 axios
                     .post('http://localhost:5000/api/createFavorite', values)
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFavorites(true);
 
                     })
@@ -213,7 +213,7 @@ const ChannelFollowedPage = () => {
                 axios
                     .delete('http://localhost:5000/api/deleteFavorite', { data: values })
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFavorites(true);
 
                     })
@@ -247,7 +247,7 @@ const ChannelFollowedPage = () => {
                 axios
                     .post('http://localhost:5000/api/createFollow', values)
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFollows(true);
 
                     })
@@ -258,7 +258,7 @@ const ChannelFollowedPage = () => {
                 axios
                     .delete('http://localhost:5000/api/deleteFollow', { data: values })
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFollows(true);
                     })
                     .catch((error) => {

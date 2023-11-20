@@ -71,7 +71,7 @@ const SearchVideoPage = () => {
                                 });
 
                                 setVideos(filteredVideos);
-                                console.log(filteredVideos);
+                                // console.log(filteredVideos);
                             })
                             .catch((error) => {
                                 console.error(error);
@@ -143,7 +143,7 @@ const SearchVideoPage = () => {
             setIsCommentModal(false);
         }
         if (isDescriptionModal === true && isSelectVideoDescription === videoId) {
-            console.log(videoId);
+            // console.log(videoId);
             setIsSelectVideoDescription(null);
             setIsDescriptionModal(false);
         }
@@ -205,7 +205,7 @@ const SearchVideoPage = () => {
                 axios
                     .post('http://localhost:5000/api/createFavorite', values)
                     .then((response) => {
-                        console.log(response.data);
+                        //console.log(response.data);
                         setReloadFavorites(true); // Đặt lại giá trị reloadFavorites thành false sau khi tải xong
                     })
                     .catch((error) => {
@@ -215,7 +215,7 @@ const SearchVideoPage = () => {
                 axios
                     .delete('http://localhost:5000/api/deleteFavorite', { data: values })
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFavorites(true); // Đặt lại giá trị reloadFavorites thành false sau khi tải xong
                     })
                     .catch((error) => {
@@ -248,7 +248,7 @@ const SearchVideoPage = () => {
                 axios
                     .post('http://localhost:5000/api/createFollow', values)
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFollows(true);
 
                     })
@@ -259,7 +259,7 @@ const SearchVideoPage = () => {
                 axios
                     .delete('http://localhost:5000/api/deleteFollow', { data: values })
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFollows(true);
                     })
                     .catch((error) => {

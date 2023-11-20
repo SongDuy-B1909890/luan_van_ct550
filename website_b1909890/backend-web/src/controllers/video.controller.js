@@ -1,51 +1,8 @@
 const cloudinary = require("../configs/cloudinary.config");
-const { ref, child, push, get, set, update, } = require('firebase/database');
+const { ref, child, push, get, set, update, remove } = require('firebase/database');
 
 const { database } = require('../models/database');
 const dbRef = ref(database);
-
-// const uploadVideo = async (req, res) => {
-//     try {
-//         const uploadRef = child(dbRef, 'videos');
-//         cloudinary.uploader.upload(req.file.path, {
-//             resource_type: "video",
-//             folder: "video",
-//         }, (err, result) => {
-//             if (err) {
-//                 console.log(err);
-//                 return res.status(500).send(err);
-//             }
-//             const newUpload = { // Đổi tên biến thành newUpload
-//                 cloudinary_id: result.public_id,
-//                 name_file: req.file.originalname,
-//                 url_video: result.url,
-//                 // nhập
-//                 id_user: req.body.id_user,
-//                 title: req.body.title,
-//                 description: req.body.description,
-//                 category: req.body.category
-//             };
-
-//             push(uploadRef, newUpload)
-//                 .then((snapshot) => {
-//                     console.log('Upload added successfully');
-//                     const response = {
-//                         message: 'Upload added successfully',
-//                         key: snapshot.key
-//                     };
-//                     return res.status(200).send(response);
-
-//                 })
-//                 .catch((error) => {
-//                     console.error('Error adding upload:', error);
-//                     return res.status(500).send(error);
-//                 });
-//         });
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).send({ error: 'Đã xảy ra lỗi khi tải video', errorMessage: error.message });
-//     }
-// }
 
 const uploadVideo = async (req, res) => {
     try {
@@ -94,73 +51,67 @@ const uploadVideo = async (req, res) => {
     }
 };
 
-const deleteVideoAndContent = async (req, res) => {
-    try {
-        const videoKey = req.body.videoKey;
-
-        // Lấy thông tin video từ Firebase Realtime Database
-        const videosRef = ref(dbRef, `videos/${videoKey}`);
-        const snapshot = await get(videosRef);
-
-        if (!snapshot.exists()) {
-            console.log('Video not found on Firebase Realtime Database');
-            return res.status(404).send({ message: 'Video not found' });
-        }
-
-        const videoData = snapshot.val();
-        const cloudinaryId = videoData.cloudinary_id;
-
-        // Xóa video trên Cloudinary
-        cloudinary.uploader.destroy(cloudinaryId, (err, result) => {
-            if (err) {
-                console.log(err);
-                throw new Error('Lỗi khi xóa video trên Cloudinary');
-            }
-            console.log('Video deleted successfully on Cloudinary');
-        });
-
-        // Xóa nội dung trên Firebase Realtime Database
-        await set(videosRef);
-        console.log('Video deleted successfully on Firebase Realtime Database');
-
-        return res.status(200).send({ message: 'Video and content deleted successfully' });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).send({ error: 'Đã xảy ra lỗi khi xóa video và nội dung', errorMessage: error.message });
-    }
-};
-
-// const videos = async (req, res) => {
-//     get(child(dbRef, 'videos'))
-//         .then((snapshot) => {
-//             if (snapshot.exists()) {
-//                 res.status(200).json(snapshot.val());
-//             } else {
-//                 res.status(404).json({ message: 'No data available' });
-//             }
-//         })
-//         .catch((error) => {
-//             res.status(500).json({ error: error.message });
-//         });
-// }
-
-// const videos = async (req, res) => {
+// const deleteVideoAndContent = async (req, res) => {
 //     try {
-//         const snapshot = await get(child(dbRef, 'videos'));
-//         if (snapshot.exists()) {
-//             const videoList = [];
-//             snapshot.forEach((childSnapshot) => {
-//                 const video = childSnapshot.val();
-//                 videoList.push(video);
-//             });
-//             res.status(200).json(videoList);
-//         } else {
-//             res.status(404).json({ message: 'No data available' });
+//         const videoKey = req.body.cloudinary_id;
+
+//         // Lấy thông tin video từ Firebase Realtime Database
+//         const videosRef = ref(dbRef, `videos/${videoKey}`);
+//         const snapshot = await get(videosRef);
+
+//         if (!snapshot.exists()) {
+//             console.log('Video not found on Firebase Realtime Database');
+//             return res.status(404).send({ message: 'Video not found' });
 //         }
+
+//         const videoData = snapshot.val();
+//         const cloudinaryId = videoData.cloudinary_id;
+
+//         // Xóa video trên Cloudinary
+//         cloudinary.uploader.destroy(cloudinaryId, (err, result) => {
+//             if (err) {
+//                 console.log(err);
+//                 throw new Error('Lỗi khi xóa video trên Cloudinary');
+//             }
+//             console.log('Video deleted successfully on Cloudinary');
+//         });
+
+//         // Xóa nội dung trên Firebase Realtime Database
+//         await set(videosRef);
+//         console.log('Video deleted successfully on Firebase Realtime Database');
+
+//         return res.status(200).send({ message: 'Video and content deleted successfully' });
 //     } catch (error) {
-//         res.status(500).json({ error: error.message });
+//         console.error(error);
+//         return res.status(500).send({ error: 'Đã xảy ra lỗi khi xóa video và nội dung', errorMessage: error.message });
 //     }
 // };
+
+const deleteVideoAndContent = async (req, res) => {
+    try {
+        const cloudinaryId = req.body.cloudinary_id;
+        const videosSnapshot = await get(child(dbRef, 'videos'));
+        const videos = videosSnapshot.val();
+
+        const existingVideoKey = Object.keys(videos).find(
+            (videoKey) => videos[videoKey].cloudinary_id === cloudinaryId
+        );
+
+        if (!existingVideoKey) {
+            res.status(401).json({ error: 'Sai thông tin đăng nhập' });
+            return;
+        } else {
+            const response = await cloudinary.uploader.destroy(cloudinaryId, { resource_type: "video" });
+            console.log(response);
+            const videosRef = child(dbRef, `videos/${existingVideoKey}`);
+            await remove(videosRef);
+
+            res.status(200).json({ message: 'Video đã được xóa thành công' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Đã xảy ra lỗi khi xóa video', errorMessage: error.message });
+    }
+};
 
 const videos = async (req, res) => {
     try {
@@ -205,39 +156,6 @@ const acceptedVideos = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-
-// // Danh sách từ mới đến củ
-// const videos = async (req, res) => {
-//     try {
-//         const snapshot = await get(child(dbRef, 'videos'));
-//         if (snapshot.exists()) {
-//             const videoList = [];
-//             snapshot.forEach((childSnapshot) => {
-//                 const video = childSnapshot.val();
-//                 videoList.push(video);
-//             });
-
-//             // Sắp xếp mảng videoList từ mới đến cũ dựa trên trường "created_at"
-//             videoList.sort((a, b) => {
-//                 const dateA = new Date(convertDateFormat(a.created_at));
-//                 const dateB = new Date(convertDateFormat(b.created_at));
-//                 return dateB - dateA;
-//             });
-
-//             res.status(200).json(videoList);
-//         } else {
-//             res.status(404).json({ message: 'No data available' });
-//         }
-//     } catch (error) {
-//         res.status(500).json({ error: error.message });
-//     }
-// };
-
-// // Chuyển đổi định dạng ngày tháng từ "DD/MM/YYYY" sang "MM/DD/YYYY"
-// const convertDateFormat = (dateString) => {
-//     const [day, month, year] = dateString.split('/');
-//     return `${month}/${day}/${year}`;
-// };
 
 const changeVideoStatus = async (req, res) => {
     try {

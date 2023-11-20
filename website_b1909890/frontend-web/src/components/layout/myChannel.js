@@ -54,7 +54,7 @@ const MyChannel = () => {
                         // Chỉ hiển thị những video có isFavorite === true
                         const favoriteVideos = filteredVideos.filter((video) => video.id_user === user.id);
                         // Sử dụng danh sách video đã lọc
-                        console.log(favoriteVideos);
+                        //console.log(favoriteVideos);
                         setVideos(favoriteVideos);
 
                     })
@@ -188,7 +188,7 @@ const MyChannel = () => {
                 axios
                     .post('http://localhost:5000/api/createFavorite', values)
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFavorites(true); // Kích hoạt việc tải lại danh sách bình luận
 
                     })
@@ -199,7 +199,7 @@ const MyChannel = () => {
                 axios
                     .delete('http://localhost:5000/api/deleteFavorite', { data: values })
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFavorites(true); // Kích hoạt việc tải lại danh sách bình luận
 
                     })

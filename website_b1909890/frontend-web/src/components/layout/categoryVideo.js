@@ -71,7 +71,7 @@ const CategoryVideoPage = () => {
 
                                 const followVideos = filteredVideos.filter((video) => video.id_category === id_category);
                                 setVideos(followVideos);
-                                console.log(followVideos);
+                                //  console.log(followVideos);
                             })
                             .catch((error) => {
                                 console.error(error);
@@ -147,7 +147,7 @@ const CategoryVideoPage = () => {
             setIsCommentModal(false);
         }
         if (isDescriptionModal === true && isSelectVideoDescription === videoId) {
-            console.log(videoId);
+            // console.log(videoId);
             setIsSelectVideoDescription(null);
             setIsDescriptionModal(false);
         }
@@ -209,7 +209,7 @@ const CategoryVideoPage = () => {
                 axios
                     .post('http://localhost:5000/api/createFavorite', values)
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFavorites(true); // Kích hoạt việc tải lại danh sách bình luận
 
                     })
@@ -220,7 +220,7 @@ const CategoryVideoPage = () => {
                 axios
                     .delete('http://localhost:5000/api/deleteFavorite', { data: values })
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFavorites(true); // Kích hoạt việc tải lại danh sách bình luận
 
                     })
@@ -254,7 +254,7 @@ const CategoryVideoPage = () => {
                 axios
                     .post('http://localhost:5000/api/createFollow', values)
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFollows(true);
 
                     })
@@ -265,7 +265,7 @@ const CategoryVideoPage = () => {
                 axios
                     .delete('http://localhost:5000/api/deleteFollow', { data: values })
                     .then((response) => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         setReloadFollows(true);
                     })
                     .catch((error) => {
