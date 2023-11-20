@@ -99,7 +99,7 @@ const MyChannel = () => {
             setIsCommentModal(false);
         }
         if (isDescriptionModal === true && isSelectVideoDescription === videoId) {
-            console.log(videoId);
+            //console.log(videoId);
             setIsSelectVideoDescription(null);
             setIsDescriptionModal(false);
         }
@@ -163,7 +163,7 @@ const MyChannel = () => {
     useEffect(() => {
         if (user) {
             const storedFavorites = JSON.parse(localStorage.getItem(`favorites_${user.id}`));
-            console.log(storedFavorites);
+            //console.log(storedFavorites);
             if (storedFavorites) {
                 setFavorites(storedFavorites);
             }

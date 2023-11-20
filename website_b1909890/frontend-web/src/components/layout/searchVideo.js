@@ -162,7 +162,7 @@ const SearchVideoPage = () => {
     useEffect(() => {
         if (user) {
             const storedFavorites = JSON.parse(localStorage.getItem(`favorites_${user.id}`));
-            console.log(storedFavorites);
+            // console.log(storedFavorites);
             if (storedFavorites) {
                 setFavorites(storedFavorites);
             }

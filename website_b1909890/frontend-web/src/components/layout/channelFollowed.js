@@ -41,7 +41,7 @@ const ChannelFollowedPage = () => {
                         );
 
                         // Sử dụng danh sách video đã lọc
-                        console.log(filteredVideos);
+                        // console.log(filteredVideos);
                         setVideos(filteredVideos);
                     })
                     .catch((error) => {

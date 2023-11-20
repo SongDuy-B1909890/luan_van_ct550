@@ -110,9 +110,7 @@ const follows = async (req, res) => {
             if (filteredFollows.length > 0) {
                 res.status(200).json(filteredFollows);
             } else {
-                res
-                    .status(404)
-                    .json({ message: 'No data available for the given id' });
+                res.status(404).json({ message: 'No data available for the given id' });
             }
         } else {
             res.status(404).json({ message: 'No data available' });

@@ -36,7 +36,7 @@ const CategoryVideoPage = () => {
                 const videosData = response.data;
                 const filteredVideos = videosData.filter((video) => video.id_category === id_category);
                 setVideos(filteredVideos);
-                console.log(id_category);
+                // console.log(id_category);
             })
             .catch((error) => {
                 console.error(error);
@@ -164,7 +164,7 @@ const CategoryVideoPage = () => {
     useEffect(() => {
         if (id_user) {
             const storedFavorites = JSON.parse(localStorage.getItem(`favorites_${id_user}`));
-            console.log(storedFavorites);
+            // console.log(storedFavorites);
             if (storedFavorites) {
                 setFavorites(storedFavorites);
             }

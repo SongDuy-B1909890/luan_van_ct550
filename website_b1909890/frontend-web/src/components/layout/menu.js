@@ -51,7 +51,8 @@ const MenuPage = ({ closeModal }) => {
     };
 
     const handleChannelFollowedClick = (userId) => {
-        window.location.href = '/channel/followed/:userId' + userId;
+        localStorage.setItem('id_user', userId);
+        window.location.href = '/channel/followed/:id' + userId;
     };
 
     return (
@@ -88,7 +89,7 @@ const MenuPage = ({ closeModal }) => {
                                 <Link to="/">
                                     <li
                                         className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"
-                                        onClick={() => user && user.id && handleMyChannelClick(user.id)}
+                                        onClick={() => handleMyChannelClick(user.id)}
                                     >
                                         <LiveTvOutlinedIcon className="mr-4" />
                                         Kênh Của Tôi
@@ -97,7 +98,7 @@ const MenuPage = ({ closeModal }) => {
 
                                 <Link to="/">
                                     <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"
-                                        onClick={() => user && user.id && handleChannelFollowedClick(user.id)}
+                                        onClick={() => handleChannelFollowedClick(user.id)}
                                     >
                                         <SubscriptionsOutlinedIcon className="mr-4" />
                                         Kênh Đăng Ký
@@ -106,7 +107,7 @@ const MenuPage = ({ closeModal }) => {
 
                                 <Link to="/">
                                     <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"
-                                        onClick={() => user && user.id && handleFavoriteClick(user.id)}
+                                        onClick={() => handleFavoriteClick(user.id)}
                                     >
                                         <FavoriteBorderOutlinedIcon className="mr-4" />
                                         Video yêu thích
