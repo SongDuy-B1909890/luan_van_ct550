@@ -51,42 +51,6 @@ const uploadVideo = async (req, res) => {
     }
 };
 
-// const deleteVideoAndContent = async (req, res) => {
-//     try {
-//         const videoKey = req.body.cloudinary_id;
-
-//         // Lấy thông tin video từ Firebase Realtime Database
-//         const videosRef = ref(dbRef, `videos/${videoKey}`);
-//         const snapshot = await get(videosRef);
-
-//         if (!snapshot.exists()) {
-//             console.log('Video not found on Firebase Realtime Database');
-//             return res.status(404).send({ message: 'Video not found' });
-//         }
-
-//         const videoData = snapshot.val();
-//         const cloudinaryId = videoData.cloudinary_id;
-
-//         // Xóa video trên Cloudinary
-//         cloudinary.uploader.destroy(cloudinaryId, (err, result) => {
-//             if (err) {
-//                 console.log(err);
-//                 throw new Error('Lỗi khi xóa video trên Cloudinary');
-//             }
-//             console.log('Video deleted successfully on Cloudinary');
-//         });
-
-//         // Xóa nội dung trên Firebase Realtime Database
-//         await set(videosRef);
-//         console.log('Video deleted successfully on Firebase Realtime Database');
-
-//         return res.status(200).send({ message: 'Video and content deleted successfully' });
-//     } catch (error) {
-//         console.error(error);
-//         return res.status(500).send({ error: 'Đã xảy ra lỗi khi xóa video và nội dung', errorMessage: error.message });
-//     }
-// };
-
 const deleteVideoAndContent = async (req, res) => {
     try {
         const cloudinaryId = req.body.cloudinary_id;

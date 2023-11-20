@@ -28,7 +28,7 @@ const MyChannel = () => {
     const [filteredCategories, setFilteredCategories] = useState([]);
 
     const [reloadFavorites, setReloadFavorites] = useState(false);
-
+    const [reloadDeleteVideos, setReloadDeleteVideos] = useState(false);
     useEffect(() => {
         axios.get(`http://localhost:5000/api/favorites/${user.id}`)
             .then((favoritesResponse) => {
@@ -63,6 +63,7 @@ const MyChannel = () => {
                     })
                     .finally(() => {
                         setReloadFavorites(false); // Đặt lại giá trị reloadFavorites thành false sau khi tải xong
+                        setReloadDeleteVideos(false);
                     });
             })
             .catch((error) => {
@@ -89,7 +90,7 @@ const MyChannel = () => {
             .catch((error) => {
                 console.error(error);
             });
-    }, [reloadFavorites]);
+    }, [reloadFavorites, reloadDeleteVideos]);
 
     useEffect(() => {
         // Lọc danh sách người dùng dựa trên id_user của video
@@ -212,6 +213,32 @@ const MyChannel = () => {
 
     });
 
+    const handleDeleteVideoClick = (videoId) => {
+        formik01.setValues({
+            cloudinary_id: videoId,
+        });
+        formik01.handleSubmit();
+    };
+
+    const formik01 = useFormik({
+        initialValues: {
+            cloudinary_id: '',
+        },
+        onSubmit: (values) => {
+            axios
+                .delete('http://localhost:5000/api/deleteVideo', { data: values })
+                .then((response) => {
+                    // console.log(response.data);
+                    setReloadDeleteVideos(true);
+
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+    });
+
+
     return (
         <div>
             <HeaderPage />
@@ -320,9 +347,12 @@ const MyChannel = () => {
 
                                                             <li
                                                                 className="mr-auto text-white"
+                                                                onSubmit={formik.handleSubmit}
                                                             >
                                                                 <button
+                                                                    type="submit"
                                                                     className="w-[50px] h-[50px] bg-yellow-600 rounded-full hover:bg-yellow-600 transform scale-x-[-1]"
+                                                                    onClick={() => handleDeleteVideoClick(video.cloudinary_id)}
                                                                 >
                                                                     <DeleteIcon />
                                                                 </button>
