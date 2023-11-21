@@ -14,6 +14,9 @@ import { Link } from 'react-router-dom';
 const userString = localStorage.getItem('user');
 const user = userString ? JSON.parse(userString) : null;
 
+// Trả về giá trị đăng nhập
+const login = localStorage.getItem('login');
+
 const MenuPage = ({ closeModal }) => {
     const handleBackdropClick = (event) => {
         if (event.target === event.currentTarget) {
@@ -36,6 +39,10 @@ const MenuPage = ({ closeModal }) => {
             });
 
     }, []);
+
+    const handleHomeClick = () => {
+        window.location.href = '/';
+    };
 
     const handleCategoryClick = (categoryId, categoryName) => {
         localStorage.setItem('id_category', categoryId);
@@ -77,16 +84,18 @@ const MenuPage = ({ closeModal }) => {
 
                     <div>
                         <div>
-                            <ul className="mb-2 font-bold">
 
-                                <Link to="/">
-                                    <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer">
+                            {login === "true" ? (
+                                <ul className="mb-2 font-bold">
+
+                                    <li
+                                        className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"
+                                        onClick={handleHomeClick}
+                                    >
                                         <HomeOutlinedIcon className="mr-4" />
                                         Trang Chủ
                                     </li>
-                                </Link>
 
-                                <Link to="/">
                                     <li
                                         className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"
                                         onClick={() => handleMyChannelClick(user.id)}
@@ -94,27 +103,33 @@ const MenuPage = ({ closeModal }) => {
                                         <LiveTvOutlinedIcon className="mr-4" />
                                         Kênh Của Tôi
                                     </li>
-                                </Link>
 
-                                <Link to="/">
                                     <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"
                                         onClick={() => handleChannelFollowedClick(user.id)}
                                     >
                                         <SubscriptionsOutlinedIcon className="mr-4" />
                                         Kênh Đăng Ký
                                     </li>
-                                </Link>
 
-                                <Link to="/">
                                     <li className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"
                                         onClick={() => handleFavoriteClick(user.id)}
                                     >
                                         <FavoriteBorderOutlinedIcon className="mr-4" />
                                         Video yêu thích
                                     </li>
-                                </Link>
+                                </ul>
+                            ) : (
+                                <ul className="mb-2 font-bold">
+                                    <li
+                                        className="hover:bg-gray-200 hover:text-blue-800 py-2 px-2 rounded-xl cursor-pointer"
+                                        onClick={handleHomeClick}
+                                    >
+                                        <HomeOutlinedIcon className="mr-4" />
+                                        Trang Chủ
+                                    </li>
+                                </ul>
+                            )}
 
-                            </ul>
                         </div>
                         <hr />
                         {/* <span className="flex justify-center items-center mt-2 text-blue-500 font-bold">Danh mục</span> */}

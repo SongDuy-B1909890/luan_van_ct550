@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import VideoCallOutlinedIcon from '@mui/icons-material/VideoCallOutlined';
@@ -17,12 +17,6 @@ const user = userString ? JSON.parse(userString) : null;
 
 // Trả về giá trị đăng nhập
 const login = localStorage.getItem('login');
-
-//console.log(login); // Kết quả: "John"
-
-// if (user != null) {
-//     console.log('');
-// }
 
 const HeaderPage = () => {
     const [isLoginModal, setIsLoginModal] = useState(false);
@@ -73,6 +67,19 @@ const HeaderPage = () => {
         localStorage.setItem('title', searchValue);
         window.location.href = '/search/' + searchValue;
     };
+
+    // Khôi phục giá trị của input khi component được render lại
+    useEffect(() => {
+        const storedSearchValue = localStorage.getItem('searchValue');
+        if (storedSearchValue) {
+            setSearchValue(storedSearchValue);
+        }
+    }, []); // Chạy một lần duy nhất sau khi component được render lần đầu tiên
+
+    // Lưu giá trị của input vào local storage khi có sự thay đổi
+    useEffect(() => {
+        localStorage.setItem('searchValue', searchValue);
+    }, [searchValue]);
 
     if (login === "true") {
         return (
