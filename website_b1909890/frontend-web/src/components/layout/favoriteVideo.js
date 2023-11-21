@@ -299,7 +299,7 @@ const FavoriteVideoPage = () => {
                                         {filteredUsers
                                             .filter((user) => user.id === video.id_user)
                                             .map((user) => (
-                                                <div key={user.id} className="flex items-center mt-3">
+                                                <div key={user.id} className="flex items-center mt-2">
 
                                                     <Avatar
                                                         alt="Remy Sharp"

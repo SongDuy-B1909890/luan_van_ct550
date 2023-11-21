@@ -1,5 +1,5 @@
 const cloudinary = require("../configs/cloudinary.config");
-const { ref, child, push, get, set, update, remove } = require('firebase/database');
+const { ref, child, push, get, update, remove } = require('firebase/database');
 
 const { database } = require('../models/database');
 const dbRef = ref(database);
@@ -152,37 +152,31 @@ const changeVideoStatus = async (req, res) => {
 
 const searchVideosByTitle = async (req, res) => {
     try {
-        const searchTitle = req.body.title; // Lấy tiêu đề video từ body parameter
+        const searchTitle = req.body.title; // Get video title from the request body
 
         if (!searchTitle) {
-            // Body parameter 'title' không tồn tại hoặc không có giá trị
-            res.status(400).json({ error: 'Thiếu thông tin tìm kiếm video' });
-            return;
+            // Missing or empty 'title' parameter
+            return res.status(400).json({ error: 'Thiếu thông tin tìm kiếm video' });
         }
 
         const videosSnapshot = await get(child(dbRef, 'videos'));
         const videos = videosSnapshot.val();
 
         if (!videos) {
-            // Không có video nào trong cơ sở dữ liệu
-            res.status(404).json({ message: 'Không tìm thấy video phù hợp' });
-            return;
+            // No videos found in the database
+            return res.status(200).json({ videos: [] });
         }
 
-        // Lọc video có status === 'chấp nhận'
+        // Filter videos with status === 'chấp nhận'
         const filteredVideos = Object.values(videos).filter((video) => video.status === 'chấp nhận');
 
         const regex = new RegExp(searchTitle, 'i');
         const matchingVideos = filteredVideos.filter((video) => video.title && regex.test(video.title));
 
-        if (matchingVideos.length === 0) {
-            // Không tìm thấy video phù hợp
-            res.status(404).json({ message: 'Không tìm thấy video phù hợp' });
-            return;
-        }
-
         res.status(200).json({ videos: matchingVideos });
     } catch (error) {
+        // Error handling
+        console.error('Error when searching for videos:', error);
         res.status(500).json({ error: 'Đã xảy ra lỗi khi tìm kiếm video', errorMessage: error.message });
     }
 };

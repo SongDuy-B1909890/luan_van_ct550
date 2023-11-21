@@ -15,7 +15,9 @@ const CommentPage = (props) => {
     const [users, setUsers] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
 
-    const [reloadComments, setReloadComments] = useState(false);
+    const [reloadCreateComments, setReloadCreateComments] = useState(false);
+    const [reloadChangeComments, setReloadChangeComments] = useState(false);
+    const [reloadDeleteComments, setReloadDeleteComments] = useState(false);
 
     useEffect(() => {
         axios
@@ -33,7 +35,9 @@ const CommentPage = (props) => {
                 console.error(error);
             })
             .finally(() => {
-                setReloadComments(false); // Đặt lại giá trị reloadComments thành false sau khi tải xong
+                setReloadCreateComments(false); // Đặt lại giá trị reloadComments thành false sau khi tải xong
+                setReloadChangeComments(false);
+                setReloadDeleteComments(false);
             });
         axios
             .get('http://localhost:5000/api/users')
@@ -46,7 +50,7 @@ const CommentPage = (props) => {
                 console.error(error);
             });
 
-    }, [props.value, reloadComments]);
+    }, [props.value, reloadCreateComments, reloadChangeComments, reloadDeleteComments]);
 
     // Bình luận
 
@@ -74,7 +78,7 @@ const CommentPage = (props) => {
                 .then((response) => {
                     // console.log(response.data);
                     formik.resetForm();
-                    setReloadComments(true); // Kích hoạt việc tải lại danh sách bình luận
+                    setReloadCreateComments(true); // Kích hoạt việc tải lại danh sách bình luận
                 })
                 .catch((error) => {
                     console.error(error);
@@ -98,7 +102,7 @@ const CommentPage = (props) => {
                 .then((response) => {
                     //console.log(response.data);
                     formik01.resetForm();
-                    setReloadComments(true); // Kích hoạt việc tải lại danh sách bình luận
+                    setReloadDeleteComments(true); // Kích hoạt việc tải lại danh sách bình luận
                 })
                 .catch((error) => {
                     console.error(error);
@@ -121,7 +125,7 @@ const CommentPage = (props) => {
 
     const [isCommentId, setIsCommentId] = useState(null)
     const changeVideoComments = (commentId01) => {
-        setIsCommentId(commentId01)
+        setIsCommentId(commentId01);
     };
 
     const formik02 = useFormik({
@@ -136,7 +140,7 @@ const CommentPage = (props) => {
                 .then((response) => {
                     //console.log(response.data);
                     formik02.resetForm();
-                    setReloadComments(true); // Kích hoạt việc tải lại danh sách bình luận
+                    setReloadChangeComments(true); // Kích hoạt việc tải lại danh sách bình luận
                 })
                 .catch((error) => {
                     console.error(error);
@@ -242,7 +246,7 @@ const CommentPage = (props) => {
                                                                                         className="w-[50px] h-[35px] bg-gray-200 hover:bg-gray-300 rounded-lg mr-2 mb-8"
                                                                                         onClick={() => editingComment(comment.id)}
                                                                                     >
-                                                                                        Hủy
+                                                                                        Xong
                                                                                     </button>
 
                                                                                     <button
