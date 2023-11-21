@@ -9,6 +9,8 @@ import '../../index.css';
 const userString = localStorage.getItem('user');
 const user = userString ? JSON.parse(userString) : null;
 
+const login = localStorage.getItem('login');
+
 const CommentPage = (props) => {
     const [isMyUser, setMyUser] = useState(null);
     const [comments, setComments] = useState([]);
@@ -182,7 +184,7 @@ const CommentPage = (props) => {
                                                     </div>
                                                     <div className="mt-2 mb-12">
 
-                                                        {(isMyUser === user.id) ?
+                                                        {(isMyUser === user.id && login === "true") ?
                                                             (
                                                                 <div>
                                                                     {editingCommentId !== comment.id ? (
@@ -284,41 +286,46 @@ const CommentPage = (props) => {
 
                     {/* Phần nhập bình luận */}
                     <div
-                        className="box w-full h-full"
+                        className="box w-full h-full text-center"
                     >
-                        <form
-                            className="w-full"
-                            onSubmit={formik.handleSubmit}
-                        >
-                            <textarea
-                                id="content"
-                                name="content"
-                                type="text"
-                                rows={3}
-                                cols={50}
-                                className="w-full py-2 px-2 border-2"
-                                placeholder="Nhập bình luận của bạn..."
-                                value={formik.values.content} // Đặt giá trị của input từ state user
-                                onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
+                        {(login === "true") ?
+                            (
+                                <form
+                                    className="w-full"
+                                    onSubmit={formik.handleSubmit}
+                                >
+                                    <textarea
+                                        id="content"
+                                        name="content"
+                                        type="text"
+                                        rows={3}
+                                        cols={50}
+                                        className="w-full py-2 px-2 border-2"
+                                        placeholder="Nhập bình luận của bạn..."
+                                        value={formik.values.content} // Đặt giá trị của input từ state user
+                                        onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
 
-                            />
+                                    />
 
-                            <button
-                                type="submit"
-                                className="float-right bg-blue-500 w-[100px] h-[35px] rounded-full"
-                            >
-                                Bình luận
-                            </button>
+                                    <button
+                                        type="submit"
+                                        className="float-right bg-blue-500 w-[100px] h-[35px] rounded-full"
+                                    >
+                                        Bình luận
+                                    </button>
 
-                            <button
-                                type="button"
-                                onClick={handleCancel}
-                                className="float-right bg-white hover:bg-gray-100 w-[50px] h-[35px] rounded-full mr-2"
-                            >
-                                Hủy
-                            </button>
+                                    <button
+                                        type="button"
+                                        onClick={handleCancel}
+                                        className="float-right bg-white hover:bg-gray-100 w-[50px] h-[35px] rounded-full mr-2"
+                                    >
+                                        Hủy
+                                    </button>
 
-                        </form>
+                                </form>
+                            ) : (
+                                <span className="text-blue-500"> Cần đăng nhập để bình luận</span>
+                            )}
                     </div>
                 </div>
             </div>
