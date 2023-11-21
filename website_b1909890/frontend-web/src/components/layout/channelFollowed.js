@@ -272,155 +272,162 @@ const ChannelFollowedPage = () => {
         <div>
             <HeaderPage />
             <div className="w-full h-full overflow-auto bg-white mt-[70px]">
-                {videos.map((video, index) => (
-                    <div key={index} className="flex justify-center items-center" >
-                        <div className="flex flex-wrap justify-center items-center mb-8">
-                            <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] px-5 bg-white rouder-xl flex justify-center rounded-2xl border shadow">
-                                <div className="overflow-hidden" >
+                {
+                    videos.length === 0 ? (
+                        <div className="w-full h-screen flex justify-center items-center">
+                            <h1 className="text-2xl text-gray-500">Danh sách kênh đăng ký trống</h1>
+                        </div>
+                    ) : (
+                        videos.map((video, index) => (
+                            <div key={index} className="flex justify-center items-center" >
+                                <div className="flex flex-wrap justify-center items-center mb-8">
+                                    <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] px-5 bg-white rouder-xl flex justify-center rounded-2xl border shadow">
+                                        <div className="overflow-hidden" >
 
-                                    <div className="mt-5" >
-                                        <ReactPlayer
-                                            id={video.cloudinary_id}
-                                            url={video.url_video}
-                                            width="960px"
-                                            height="540px"
-                                            controls={true}
-                                            allowFullScreen={true}
-                                            loading="lazy"
-                                            preload="true"
-                                            loop={true} // Tự động lặp lại video
-                                            playing={currentPlayingVideo === video.cloudinary_id}
-                                            onPlay={() => handleVideoPlay(video.cloudinary_id)}
-                                        />
-                                    </div>
-                                    <div className="mt-2 w-full h-full">
-                                        <h1 className="font-bold text-xl overflow-hidden line-clamp-1 mr-5 text-blue-900">{video.title} </h1>
-                                        {filteredUsers
-                                            .filter((user) => user.id === video.id_user)
-                                            .map((user) => (
-                                                <div key={user.id} className="flex items-center mt-2">
+                                            <div className="mt-5" >
+                                                <ReactPlayer
+                                                    id={video.cloudinary_id}
+                                                    url={video.url_video}
+                                                    width="960px"
+                                                    height="540px"
+                                                    controls={true}
+                                                    allowFullScreen={true}
+                                                    loading="lazy"
+                                                    preload="true"
+                                                    loop={true} // Tự động lặp lại video
+                                                    playing={currentPlayingVideo === video.cloudinary_id}
+                                                    onPlay={() => handleVideoPlay(video.cloudinary_id)}
+                                                />
+                                            </div>
+                                            <div className="mt-2 w-full h-full">
+                                                <h1 className="font-bold text-xl overflow-hidden line-clamp-1 mr-5 text-blue-900">{video.title} </h1>
+                                                {filteredUsers
+                                                    .filter((user) => user.id === video.id_user)
+                                                    .map((user) => (
+                                                        <div key={user.id} className="flex items-center mt-2">
 
-                                                    <Avatar
-                                                        alt="Remy Sharp"
-                                                        src={user.avatar}
-                                                        sx={{ width: 50, height: 50 }}
-                                                    />
-                                                    <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
-                                                    {video.isFollowed === true ? (
-                                                        <div
-                                                            onSubmit={formik01.handleSubmit}
-                                                        >
-                                                            <button
-                                                                type="submit"
-                                                                className="w-[110px] h-[35px] ml-3 bg-red-100 text-black font-bold rounded-full hover:bg-red-100"
-                                                                onClick={() => handleFollowClick(user.id, video.isFollowed)}
-                                                            >
-                                                                Đã đăng ký
-                                                            </button>
-                                                        </div>
-                                                    ) : (
-                                                        <div
-                                                            onSubmit={formik01.handleSubmit}
-                                                        >
-                                                            <button
-                                                                type="submit"
-                                                                className="w-[110px] h-[35px] ml-3 bg-black text-white font-bold rounded-full hover:bg-gray-800"
-                                                                onClick={() => handleFollowClick(user.id, video.isFollowed)}
-                                                            >
-                                                                Đăng ký
-                                                            </button>
-                                                        </div>
-                                                    )}
-                                                    <div className="text-right ml-auto">
-                                                        <ul className="flex">
-                                                            {filteredCategories
-                                                                .filter((category) => category.id === video.id_category)
-                                                                .map((category) => (
+                                                            <Avatar
+                                                                alt="Remy Sharp"
+                                                                src={user.avatar}
+                                                                sx={{ width: 50, height: 50 }}
+                                                            />
+                                                            <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                            {video.isFollowed === true ? (
+                                                                <div
+                                                                    onSubmit={formik01.handleSubmit}
+                                                                >
+                                                                    <button
+                                                                        type="submit"
+                                                                        className="w-[110px] h-[35px] ml-3 bg-red-100 text-black font-bold rounded-full hover:bg-red-100"
+                                                                        onClick={() => handleFollowClick(user.id, video.isFollowed)}
+                                                                    >
+                                                                        Đã đăng ký
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                <div
+                                                                    onSubmit={formik01.handleSubmit}
+                                                                >
+                                                                    <button
+                                                                        type="submit"
+                                                                        className="w-[110px] h-[35px] ml-3 bg-black text-white font-bold rounded-full hover:bg-gray-800"
+                                                                        onClick={() => handleFollowClick(user.id, video.isFollowed)}
+                                                                    >
+                                                                        Đăng ký
+                                                                    </button>
+                                                                </div>
+                                                            )}
+                                                            <div className="text-right ml-auto">
+                                                                <ul className="flex">
+                                                                    {filteredCategories
+                                                                        .filter((category) => category.id === video.id_category)
+                                                                        .map((category) => (
+                                                                            <li
+                                                                                key={category.id}
+                                                                                className="mr-4 text-blue-900 text-xl font-bold"
+                                                                                onClick={() => DescriptionModal(video.cloudinary_id)}
+
+                                                                            >
+                                                                                <button
+                                                                                    className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                                >
+                                                                                    {category.name}
+                                                                                </button>
+                                                                            </li>
+
+                                                                        ))}
+                                                                    {video.isFavorite === true ? (
+                                                                        <li className="mr-4 text-red-500" onSubmit={formik.handleSubmit}>
+                                                                            <button
+                                                                                type="submit"
+                                                                                className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                                title="Yêu thích"
+                                                                                onClick={() => handleFavoriteClick(video.cloudinary_id, video.isFavorite)}
+                                                                            >
+                                                                                <FavoriteRoundedIcon />
+                                                                            </button>
+                                                                        </li>
+                                                                    ) : (
+                                                                        <li className="mr-4" onSubmit={formik.handleSubmit}>
+                                                                            <button
+                                                                                type="submit"
+                                                                                className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                                title="Yêu thích"
+                                                                                onClick={() => handleFavoriteClick(video.cloudinary_id, video.isFavorite)}
+                                                                            >
+                                                                                <FavoriteBorderRoundedIcon />
+                                                                            </button>
+                                                                        </li>
+                                                                    )}
+
                                                                     <li
-                                                                        key={category.id}
-                                                                        className="mr-4 text-blue-900 text-xl font-bold"
-                                                                        onClick={() => DescriptionModal(video.cloudinary_id)}
-
+                                                                        className="mr-4 "
                                                                     >
                                                                         <button
-                                                                            className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                            className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                            title='Bình luận'
+                                                                            onClick={() => CommentModal(video.cloudinary_id)}
                                                                         >
-                                                                            {category.name}
+                                                                            <InsertCommentOutlinedIcon />
+                                                                        </button>
+
+                                                                    </li>
+
+                                                                    <li
+                                                                        className="mr-4"
+                                                                    >
+                                                                        <button
+                                                                            className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 transform scale-x-[-1]"
+                                                                        >
+                                                                            <ReplyIcon />
                                                                         </button>
                                                                     </li>
 
-                                                                ))}
-                                                            {video.isFavorite === true ? (
-                                                                <li className="mr-4 text-red-500" onSubmit={formik.handleSubmit}>
-                                                                    <button
-                                                                        type="submit"
-                                                                        className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                        title="Yêu thích"
-                                                                        onClick={() => handleFavoriteClick(video.cloudinary_id, video.isFavorite)}
+                                                                    <li
+                                                                        className=""
                                                                     >
-                                                                        <FavoriteRoundedIcon />
-                                                                    </button>
-                                                                </li>
-                                                            ) : (
-                                                                <li className="mr-4" onSubmit={formik.handleSubmit}>
-                                                                    <button
-                                                                        type="submit"
-                                                                        className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                        title="Yêu thích"
-                                                                        onClick={() => handleFavoriteClick(video.cloudinary_id, video.isFavorite)}
-                                                                    >
-                                                                        <FavoriteBorderRoundedIcon />
-                                                                    </button>
-                                                                </li>
-                                                            )}
+                                                                        <button
+                                                                            className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                            title='Báo cáo'
+                                                                        >
+                                                                            <FlagOutlinedIcon />
+                                                                        </button>
+                                                                    </li>
 
-                                                            <li
-                                                                className="mr-4 "
-                                                            >
-                                                                <button
-                                                                    className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                    title='Bình luận'
-                                                                    onClick={() => CommentModal(video.cloudinary_id)}
-                                                                >
-                                                                    <InsertCommentOutlinedIcon />
-                                                                </button>
+                                                                </ul>
 
-                                                            </li>
-
-                                                            <li
-                                                                className="mr-4"
-                                                            >
-                                                                <button
-                                                                    className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 transform scale-x-[-1]"
-                                                                >
-                                                                    <ReplyIcon />
-                                                                </button>
-                                                            </li>
-
-                                                            <li
-                                                                className=""
-                                                            >
-                                                                <button
-                                                                    className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                    title='Báo cáo'
-                                                                >
-                                                                    <FlagOutlinedIcon />
-                                                                </button>
-                                                            </li>
-
-                                                        </ul>
-
-                                                    </div>
-                                                </div>
-                                            ))}
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                            </div>
+                                        </div>
                                     </div>
+                                    {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage value={video.description} />}
+                                    {isSelectVideoComment === video.cloudinary_id && isCommentModal && <CommentPage value={video.cloudinary_id} />}
                                 </div>
                             </div>
-                            {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage value={video.description} />}
-                            {isSelectVideoComment === video.cloudinary_id && isCommentModal && <CommentPage value={video.cloudinary_id} />}
-                        </div>
-                    </div>
-                ))}
+                        ))
+                    )}
             </div>
         </div>
     );
