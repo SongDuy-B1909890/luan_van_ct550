@@ -103,7 +103,7 @@ const deleteFavorite = async (req, res) => {
 };
 const favorites = async (req, res) => {
     try {
-        const id_user = req.params.id_user; // Thay đổi từ req.query.id_user thành req.params.id_user
+        const id_user = req.params.id_user;
 
         const snapshot = await get(child(dbRef, 'favorites'));
         if (snapshot.exists()) {
@@ -114,15 +114,9 @@ const favorites = async (req, res) => {
                 (favorite) => favorite.id === id_user
             );
 
-            if (filteredFavorites.length > 0) {
-                res.status(200).json(filteredFavorites);
-            } else {
-                res
-                    .status(404)
-                    .json({ message: 'No data available for the given id' });
-            }
+            res.status(200).json(filteredFavorites);
         } else {
-            res.status(404).json({ message: 'No data available' });
+            res.status(200).json([]); // Trả về mảng rỗng khi không có dữ liệu
         }
 
     } catch (error) {

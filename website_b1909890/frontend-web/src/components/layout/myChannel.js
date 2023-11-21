@@ -238,7 +238,6 @@ const MyChannel = () => {
         }
     });
 
-
     return (
         <div>
             <HeaderPage />

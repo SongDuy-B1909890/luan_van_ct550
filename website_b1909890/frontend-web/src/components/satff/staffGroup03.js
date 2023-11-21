@@ -29,6 +29,8 @@ const StaffGroup03Page = () => {
 
     const [filteredCategories01, setFilteredCategories01] = useState([]);
 
+    const [reloadDeleteVideos, setReloadDeleteVideos] = useState(false);
+
     useEffect(() => {
         axios
             .get('http://localhost:5000/api/videos')
@@ -42,6 +44,9 @@ const StaffGroup03Page = () => {
             })
             .catch((error) => {
                 console.error(error);
+            })
+            .finally(() => {
+                setReloadDeleteVideos(false);
             });
 
         axios
@@ -65,7 +70,7 @@ const StaffGroup03Page = () => {
             .catch((error) => {
                 console.error(error);
             });
-    }, []);
+    }, [reloadDeleteVideos]);
 
     // Giao đoạn nhân viên sơ tuyển
     useEffect(() => {
@@ -166,6 +171,30 @@ const StaffGroup03Page = () => {
                     });
             }
         },
+    });
+
+    const handleDeleteVideoClick = (videoId) => {
+        formik04.setValues({
+            cloudinary_id: videoId,
+        });
+        formik04.handleSubmit();
+    };
+
+    const formik04 = useFormik({
+        initialValues: {
+            cloudinary_id: '',
+        },
+        onSubmit: (values) => {
+            axios
+                .delete('http://localhost:5000/api/deleteVideo', { data: values })
+                .then((response) => {
+                    // console.log(response.data);
+                    setReloadDeleteVideos(true);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
     });
 
     if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 03
@@ -274,16 +303,18 @@ const StaffGroup03Page = () => {
 
                                                                                     <li
                                                                                         className="mr-auto text-white text-xl font-bold"
+                                                                                        onSubmit={formik04.handleSubmit}
                                                                                     >
                                                                                         <button
+                                                                                            type="submit"
                                                                                             className="min-w-[125px] max-w-[125px] h-[50px] bg-red-900 rounded-full hover:bg-yellow-600"
+                                                                                            onClick={() => handleDeleteVideoClick(video.cloudinary_id)}
                                                                                         >
                                                                                             Xóa
                                                                                         </button>
                                                                                     </li>
                                                                                 </div>
                                                                             ))}
-
 
                                                                     </ul>
 
