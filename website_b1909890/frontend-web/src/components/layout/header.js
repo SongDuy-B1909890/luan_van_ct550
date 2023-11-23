@@ -28,15 +28,14 @@ const HeaderPage = () => {
         }
 
     };
-    const closeLogout = () => {
-        localStorage.setItem('login', 'false');
-        // Xóa mục 'login' khỏi localStorage khi đăng xuất
-        //localStorage.removeItem('login');
-        //localStorage.setItem('user', JSON.stringify(null));
-        window.location.href = '/';
-    };
+
     const closeLoginModal = () => {
         setIsLoginModal(false);
+    };
+
+    const closeLogout = () => {
+        localStorage.setItem('login', 'false');
+        window.location.href = '/';
     };
 
     const [isMenuModal, setIsMenuModal] = useState(false);

@@ -10,6 +10,7 @@ import InsertCommentOutlinedIcon from '@mui/icons-material/InsertCommentOutlined
 import ReplyIcon from '@mui/icons-material/Reply';
 import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined';
 
+import LoginPage from '../auth/login';
 import HeaderPage from './header';
 import CommentPage from './comment';
 import DescriptionPage from './description';
@@ -17,6 +18,9 @@ import DescriptionPage from './description';
 const id_category = localStorage.getItem('id_category');
 
 const id_user = localStorage.getItem('id_user');
+
+// Trả về giá trị đăng nhập
+const login = localStorage.getItem('login');
 
 const CategoryVideoPage = () => {
     const [videos, setVideos] = useState([]);
@@ -275,6 +279,20 @@ const CategoryVideoPage = () => {
         }
     });
 
+    const [isLoginModal, setIsLoginModal] = useState(false);
+    const openLoginModal = () => {
+        if (login === "true") {
+            setIsLoginModal(false);
+        } else {
+            setIsLoginModal(true);
+        }
+
+    };
+
+    const closeLoginModal = () => {
+        setIsLoginModal(false);
+    };
+
     return (
         <div>
             <HeaderPage />
@@ -319,9 +337,10 @@ const CategoryVideoPage = () => {
                                                                 sx={{ width: 50, height: 50 }}
                                                             />
                                                             <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
-                                                            {video.isFollowed === true ? (
+                                                            {video.isFollowed === true && login === "true" ? (
                                                                 <div
                                                                     onSubmit={formik01.handleSubmit}
+                                                                    onClick={openLoginModal}
                                                                 >
                                                                     <button
                                                                         type="submit"
@@ -334,6 +353,7 @@ const CategoryVideoPage = () => {
                                                             ) : (
                                                                 <div
                                                                     onSubmit={formik01.handleSubmit}
+                                                                    onClick={openLoginModal}
                                                                 >
                                                                     <button
                                                                         type="submit"
@@ -364,8 +384,12 @@ const CategoryVideoPage = () => {
 
                                                                         ))}
 
-                                                                    {video.isFavorite === true ? (
-                                                                        <li className="mr-4 text-red-500" onSubmit={formik.handleSubmit}>
+                                                                    {video.isFavorite === true && login === "true" ? (
+                                                                        <li
+                                                                            className="mr-4 text-red-500"
+                                                                            onSubmit={formik.handleSubmit}
+                                                                            onClick={openLoginModal}
+                                                                        >
                                                                             <button
                                                                                 type="submit"
                                                                                 className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
@@ -376,7 +400,11 @@ const CategoryVideoPage = () => {
                                                                             </button>
                                                                         </li>
                                                                     ) : (
-                                                                        <li className="mr-4" onSubmit={formik.handleSubmit}>
+                                                                        <li
+                                                                            className="mr-4"
+                                                                            onSubmit={formik.handleSubmit}
+                                                                            onClick={openLoginModal}
+                                                                        >
                                                                             <button
                                                                                 type="submit"
                                                                                 className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
@@ -412,7 +440,8 @@ const CategoryVideoPage = () => {
                                                                     </li>
 
                                                                     <li
-                                                                        className=""
+                                                                        className="mr-auto"
+                                                                        onClick={openLoginModal}
                                                                     >
                                                                         <button
                                                                             className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
@@ -433,6 +462,7 @@ const CategoryVideoPage = () => {
                                     {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage value={video.description} />}
                                     {isSelectVideoComment === video.cloudinary_id && isCommentModal && <CommentPage value={video.cloudinary_id} />}
                                 </div>
+                                {isLoginModal && <LoginPage closeModal={closeLoginModal} />}
                             </div>
                         ))
                     )}

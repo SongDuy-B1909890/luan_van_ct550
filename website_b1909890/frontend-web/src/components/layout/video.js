@@ -10,11 +10,15 @@ import InsertCommentOutlinedIcon from '@mui/icons-material/InsertCommentOutlined
 import ReplyIcon from '@mui/icons-material/Reply';
 import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined';
 
+import LoginPage from '../auth/login';
 import CommentPage from './comment';
 import DescriptionPage from './description';
 
 const userString = localStorage.getItem('user');
 const user = userString ? JSON.parse(userString) : null;
+
+// Trả về giá trị đăng nhập
+const login = localStorage.getItem('login');
 
 const VideoPage = () => {
     const [videos, setVideos] = useState([]);
@@ -183,13 +187,15 @@ const VideoPage = () => {
     const [favorites, setFavorites] = useState(false);
 
     const handleFavoriteClick = (videoId, favorite) => {
-        formik.setValues({
-            id: user.id,
-            id_video: videoId,
-        });
-        formik.handleSubmit();
+        if (login === "true") {
+            formik.setValues({
+                id: user.id,
+                id_video: videoId,
+            });
+            formik.handleSubmit();
 
-        setFavorites(favorite);
+            setFavorites(favorite);
+        }
     };
 
     const formik = useFormik({
@@ -267,6 +273,20 @@ const VideoPage = () => {
         }
     });
 
+    const [isLoginModal, setIsLoginModal] = useState(false);
+    const openLoginModal = () => {
+        if (login === "true") {
+            setIsLoginModal(false);
+        } else {
+            setIsLoginModal(true);
+        }
+
+    };
+
+    const closeLoginModal = () => {
+        setIsLoginModal(false);
+    };
+
     return (
         <div className="w-full h-full overflow-auto bg-white mt-[70px]">
             {videos.map((video, index) => (
@@ -303,9 +323,10 @@ const VideoPage = () => {
                                                     sx={{ width: 50, height: 50 }}
                                                 />
                                                 <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
-                                                {video.isFollowed === true ? (
+                                                {video.isFollowed === true && login === "true" ? (
                                                     <div
                                                         onSubmit={formik01.handleSubmit}
+                                                        onClick={openLoginModal}
                                                     >
                                                         <button
                                                             type="submit"
@@ -318,6 +339,7 @@ const VideoPage = () => {
                                                 ) : (
                                                     <div
                                                         onSubmit={formik01.handleSubmit}
+                                                        onClick={openLoginModal}
                                                     >
                                                         <button
                                                             type="submit"
@@ -346,8 +368,12 @@ const VideoPage = () => {
                                                                 </li>
 
                                                             ))}
-                                                        {video.isFavorite === true ? (
-                                                            <li className="mr-4 text-red-500" onSubmit={formik.handleSubmit}>
+                                                        {video.isFavorite === true && login === "true" ? (
+                                                            <li
+                                                                className="mr-4 text-red-500"
+                                                                onSubmit={formik.handleSubmit}
+                                                                onClick={openLoginModal}
+                                                            >
                                                                 <button
                                                                     type="submit"
                                                                     className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
@@ -358,7 +384,11 @@ const VideoPage = () => {
                                                                 </button>
                                                             </li>
                                                         ) : (
-                                                            <li className="mr-4" onSubmit={formik.handleSubmit}>
+                                                            <li
+                                                                className="mr-4"
+                                                                onSubmit={formik.handleSubmit}
+                                                                onClick={openLoginModal}
+                                                            >
                                                                 <button
                                                                     type="submit"
                                                                     className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
@@ -372,7 +402,6 @@ const VideoPage = () => {
 
                                                         <li
                                                             className="mr-4"
-
                                                         >
                                                             <button
                                                                 className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
@@ -394,7 +423,8 @@ const VideoPage = () => {
                                                         </li>
 
                                                         <li
-                                                            className=""
+                                                            className="mr-auto"
+                                                            onClick={openLoginModal}
                                                         >
                                                             <button
                                                                 className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
@@ -415,6 +445,7 @@ const VideoPage = () => {
                         {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage value={video.description} />}
                         {isSelectVideoComment === video.cloudinary_id && isCommentModal && <CommentPage value={video.cloudinary_id} />}
                     </div>
+                    {isLoginModal && <LoginPage closeModal={closeLoginModal} />}
                 </div>
             ))
             }
