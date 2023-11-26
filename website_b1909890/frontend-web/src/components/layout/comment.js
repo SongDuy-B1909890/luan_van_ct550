@@ -87,6 +87,7 @@ const CommentPage = (props) => {
                 });
         },
     })
+
     const [deleteIdComment, setdeleteIdComment] = useState(null)
     const deleteVideoComments = (commentId) => {
         setdeleteIdComment(commentId);
@@ -113,7 +114,6 @@ const CommentPage = (props) => {
     })
 
     const [editingCommentId, setEditingCommentId] = useState(null);
-
     const editingComment = (commentId) => {
         if (editingCommentId === null) {
             setEditingCommentId(commentId); // Cancel editing

@@ -33,62 +33,75 @@ const VideoPage = () => {
     const [reloadFollows, setReloadFollows] = useState(false);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/follows/${user.id}`)
-            .then((followsResponse) => {
-                const followsData = followsResponse.data;
+        if (login === "true") {
+            axios.get(`http://localhost:5000/api/follows/${user.id}`)
+                .then((followsResponse) => {
+                    const followsData = followsResponse.data;
 
-                axios.get(`http://localhost:5000/api/favorites/${user.id}`)
-                    .then((favoritesResponse) => {
-                        const favoritesData = favoritesResponse.data;
+                    axios.get(`http://localhost:5000/api/favorites/${user.id}`)
+                        .then((favoritesResponse) => {
+                            const favoritesData = favoritesResponse.data;
 
-                        axios.get('http://localhost:5000/api/acceptedVideos')
-                            .then((videosResponse) => {
-                                const videosData = videosResponse.data;
+                            axios.get('http://localhost:5000/api/acceptedVideos')
+                                .then((videosResponse) => {
+                                    const videosData = videosResponse.data;
 
-                                // Lọc danh sách video dựa trên id_videos và cloudinary_id
-                                const filteredVideos = videosData.map((video) => {
-                                    // Kiểm tra điều kiện lọc theo id_videos và cloudinary_id
-                                    const isFavorite = favoritesData.some((favorite) =>
-                                        favorite.id_videos &&
-                                        Array.isArray(favorite.id_videos) &&
-                                        favorite.id_videos.includes(video.cloudinary_id)
-                                    );
+                                    // Lọc danh sách video dựa trên id_videos và cloudinary_id
+                                    const filteredVideos = videosData.map((video) => {
+                                        // Kiểm tra điều kiện lọc theo id_videos và cloudinary_id
+                                        const isFavorite = favoritesData.some((favorite) =>
+                                            favorite.id_videos &&
+                                            Array.isArray(favorite.id_videos) &&
+                                            favorite.id_videos.includes(video.cloudinary_id)
+                                        );
 
-                                    // Kiểm tra điều kiện lọc theo id_user
-                                    const isFollowed = followsData.some((followed) =>
-                                        followed.id_follows &&
-                                        Array.isArray(followed.id_follows) &&
-                                        followed.id_follows.includes(video.id_user)
-                                    );
+                                        // Kiểm tra điều kiện lọc theo id_user
+                                        const isFollowed = followsData.some((followed) =>
+                                            followed.id_follows &&
+                                            Array.isArray(followed.id_follows) &&
+                                            followed.id_follows.includes(video.id_user)
+                                        );
 
-                                    // Trả về video với thuộc tính isFavorite và isFollowed
-                                    return {
-                                        ...video,
-                                        isFavorite: isFavorite,
-                                        isFollowed: isFollowed
-                                    };
+                                        // Trả về video với thuộc tính isFavorite và isFollowed
+                                        return {
+                                            ...video,
+                                            isFavorite: isFavorite,
+                                            isFollowed: isFollowed
+                                        };
+                                    });
+
+                                    // Sử dụng danh sách video đã lọc
+
+                                    setVideos(filteredVideos);
+                                    //console.log(filteredVideos);
+                                })
+                                .catch((error) => {
+                                    console.error(error);
+                                })
+                                .finally(() => {
+                                    setReloadFavorites(false);
+                                    setReloadFollows(false);
                                 });
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        } else {
+            axios.get('http://localhost:5000/api/acceptedVideos')
+                .then((videosResponse) => {
+                    const videosData = videosResponse.data;
 
-                                // Sử dụng danh sách video đã lọc
-
-                                setVideos(filteredVideos);
-                                //console.log(filteredVideos);
-                            })
-                            .catch((error) => {
-                                console.error(error);
-                            })
-                            .finally(() => {
-                                setReloadFavorites(false);
-                                setReloadFollows(false);
-                            });
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+                    setVideos(videosData);
+                    //console.log(filteredVideos);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
 
         axios.get('http://localhost:5000/api/users')
             .then((response) => {

@@ -62,7 +62,7 @@ const deleteVideoAndContent = async (req, res) => {
         );
 
         if (!existingVideoKey) {
-            res.status(401).json({ error: 'Sai thông tin đăng nhập' });
+            res.status(401).json({ error: 'Sai mã video' });
             return;
         } else {
             const response = await cloudinary.uploader.destroy(cloudinaryId, { resource_type: "video" });
