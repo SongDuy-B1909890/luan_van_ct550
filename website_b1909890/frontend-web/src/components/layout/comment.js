@@ -6,13 +6,12 @@ import Avatar from '@mui/material/Avatar';
 
 import '../../index.css';
 
-const userString = localStorage.getItem('user');
-const user = userString ? JSON.parse(userString) : null;
+const id_user = localStorage.getItem('id_user');
 
 const login = localStorage.getItem('login');
 
 const CommentPage = (props) => {
-    const [isMyUser, setMyUser] = useState(null);
+    //const [isMyUser, setMyUser] = useState(null);
     const [comments, setComments] = useState([]);
     const [users, setUsers] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
@@ -30,7 +29,7 @@ const CommentPage = (props) => {
                 // Giao đoạn nhân viên sơ tuyển
                 const videosComment = commentsData.filter((comment) => comment.id_video === props.value);
                 setComments(videosComment);
-                setMyUser(user.id);
+                //setMyUser(user.id);
                 //console.log(videosComment);
             })
             .catch((error) => {
@@ -70,7 +69,7 @@ const CommentPage = (props) => {
     const formik = useFormik({
         initialValues: {
             id_video: props.value,
-            id_user: user.id,
+            id_user: id_user,
             content: '',
         },
         onSubmit: (values) => {
@@ -114,6 +113,7 @@ const CommentPage = (props) => {
     })
 
     const [editingCommentId, setEditingCommentId] = useState(null);
+
     const editingComment = (commentId) => {
         if (editingCommentId === null) {
             setEditingCommentId(commentId); // Cancel editing
@@ -154,182 +154,236 @@ const CommentPage = (props) => {
         formik.resetForm(); // Đặt lại giá trị của form về giá trị ban đầu
     };
 
-    return (
-        <div className="flex w-[450px] h-[675px] py-5 bg-white rounded-xl border shadow overflow-auto ">
-            <div className="w-full h-full custom-scrollbar-content custom-scrollbar ml-5">
-                <div className="box-container">
+    if (login === "true") {
+        return (
+            <div className="flex w-[450px] h-[675px] py-5 bg-white rounded-xl border shadow overflow-auto ">
+                <div className="w-full h-full custom-scrollbar-content custom-scrollbar ml-5">
+                    <div className="box-container">
 
-                    <div className="h-[600px] custom-scrollbar-content custom-scrollbar z-10">
+                        <div className="h-[600px] custom-scrollbar-content custom-scrollbar z-10">
 
-                        {
-                            comments.map((comment, index) => (
-                                <div
-                                    key={index}
-                                    className="box w-full"
-                                >
-
-                                    {
-                                        filteredUsers
-                                            .filter((user) => user.id === comment.id_user)
-                                            .map((user) => (
-                                                <div key={user.id} className=" mt-3 ">
-                                                    <div className="flex items-center">
-                                                        <Avatar
-                                                            alt="Remy Sharp"
-                                                            src={user.avatar}
-                                                            sx={{ width: 40, height: 40 }}
-                                                        />
-                                                        <span className="ml-2 font-bold min-w-[150px] max-h-[150px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
-                                                        <span className="ml-2 text-gray-500">{comment.created_at}</span>
-                                                    </div>
-                                                    <div className="mt-2 mb-12">
-
-                                                        {(isMyUser === user.id && login === "true") ?
-                                                            (
-                                                                <div>
-                                                                    {editingCommentId !== comment.id ? (
-                                                                        <form
-                                                                            onSubmit={formik01.handleSubmit}
-                                                                        >
-                                                                            <div>
-                                                                                <div
-                                                                                    className="w-full max-h-[150px] ml-2"
-                                                                                >
-                                                                                    {comment.content}
-                                                                                </div>
-
-                                                                                <div
-                                                                                    className="float-right"
-
-                                                                                >
-                                                                                    <button
-                                                                                        type="button"
-                                                                                        className="w-[50px] h-[35px] bg-gray-200 hover:bg-gray-300 rounded-lg mr-2 mb-8"
-                                                                                        onClick={() => editingComment(comment.id)}
-
-                                                                                    >
-                                                                                        Sửa
-                                                                                    </button>
-
-                                                                                    <button
-                                                                                        type="submit"
-                                                                                        className="w-[50px] h-[35px] bg-gray-200 hover:bg-gray-300 rounded-lg mb-8"
-                                                                                        onClick={() => deleteVideoComments(comment.id)}
-                                                                                    >
-                                                                                        Xóa
-                                                                                    </button>
-                                                                                </div>
-
-                                                                            </div>
-                                                                        </form>
-                                                                    ) : (
-                                                                        <form
-                                                                            onSubmit={formik02.handleSubmit}
-                                                                        >
-                                                                            <div>
-                                                                                <div className="w-full max-h-[200px] ml-2">
-                                                                                    <textarea
-                                                                                        id={`comment-${comment.id}`}
-                                                                                        name="content"
-                                                                                        type="text"
-                                                                                        className="w-full min-h-[150px] border border-gray-900 px-2 py-2"
-                                                                                        defaultValue={comment.content}
-                                                                                        onChange={formik02.handleChange}
-                                                                                    />
-
-                                                                                </div>
-
-                                                                                <div
-                                                                                    className="float-right"
-
-                                                                                >
-                                                                                    <button
-                                                                                        type="button"
-                                                                                        className="w-[50px] h-[35px] bg-gray-200 hover:bg-gray-300 rounded-lg mr-2 mb-8"
-                                                                                        onClick={() => editingComment(comment.id)}
-                                                                                    >
-                                                                                        Xong
-                                                                                    </button>
-
-                                                                                    <button
-                                                                                        type="submit"
-                                                                                        className="w-[80px] h-[35px] bg-gray-200 hover:bg-gray-300 rounded-lg mb-8"
-                                                                                        onClick={() => { changeVideoComments(comment.id) }}
-                                                                                    >
-                                                                                        Cập nhật
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </form>
-
-                                                                    )}
-
-                                                                </div>
-
-                                                            ) : (
-                                                                <div className="w-full max-h-[150px]">
-                                                                    {comment.content}
-                                                                </div>
-                                                            )
-                                                        }
-                                                    </div>
-                                                </div>
-
-                                            ))
-                                    }
-
-                                </div>
-                            ))
-                        }
-
-                    </div>
-
-                    {/* Phần nhập bình luận */}
-                    <div
-                        className="box w-full h-full text-center"
-                    >
-                        {(login === "true") ?
-                            (
-                                <form
-                                    className="w-full"
-                                    onSubmit={formik.handleSubmit}
-                                >
-                                    <textarea
-                                        id="content"
-                                        name="content"
-                                        type="text"
-                                        rows={3}
-                                        cols={50}
-                                        className="w-full py-2 px-2 border-2"
-                                        placeholder="Nhập bình luận của bạn..."
-                                        value={formik.values.content} // Đặt giá trị của input từ state user
-                                        onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
-
-                                    />
-
-                                    <button
-                                        type="submit"
-                                        className="float-right bg-blue-500 w-[100px] h-[35px] rounded-full"
+                            {
+                                comments.map((comment, index) => (
+                                    <div
+                                        key={index}
+                                        className="box w-full"
                                     >
-                                        Bình luận
-                                    </button>
 
-                                    <button
-                                        type="button"
-                                        onClick={handleCancel}
-                                        className="float-right bg-white hover:bg-gray-100 w-[50px] h-[35px] rounded-full mr-2"
-                                    >
-                                        Hủy
-                                    </button>
+                                        {
+                                            filteredUsers
+                                                .filter((user) => user.id === comment.id_user)
+                                                .map((user) => (
+                                                    <div key={user.id} className=" mt-3 ">
+                                                        <div className="flex items-center">
+                                                            <Avatar
+                                                                alt="Remy Sharp"
+                                                                src={user.avatar}
+                                                                sx={{ width: 40, height: 40 }}
+                                                            />
+                                                            <span className="ml-2 font-bold min-w-[150px] max-h-[150px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                            <span className="ml-2 text-gray-500">{comment.created_at}</span>
+                                                        </div>
+                                                        <div className="mt-2 mb-12">
 
-                                </form>
-                            ) : (
-                                <span className="text-blue-500"> Cần đăng nhập để bình luận</span>
-                            )}
+                                                            {(id_user === `"${user.id}"` && login === "true") ?
+                                                                (
+                                                                    <div>
+                                                                        {editingCommentId !== comment.id ? (
+                                                                            <form
+                                                                                onSubmit={formik01.handleSubmit}
+                                                                            >
+                                                                                <div>
+                                                                                    <div
+                                                                                        className="w-full max-h-[150px] ml-2"
+                                                                                    >
+                                                                                        {comment.content}
+                                                                                    </div>
+
+                                                                                    <div
+                                                                                        className="float-right"
+
+                                                                                    >
+                                                                                        <button
+                                                                                            type="button"
+                                                                                            className="w-[50px] h-[35px] bg-gray-200 hover:bg-gray-300 rounded-lg mr-2 mb-8"
+                                                                                            onClick={() => editingComment(comment.id)}
+
+                                                                                        >
+                                                                                            Sửa
+                                                                                        </button>
+
+                                                                                        <button
+                                                                                            type="submit"
+                                                                                            className="w-[50px] h-[35px] bg-gray-200 hover:bg-gray-300 rounded-lg mb-8"
+                                                                                            onClick={() => deleteVideoComments(comment.id)}
+                                                                                        >
+                                                                                            Xóa
+                                                                                        </button>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </form>
+                                                                        ) : (
+                                                                            <form
+                                                                                onSubmit={formik02.handleSubmit}
+                                                                            >
+                                                                                <div>
+                                                                                    <div className="w-full max-h-[200px] ml-2">
+                                                                                        <textarea
+                                                                                            id={`comment-${comment.id}`}
+                                                                                            name="content"
+                                                                                            type="text"
+                                                                                            className="w-full min-h-[150px] border border-gray-900 px-2 py-2"
+                                                                                            defaultValue={comment.content}
+                                                                                            onChange={formik02.handleChange}
+                                                                                        />
+
+                                                                                    </div>
+
+                                                                                    <div
+                                                                                        className="float-right"
+
+                                                                                    >
+                                                                                        <button
+                                                                                            type="button"
+                                                                                            className="w-[50px] h-[35px] bg-gray-200 hover:bg-gray-300 rounded-lg mr-2 mb-8"
+                                                                                            onClick={() => editingComment(comment.id)}
+                                                                                        >
+                                                                                            Xong
+                                                                                        </button>
+
+                                                                                        <button
+                                                                                            type="submit"
+                                                                                            className="w-[80px] h-[35px] bg-gray-200 hover:bg-gray-300 rounded-lg mb-8"
+                                                                                            onClick={() => { changeVideoComments(comment.id) }}
+                                                                                        >
+                                                                                            Cập nhật
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+
+                                                                        )}
+
+                                                                    </div>
+
+                                                                ) : (
+                                                                    <div className="w-full max-h-[150px]">
+                                                                        {comment.content}
+                                                                    </div>
+                                                                )
+                                                            }
+                                                        </div>
+                                                    </div>
+
+                                                ))
+                                        }
+
+                                    </div>
+                                ))
+                            }
+
+                        </div>
+
+                        {/* Phần nhập bình luận */}
+                        <div
+                            className="box w-full h-full text-center"
+                        >
+                            <form
+                                className="w-full"
+                                onSubmit={formik.handleSubmit}
+                            >
+                                <textarea
+                                    id="content"
+                                    name="content"
+                                    type="text"
+                                    rows={3}
+                                    cols={50}
+                                    className="w-full py-2 px-2 border-2"
+                                    placeholder="Nhập bình luận của bạn..."
+                                    value={formik.values.content} // Đặt giá trị của input từ state user
+                                    onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
+
+                                />
+
+                                <button
+                                    type="submit"
+                                    className="float-right bg-blue-500 w-[100px] h-[35px] rounded-full"
+                                >
+                                    Bình luận
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={handleCancel}
+                                    className="float-right bg-white hover:bg-gray-100 w-[50px] h-[35px] rounded-full mr-2"
+                                >
+                                    Hủy
+                                </button>
+
+                            </form>
+
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div >
-    );
+            </div >
+        );
+    } else {
+        return (
+            <div className="flex w-[450px] h-[675px] py-5 bg-white rounded-xl border shadow overflow-auto ">
+                <div className="w-full h-full custom-scrollbar-content custom-scrollbar ml-5">
+                    <div className="box-container">
+
+                        <div className="h-[600px] custom-scrollbar-content custom-scrollbar z-10">
+
+                            {
+                                comments.map((comment, index) => (
+                                    <div
+                                        key={index}
+                                        className="box w-full"
+                                    >
+
+                                        {
+                                            filteredUsers
+                                                .filter((user) => user.id === comment.id_user)
+                                                .map((user) => (
+                                                    <div key={user.id} className=" mt-3 ">
+                                                        <div className="flex items-center">
+                                                            <Avatar
+                                                                alt="Remy Sharp"
+                                                                src={user.avatar}
+                                                                sx={{ width: 40, height: 40 }}
+                                                            />
+                                                            <span className="ml-2 font-bold min-w-[150px] max-h-[150px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                            <span className="ml-2 text-gray-500">{comment.created_at}</span>
+                                                        </div>
+                                                        <div className="mt-2 mb-12">
+                                                            <div className="w-full max-h-[150px]">
+                                                                {comment.content}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                ))
+                                        }
+
+                                    </div>
+                                ))
+                            }
+
+                        </div>
+                        {/* Phần nhập bình luận */}
+                        <div
+                            className="box w-full h-full text-center"
+                        >
+
+                            <span className="text-blue-500"> Cần đăng nhập để bình luận</span>
+
+                        </div>
+                    </div>
+                </div>
+            </div >
+        );
+    };
 };
 export default CommentPage;

@@ -301,9 +301,9 @@ const VideoPage = () => {
     };
 
     return (
-        <div className="w-full h-full overflow-auto bg-white mt-[70px]">
+        <div className="w-full h-full overflow-auto bg-white pt-[70px]">
             {videos.map((video, index) => (
-                <div key={index} className="flex justify-center items-center" >
+                <div key={index} className="flex justify-center items-center " >
                     <div className="flex flex-wrap justify-center items-center mb-8">
                         <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] px-5 bg-white rouder-xl flex justify-center rounded-2xl border shadow">
                             <div className="overflow-hidden" >
@@ -428,6 +428,7 @@ const VideoPage = () => {
 
                                                         <li
                                                             className="mr-4"
+                                                            onClick={openLoginModal}
                                                         >
                                                             <button
                                                                 className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 transform scale-x-[-1]">
