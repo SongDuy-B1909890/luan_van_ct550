@@ -304,6 +304,11 @@ const VideoPage = () => {
         setIsLoginModal(false);
     };
 
+    const handleChannelClick = (channelName, channelId) => {
+        localStorage.setItem('id_channel', channelId);
+        window.location.href = '/channel/id:' + channelName + channelId;
+    };
+
     return (
         <div className="w-full h-full overflow-auto bg-white pt-[70px]">
             {
@@ -350,12 +355,19 @@ const VideoPage = () => {
                                                 .map((user) => (
                                                     <div key={user.id} className="flex items-center mt-2">
 
-                                                        <Avatar
-                                                            alt="Remy Sharp"
-                                                            src={user.avatar}
-                                                            sx={{ width: 50, height: 50 }}
-                                                        />
-                                                        <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                        <button
+                                                            className="flex items-center"
+                                                            onClick={() => handleChannelClick((user.firstname + " " + user.lastname), user.id)}
+
+                                                        >
+                                                            <Avatar
+                                                                alt="Remy Sharp"
+                                                                src={user.avatar}
+                                                                sx={{ width: 50, height: 50 }}
+                                                            />
+                                                            <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                        </button>
+
                                                         {video.isFollowed === true && login === "true" ? (
                                                             <div
                                                                 onSubmit={formik01.handleSubmit}

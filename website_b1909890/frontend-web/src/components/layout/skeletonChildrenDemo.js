@@ -11,8 +11,9 @@ const SkeletonChildrenDemo = () => {
             <div className="w-[960px]">
 
                 <Skeleton variant="rectangular" width="960px">
-                    <div style={{ paddingTop: '550px' }} />
+                    <div style={{ paddingTop: '550px', borderRadius: '10px' }} />
                 </Skeleton>
+
                 <Box sx={{ margin: 1 }}>
                     <Box>
                         <Skeleton width="450px">
@@ -20,6 +21,7 @@ const SkeletonChildrenDemo = () => {
                         </Skeleton>
                     </Box>
                 </Box>
+
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Box sx={{ margin: 1 }}>
                         <Skeleton variant="circular">

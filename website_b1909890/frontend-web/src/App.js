@@ -1,14 +1,12 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import HeaderPage from './components/layout/header';
 import Home from './components/layout/index';
-// import LoginPage from './components/auth/login';
+
 import RegisterPage from './components/auth/register';
 import ForgotPasswordPage from './components/auth/forgotPassword';
-// import MenuPage from './components/layout/menu';
-// import FooterPage from './components/layout/footer';
-// import CommentPage from './components/layout/comment';
 import MyChannel from './components/layout/myChannel';
 import ChannelFollowedPage from './components/layout/channelFollowed';
+import ChannelVideoPage from './components/layout/channelVideo';
 
 import LoginAdminPage from './components/admin/loginAdmin';
 import AdminPage from './components/admin/admin';
@@ -20,7 +18,6 @@ import UploadVideoPage from './components/layout/uploadVideo';
 import CategoryVideoPage from './components/layout/categoryVideo';
 import SearchVideoPage from './components/layout/searchVideo';
 import FavoriteVideoPage from './components/layout/favoriteVideo';
-import SkeletonChildrenDemo from './components/layout/skeletonChildrenDemo';
 
 import StaffGroup01Page from './components/satff/staffGroup01';
 import StaffGroup02Page from './components/satff/staffGroup02';
@@ -55,11 +52,10 @@ function App() {
 
         <Route path="/admin" element={<AdminPage />}></Route>
 
-        <Route path="/a" element={<SkeletonChildrenDemo />}></Route>
-
         <Route path="/forgotPassword" element={<ForgotPasswordPage />}></Route>
         <Route path="/video" element={<VideoPage />}></Route>
-        <Route path="/category/:categoryName/:categoryId" element={<CategoryVideoPage />}> </Route>
+        <Route path="/category/:categoryId" element={<CategoryVideoPage />}> </Route>
+        <Route path="/channel/:channelId" element={<ChannelVideoPage />}> </Route>
 
         <Route path="/search/:searchValue" element={<SearchVideoPage />}></Route>
 

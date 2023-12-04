@@ -273,6 +273,11 @@ const FavoriteVideoPage = () => {
         }
     });
 
+    const handleChannelClick = (channelName, channelId) => {
+        localStorage.setItem('id_channel', channelId);
+        window.location.href = '/channel/id:' + channelName + channelId;
+    };
+
     return (
         <div>
             <HeaderPage />
@@ -321,12 +326,18 @@ const FavoriteVideoPage = () => {
                                                     .map((user) => (
                                                         <div key={user.id} className="flex items-center mt-2">
 
-                                                            <Avatar
-                                                                alt="Remy Sharp"
-                                                                src={user.avatar}
-                                                                sx={{ width: 50, height: 50 }}
-                                                            />
-                                                            <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                            <button
+                                                                className="flex items-center"
+                                                                onClick={() => handleChannelClick((user.firstname + " " + user.lastname), user.id)}
+                                                            >
+                                                                <Avatar
+                                                                    alt="Remy Sharp"
+                                                                    src={user.avatar}
+                                                                    sx={{ width: 50, height: 50 }}
+                                                                />
+                                                                <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                            </button>
+
                                                             {video.isFollowed === true ? (
                                                                 <div
                                                                     onSubmit={formik01.handleSubmit}
