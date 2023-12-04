@@ -358,7 +358,7 @@ const StaffGroup01Page = () => {
                             {categories.map((category) => (
                                 <tr key={category.id} className="bg-gray-50">
                                     <td className="w-[50px] px-6 py-4 whitespace-pre-line border-r-2"> {category.name}</td>
-                                    <td className="w-[300px] px-6 py-4 whitespace-pre-line border-r-2 overflow-auto"> <div style={{ maxHeight: '500px' }}> {category.suggestion} </div> </td>
+                                    <td className="w-[300px] px-6 py-4 whitespace-pre-line border-r-2 overflow-auto"> <div style={{ maxHeight: '500px' }}> {category.motto} </div> </td>
                                     <td className="w-[500px] px-6 py-4 whitespace-pre-line border-r-2 overflow-auto"> <div style={{ maxHeight: '500px' }}> {category.description} </div></td>
                                     <td className="w-[500px] px-6 py-4 whitespace-pre-line border-r-2">
                                         <form onSubmit={formik02.handleSubmit}>

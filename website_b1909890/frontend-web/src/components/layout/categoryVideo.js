@@ -17,7 +17,8 @@ import DescriptionPage from './description';
 
 const id_category = localStorage.getItem('id_category');
 
-const id_user = localStorage.getItem('id_user');
+const userString = localStorage.getItem('user');
+const user = userString ? JSON.parse(userString) : null;
 
 // Trả về giá trị đăng nhập
 const login = localStorage.getItem('login');
@@ -35,11 +36,11 @@ const CategoryVideoPage = () => {
     const [reloadFollows, setReloadFollows] = useState(false);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/follows/${id_user}`)
+        axios.get(`http://localhost:5000/api/follows/${user.id}`)
             .then((followsResponse) => {
                 const followsData = followsResponse.data;
 
-                axios.get(`http://localhost:5000/api/favorites/${id_user}`)
+                axios.get(`http://localhost:5000/api/favorites/${user.id}`)
                     .then((favoritesResponse) => {
                         const favoritesData = favoritesResponse.data;
 
@@ -73,9 +74,9 @@ const CategoryVideoPage = () => {
 
                                 // Sử dụng danh sách video đã lọc
 
-                                const followVideos = filteredVideos.filter((video) => video.id_category === id_category);
-                                setVideos(followVideos);
-                                //  console.log(followVideos);
+                                const categoryVideos = filteredVideos.filter((video) => video.id_category === id_category);
+                                setVideos(categoryVideos);
+                                //console.log(categoryVideos);
                             })
                             .catch((error) => {
                                 console.error(error);
@@ -195,7 +196,7 @@ const CategoryVideoPage = () => {
 
     const handleFavoriteClick = (videoId, favorite) => {
         formik.setValues({
-            id: id_user,
+            id: user.id,
             id_video: videoId,
         });
         formik.handleSubmit();
@@ -241,7 +242,7 @@ const CategoryVideoPage = () => {
 
     const handleFollowClick = (followId, follow) => {
         formik01.setValues({
-            id: id_user,
+            id: user.id,
             id_follow: followId,
         });
         formik01.handleSubmit();

@@ -646,7 +646,7 @@ const StaffGroup02Page = () => {
 
                                                                                     <li
                                                                                         className="mr-auto text-white text-xl font-bold"
-                                                                                    //onClick={() => DescriptionModal(video.cloudinary_id)}
+                                                                                        onClick={() => ChangeVideoStatus(video.cloudinary_id, "loại")}
                                                                                     >
                                                                                         <button
                                                                                             className="min-w-[125px] max-w-[125px] h-[50px] bg-red-900 rounded-full hover:bg-gray-800"

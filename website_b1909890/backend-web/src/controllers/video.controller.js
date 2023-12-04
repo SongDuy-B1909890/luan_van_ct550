@@ -109,7 +109,8 @@ const acceptedVideos = async (req, res) => {
             const acceptedVideosList = videoList.filter(video => video.status === "chấp nhận");
 
             if (acceptedVideosList.length > 0) {
-                res.status(200).json(acceptedVideosList);
+                const reversedVideosList = acceptedVideosList.reverse();
+                res.status(200).json(reversedVideosList);
             } else {
                 res.status(404).json({ message: 'No accepted videos available' });
             }
