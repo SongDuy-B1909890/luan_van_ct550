@@ -11,16 +11,28 @@ const SkeletonChildrenDemo = () => {
             <div className="w-[960px]">
 
                 <Skeleton variant="rectangular" width="960px">
-                    <div style={{ paddingTop: '600px' }} />
+                    <div style={{ paddingTop: '550px' }} />
                 </Skeleton>
+                <Box sx={{ margin: 1 }}>
+                    <Box>
+                        <Skeleton width="450px">
+                            <Typography>.</Typography>
+                        </Skeleton>
+                    </Box>
+                </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Box sx={{ margin: 1 }}>
                         <Skeleton variant="circular">
                             <Avatar />
                         </Skeleton>
                     </Box>
-                    <Box>
-                        <Skeleton width="880px">
+                    <Box sx={{ margin: '0 10px' }}>
+                        <Skeleton width="250px">
+                            <Typography>.</Typography>
+                        </Skeleton>
+                    </Box>
+                    <Box sx={{ margin: '0 225px' }}>
+                        <Skeleton width="400px">
                             <Typography>.</Typography>
                         </Skeleton>
                     </Box>

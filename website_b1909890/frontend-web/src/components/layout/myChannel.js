@@ -13,6 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import HeaderPage from './header';
 import CommentPage from './comment';
 import DescriptionPage from './description';
+import SkeletonChildrenDemo from './skeletonChildrenDemo';
 
 const userString = localStorage.getItem('user');
 const user = userString ? JSON.parse(userString) : null;
@@ -29,6 +30,9 @@ const MyChannel = () => {
 
     const [reloadFavorites, setReloadFavorites] = useState(false);
     const [reloadDeleteVideos, setReloadDeleteVideos] = useState(false);
+
+    const [isLoading, setIsLoading] = useState(false);
+
     useEffect(() => {
         axios.get(`http://localhost:5000/api/favorites/${user.id}`)
             .then((favoritesResponse) => {
@@ -56,6 +60,7 @@ const MyChannel = () => {
                         // Sử dụng danh sách video đã lọc
                         //console.log(favoriteVideos);
                         setVideos(favoriteVideos);
+                        setIsLoading(true);
 
                     })
                     .catch((error) => {
@@ -244,9 +249,17 @@ const MyChannel = () => {
             <div className="w-full h-full overflow-auto bg-white mt-[70px]">
                 {
                     videos.length === 0 ? (
-                        <div className="w-full h-screen flex justify-center items-center">
-                            <h1 className="text-2xl text-gray-500">Danh sách video của bạn trống</h1>
-                        </div>
+                        <React.Fragment>
+                            {isLoading ? (
+                                <div className="w-full h-screen flex justify-center items-center">
+                                    <h1 className="text-2xl text-gray-500">Danh sách video của bạn trống</h1>
+                                </div>
+                            ) : (
+                                <div className="w-full h-screen flex justify-center">
+                                    <SkeletonChildrenDemo />
+                                </div>
+                            )}
+                        </React.Fragment>
                     ) : (
                         videos.map((video, index) => (
                             <div key={index} className="flex justify-center items-center" >
