@@ -20,6 +20,7 @@ import UploadVideoPage from './components/layout/uploadVideo';
 import CategoryVideoPage from './components/layout/categoryVideo';
 import SearchVideoPage from './components/layout/searchVideo';
 import FavoriteVideoPage from './components/layout/favoriteVideo';
+import SkeletonChildrenDemo from './components/layout/skeletonChildrenDemo';
 
 import StaffGroup01Page from './components/satff/staffGroup01';
 import StaffGroup02Page from './components/satff/staffGroup02';
@@ -53,6 +54,8 @@ function App() {
         <Route path="/login/staff" element={<LoginStaffPage />}></Route>
 
         <Route path="/admin" element={<AdminPage />}></Route>
+
+        <Route path="/a" element={<SkeletonChildrenDemo />}></Route>
 
         <Route path="/forgotPassword" element={<ForgotPasswordPage />}></Route>
         <Route path="/video" element={<VideoPage />}></Route>

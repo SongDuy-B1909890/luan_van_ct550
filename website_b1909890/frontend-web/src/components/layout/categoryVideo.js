@@ -14,6 +14,7 @@ import LoginPage from '../auth/login';
 import HeaderPage from './header';
 import CommentPage from './comment';
 import DescriptionPage from './description';
+import SkeletonChildrenDemo from './skeletonChildrenDemo';
 
 const id_category = localStorage.getItem('id_category');
 
@@ -35,6 +36,7 @@ const CategoryVideoPage = () => {
     const [reloadFavorites, setReloadFavorites] = useState(false);
     const [reloadFollows, setReloadFollows] = useState(false);
 
+    const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
         axios.get(`http://localhost:5000/api/follows/${user.id}`)
             .then((followsResponse) => {
@@ -76,6 +78,7 @@ const CategoryVideoPage = () => {
 
                                 const categoryVideos = filteredVideos.filter((video) => video.id_category === id_category);
                                 setVideos(categoryVideos);
+                                setIsLoading(true);
                                 //console.log(categoryVideos);
                             })
                             .catch((error) => {
@@ -300,9 +303,19 @@ const CategoryVideoPage = () => {
             <div className="w-full h-full overflow-auto bg-white mt-[70px]">
                 {
                     videos.length === 0 ? (
-                        <div className="w-full h-screen flex justify-center items-center">
-                            <h1 className="text-2xl text-gray-500">Danh mục chưa có nội dung</h1>
-                        </div>
+                        <React.Fragment>
+                            {isLoading ? (
+                                <div className="w-full h-screen flex items-center justify-center ">
+                                    <div>
+                                        <h1 className="text-2xl text-gray-500">Danh mục không có nội dung phù hợp</h1>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="w-full h-screen flex justify-center">
+                                    <SkeletonChildrenDemo />
+                                </div>
+                            )}
+                        </React.Fragment>
                     ) : (
                         videos.map((video, index) => (
                             <div key={index} className="flex justify-center items-center" >
@@ -466,7 +479,8 @@ const CategoryVideoPage = () => {
                                 {isLoginModal && <LoginPage closeModal={closeLoginModal} />}
                             </div>
                         ))
-                    )}
+                    )
+                }
             </div>
         </div>
     );
