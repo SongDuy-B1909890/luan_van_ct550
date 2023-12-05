@@ -60,10 +60,6 @@ const UploadVideoPage = () => {
                 .then((response) => {
                     // Xử lý thành công
                     console.log(response.data);
-                    // Hiển thị thông báo đăng ký thành công
-                    alert("Tải video lên thành công");
-                    window.location.href = "/";
-
 
                 })
                 .catch((error) => {

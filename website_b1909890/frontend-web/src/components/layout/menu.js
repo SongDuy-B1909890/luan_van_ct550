@@ -58,7 +58,7 @@ const MenuPage = ({ closeModal }) => {
 
     const handleChannelFollowedClick = (userId) => {
         localStorage.setItem('id_user', userId);
-        window.location.href = '/channel/followed/:id' + userId;
+        window.location.href = '/channel/followed/id:' + userId;
     };
 
     return (

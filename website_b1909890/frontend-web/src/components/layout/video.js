@@ -329,7 +329,7 @@ const VideoPage = () => {
                     videos.map((video, index) => (
                         <div key={index} className="flex justify-center items-center " >
                             <div className="flex flex-wrap justify-center items-center mb-8">
-                                <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] px-5 bg-white rouder-xl flex justify-center rounded-2xl border shadow">
+                                <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] px-5 bg-white rouder-xl flex justify-center rounded-2xl shadow">
                                     <div className="overflow-hidden" >
 
                                         <div className="mt-5" >

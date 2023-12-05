@@ -2,23 +2,35 @@ import React, { useEffect, useState, useRef } from 'react';
 import ReactPlayer from 'react-player/lazy';
 import axios from 'axios';
 import { useFormik } from "formik"
+import { useParams } from 'react-router-dom';
 
 import Avatar from '@mui/material/Avatar';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 import InsertCommentOutlinedIcon from '@mui/icons-material/InsertCommentOutlined';
 import ReplyIcon from '@mui/icons-material/Reply';
-import DeleteIcon from '@mui/icons-material/Delete';
+import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined';
 
-import HeaderPage from './header';
+import LoginPage from '../auth/login';
 import CommentPage from './comment';
 import DescriptionPage from './description';
 import SkeletonChildrenDemo from './skeletonChildrenDemo';
+import HeaderPage from './header';
 
 const userString = localStorage.getItem('user');
 const user = userString ? JSON.parse(userString) : null;
 
-const MyChannel = () => {
+// Trả về giá trị đăng nhập
+const login = localStorage.getItem('login');
+
+const WatchVideoPage = () => {
+    const { videoId } = useParams();
+    const str = videoId;
+    const parts = str.split(":");
+    const id = parts[parts.length - 1].trim();
+    const id_video = `video/${id}`;
+    //console.log(id_video); // Output: "-Ni2kLC_X99s1P_mEN3i"
+    // console.log(name); // Output: "DươngHoàng"
 
     const [videos, setVideos] = useState([]);
 
@@ -29,55 +41,84 @@ const MyChannel = () => {
     const [filteredCategories, setFilteredCategories] = useState([]);
 
     const [reloadFavorites, setReloadFavorites] = useState(false);
-    const [reloadDeleteVideos, setReloadDeleteVideos] = useState(false);
+    const [reloadFollows, setReloadFollows] = useState(false);
 
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/favorites/${user.id}`)
-            .then((favoritesResponse) => {
-                const favoritesData = favoritesResponse.data;
+        if (login === "true") {
+            axios.get(`http://localhost:5000/api/follows/${user.id}`)
+                .then((followsResponse) => {
+                    const followsData = followsResponse.data;
 
-                axios
-                    .get('http://localhost:5000/api/acceptedVideos')
-                    .then((videosResponse) => {
-                        const videosData = videosResponse.data;
+                    axios.get(`http://localhost:5000/api/favorites/${user.id}`)
+                        .then((favoritesResponse) => {
+                            const favoritesData = favoritesResponse.data;
 
-                        // Lọc danh sách video dựa trên id_videos và cloudinary_id và thêm isFavorite vào dữ liệu video
-                        const filteredVideos = videosData.map((video) => {
-                            const isFavorite = favoritesData.some((favorite) =>
-                                favorite.id_videos &&
-                                Array.isArray(favorite.id_videos) &&
-                                favorite.id_videos.includes(video.cloudinary_id)
-                            );
-                            return {
-                                ...video,
-                                isFavorite: isFavorite
-                            };
+                            axios.get('http://localhost:5000/api/acceptedVideos')
+                                .then((videosResponse) => {
+                                    const videosData = videosResponse.data;
+
+                                    // Lọc danh sách video dựa trên id_videos và cloudinary_id
+                                    const filteredVideos = videosData.map((video) => {
+                                        // Kiểm tra điều kiện lọc theo id_videos và cloudinary_id
+                                        const isFavorite = favoritesData.some((favorite) =>
+                                            favorite.id_videos &&
+                                            Array.isArray(favorite.id_videos) &&
+                                            favorite.id_videos.includes(video.cloudinary_id)
+                                        );
+
+                                        // Kiểm tra điều kiện lọc theo id_user
+                                        const isFollowed = followsData.some((followed) =>
+                                            followed.id_follows &&
+                                            Array.isArray(followed.id_follows) &&
+                                            followed.id_follows.includes(video.id_user)
+                                        );
+
+                                        // Trả về video với thuộc tính isFavorite và isFollowed
+                                        return {
+                                            ...video,
+                                            isFavorite: isFavorite,
+                                            isFollowed: isFollowed
+                                        };
+                                    });
+
+                                    // Sử dụng danh sách video đã lọc
+                                    const watchVideo = filteredVideos.filter((video) => video.cloudinary_id === id_video);
+                                    setVideos(watchVideo);
+                                    setIsLoading(true);
+                                    //console.log(filteredVideos);
+                                })
+                                .catch((error) => {
+                                    console.error(error);
+                                })
+                                .finally(() => {
+                                    setReloadFavorites(false);
+                                    setReloadFollows(false);
+                                });
+                        })
+                        .catch((error) => {
+                            console.error(error);
                         });
-                        // Chỉ hiển thị những video có isFavorite === true
-                        const favoriteVideos = filteredVideos.filter((video) => video.id_user === user.id);
-                        // Sử dụng danh sách video đã lọc
-                        //console.log(favoriteVideos);
-                        setVideos(favoriteVideos);
-                        setIsLoading(true);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        } else {
+            axios.get('http://localhost:5000/api/acceptedVideos')
+                .then((videosResponse) => {
+                    const videosData = videosResponse.data;
 
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    })
-                    .finally(() => {
-                        setReloadFavorites(false); // Đặt lại giá trị reloadFavorites thành false sau khi tải xong
-                        setReloadDeleteVideos(false);
-                    });
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-        axios
-            .get('http://localhost:5000/api/users')
+                    setVideos(videosData);
+                    //console.log(filteredVideos);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+
+        axios.get('http://localhost:5000/api/users')
             .then((response) => {
-                // console.log(response.data);
                 const usersData = response.data;
                 setUsers(usersData);
             })
@@ -85,17 +126,15 @@ const MyChannel = () => {
                 console.error(error);
             });
 
-        axios
-            .get('http://localhost:5000/api/admin/categories')
+        axios.get('http://localhost:5000/api/admin/categories')
             .then((response) => {
-                // console.log(response.data);
                 const categoriesData = response.data;
                 setCategories(categoriesData);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, [reloadFavorites, reloadDeleteVideos]);
+    }, [reloadFavorites, reloadFollows]);
 
     useEffect(() => {
         // Lọc danh sách người dùng dựa trên id_user của video
@@ -175,12 +214,15 @@ const MyChannel = () => {
     const [favorites, setFavorites] = useState(false);
 
     const handleFavoriteClick = (videoId, favorite) => {
-        formik.setValues({
-            id: user.id,
-            id_video: videoId,
-        });
-        formik.handleSubmit();
-        setFavorites(favorite);
+        if (login === "true") {
+            formik.setValues({
+                id: user.id,
+                id_video: videoId,
+            });
+            formik.handleSubmit();
+
+            setFavorites(favorite);
+        }
     };
 
     const formik = useFormik({
@@ -194,9 +236,8 @@ const MyChannel = () => {
                 axios
                     .post('http://localhost:5000/api/createFavorite', values)
                     .then((response) => {
-                        // console.log(response.data);
+                        //console.log(response.data);
                         setReloadFavorites(true); // Kích hoạt việc tải lại danh sách bình luận
-
                     })
                     .catch((error) => {
                         console.error(error);
@@ -207,7 +248,6 @@ const MyChannel = () => {
                     .then((response) => {
                         // console.log(response.data);
                         setReloadFavorites(true); // Kích hoạt việc tải lại danh sách bình luận
-
                     })
                     .catch((error) => {
                         console.error(error);
@@ -218,41 +258,78 @@ const MyChannel = () => {
 
     });
 
-    const handleDeleteVideoClick = (videoId) => {
+    const [follows, setFollows] = useState(false);
+
+    const handleFollowClick = (followId, follow) => {
         formik01.setValues({
-            cloudinary_id: videoId,
+            id: user.id,
+            id_follow: followId,
         });
         formik01.handleSubmit();
+        setFollows(follow);
     };
 
     const formik01 = useFormik({
         initialValues: {
-            cloudinary_id: '',
+            id: '',
+            id_follow: '',
         },
         onSubmit: (values) => {
-            axios
-                .delete('http://localhost:5000/api/deleteVideo', { data: values })
-                .then((response) => {
-                    // console.log(response.data);
-                    setReloadDeleteVideos(true);
+            if (follows !== true) {
+                axios
+                    .post('http://localhost:5000/api/createFollow', values)
+                    .then((response) => {
+                        // console.log(response.data);
+                        setReloadFollows(true);
 
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            } else {
+                axios
+                    .delete('http://localhost:5000/api/deleteFollow', { data: values })
+                    .then((response) => {
+                        // console.log(response.data);
+                        setReloadFollows(true);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
         }
     });
+
+    const [isLoginModal, setIsLoginModal] = useState(false);
+    const openLoginModal = () => {
+        if (login === "true") {
+            setIsLoginModal(false);
+        } else {
+            setIsLoginModal(true);
+        }
+
+    };
+
+    const closeLoginModal = () => {
+        setIsLoginModal(false);
+    };
+
+    const handleChannelClick = (channel) => {
+        window.location.href = '/channel/id:' + channel.firstname + " " + channel.lastname + "  " + channel.id;
+    };
 
     return (
         <div>
             <HeaderPage />
-            <div className="w-full h-full overflow-auto bg-white mt-[70px]">
+            <div className="w-full h-full overflow-auto bg-white pt-[70px]">
                 {
                     videos.length === 0 ? (
                         <React.Fragment>
                             {isLoading ? (
-                                <div className="w-full h-screen flex justify-center items-center">
-                                    <h1 className="text-2xl text-gray-500">Danh sách video của bạn trống</h1>
+                                <div className="w-full h-screen flex items-center justify-center ">
+                                    <div>
+                                        <h1 className="text-2xl text-gray-500">Danh mục không có nội dung phù hợp</h1>
+                                    </div>
                                 </div>
                             ) : (
                                 <div className="w-full h-screen flex justify-center">
@@ -262,9 +339,9 @@ const MyChannel = () => {
                         </React.Fragment>
                     ) : (
                         videos.map((video, index) => (
-                            <div key={index} className="flex justify-center items-center" >
-                                <div className="flex flex-wrap justify-center items-center mb-8">
-                                    <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] px-5 bg-white rouder-xl flex justify-center rounded-2xl border shadow">
+                            <div key={index} className="flex justify-center items-center mb-2" >
+                                <div className="flex flex-wrap justify-center items-center">
+                                    <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] px-5 bg-white rouder-xl flex justify-center rounded-2xl shadow">
                                         <div className="overflow-hidden" >
 
                                             <div className="mt-5" >
@@ -277,19 +354,23 @@ const MyChannel = () => {
                                                     allowFullScreen={true}
                                                     loading="lazy"
                                                     preload="true"
-                                                    loop={true} // Tự động lặp lại video
+                                                    loop={true}
                                                     playing={currentPlayingVideo === video.cloudinary_id}
                                                     onPlay={() => handleVideoPlay(video.cloudinary_id)}
                                                 />
                                             </div>
                                             <div className="mt-2 w-full h-full">
-                                                <h1 className="font-bold text-xl overflow-hidden line-clamp-1 mr-5 text-blue-900">{video.title} </h1>
+                                                <h1 className="font-bold text-xl overflow-hidden line-clamp-1 mr-5 text-blue-900">{video.title}</h1>
                                                 {filteredUsers
                                                     .filter((user) => user.id === video.id_user)
                                                     .map((user) => (
                                                         <div key={user.id} className="flex items-center mt-2">
 
-                                                            <button className="flex items-center">
+                                                            <button
+                                                                className="flex items-center"
+                                                                onClick={() => handleChannelClick(user)} //(user.firstname + " " + user.lastname), user.id
+
+                                                            >
                                                                 <Avatar
                                                                     alt="Remy Sharp"
                                                                     src={user.avatar}
@@ -298,6 +379,33 @@ const MyChannel = () => {
                                                                 <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
                                                             </button>
 
+                                                            {video.isFollowed === true && login === "true" ? (
+                                                                <div
+                                                                    onSubmit={formik01.handleSubmit}
+                                                                    onClick={openLoginModal}
+                                                                >
+                                                                    <button
+                                                                        type="submit"
+                                                                        className="w-[110px] h-[35px] ml-3 bg-red-100 text-black font-bold rounded-full hover:bg-red-100"
+                                                                        onClick={() => handleFollowClick(user.id, video.isFollowed)}
+                                                                    >
+                                                                        Đã đăng ký
+                                                                    </button>
+                                                                </div>
+                                                            ) : (
+                                                                <div
+                                                                    onSubmit={formik01.handleSubmit}
+                                                                    onClick={openLoginModal}
+                                                                >
+                                                                    <button
+                                                                        type="submit"
+                                                                        className="w-[110px] h-[35px] ml-3 bg-black text-white font-bold rounded-full hover:bg-gray-800"
+                                                                        onClick={() => handleFollowClick(user.id, video.isFollowed)}
+                                                                    >
+                                                                        Đăng ký
+                                                                    </button>
+                                                                </div>
+                                                            )}
                                                             <div className="text-right ml-auto">
                                                                 <ul className="flex">
                                                                     {filteredCategories
@@ -307,7 +415,6 @@ const MyChannel = () => {
                                                                                 key={category.id}
                                                                                 className="mr-4 text-blue-900 text-xl font-bold"
                                                                                 onClick={() => DescriptionModal(video.cloudinary_id)}
-
                                                                             >
                                                                                 <button
                                                                                     className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
@@ -317,9 +424,12 @@ const MyChannel = () => {
                                                                             </li>
 
                                                                         ))}
-
-                                                                    {video.isFavorite === true ? (
-                                                                        <li className="mr-4 text-red-500" onSubmit={formik.handleSubmit}>
+                                                                    {video.isFavorite === true && login === "true" ? (
+                                                                        <li
+                                                                            className="mr-4 text-red-500"
+                                                                            onSubmit={formik.handleSubmit}
+                                                                            onClick={openLoginModal}
+                                                                        >
                                                                             <button
                                                                                 type="submit"
                                                                                 className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
@@ -330,7 +440,11 @@ const MyChannel = () => {
                                                                             </button>
                                                                         </li>
                                                                     ) : (
-                                                                        <li className="mr-4" onSubmit={formik.handleSubmit}>
+                                                                        <li
+                                                                            className="mr-4"
+                                                                            onSubmit={formik.handleSubmit}
+                                                                            onClick={openLoginModal}
+                                                                        >
                                                                             <button
                                                                                 type="submit"
                                                                                 className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
@@ -357,24 +471,23 @@ const MyChannel = () => {
 
                                                                     <li
                                                                         className="mr-4"
+                                                                        onClick={openLoginModal}
                                                                     >
                                                                         <button
-                                                                            className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 transform scale-x-[-1]"
-                                                                        >
+                                                                            className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 transform scale-x-[-1]">
                                                                             <ReplyIcon />
                                                                         </button>
                                                                     </li>
 
                                                                     <li
-                                                                        className="mr-auto text-white"
-                                                                        onSubmit={formik.handleSubmit}
+                                                                        className="mr-auto"
+                                                                        onClick={openLoginModal}
                                                                     >
                                                                         <button
-                                                                            type="submit"
-                                                                            className="min-w-[125px] max-w-[125px] h-[50px] bg-red-900 rounded-full hover:bg-yellow-600"
-                                                                            onClick={() => handleDeleteVideoClick(video.cloudinary_id)}
+                                                                            className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                            title='Báo cáo'
                                                                         >
-                                                                            <DeleteIcon /> Xóa video
+                                                                            <FlagOutlinedIcon />
                                                                         </button>
                                                                     </li>
 
@@ -389,12 +502,13 @@ const MyChannel = () => {
                                     {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage value={video.description} />}
                                     {isSelectVideoComment === video.cloudinary_id && isCommentModal && <CommentPage value={video.cloudinary_id} />}
                                 </div>
+                                {isLoginModal && <LoginPage closeModal={closeLoginModal} />}
                             </div>
                         ))
                     )}
-            </div>
+            </div >
         </div>
     );
 };
 
-export default MyChannel;
+export default WatchVideoPage;

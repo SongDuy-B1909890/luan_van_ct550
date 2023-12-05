@@ -62,6 +62,13 @@ const ChannelVideoPage = () => {
         setCurrentPlayingVideo(cloudinaryId);
     };
 
+    const handleWatchVideoClick = (videoId) => {
+        const str = videoId;
+        const parts = str.split("/");
+        const id = parts[parts.length - 1].trim();
+        window.location.href = '/watch/id:' + id;
+    };
+
     return (
         <div>
             <HeaderPage />
@@ -83,51 +90,59 @@ const ChannelVideoPage = () => {
                         </React.Fragment>
                     ) : (
                         <div className=" ml-8 mr-8 ">
-                            <div className="w-full h-[100px] border-b-2 mb-5 py-5">
-                                <div className="flex items-center">
+                            <div className="w-full h-[150px] border-b-2 mb-5 py-5">
+                                <div className=" items-center flex">
                                     <Avatar
                                         alt="Remy Sharp"
                                         src={channel.avatar}
-                                        sx={{ width: 50, height: 50 }}
+                                        sx={{ width: 100, height: 100 }}
                                     />
-                                    <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{channel.firstname + " " + channel.lastname}</span>
+                                    <div className="ml-5">
+                                        <div className="flex-wrap">
+                                            <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{channel.firstname + " " + channel.lastname}</span>
+                                            <span className="ml-2 max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{channel.firstname + " " + channel.lastname}</span>
+                                            <span className="ml-2 max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{channel.firstname + " " + channel.lastname}</span>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
-                            <div className=" h-screen">
-                                <div className="flex">
-                                    {videos.map((video, index) => (
-                                        <div
-                                            className="w-[335px] h-[265px] col-span-1 border-2 rounded-lg ml-2 mr-2"
-                                            key={index}
-                                        >
-                                            {/* Hiển thị nội dung video */}
-                                            <div className="py-2 px-4">
-                                                <div className=" mb-2">
-                                                    <ReactPlayer
-                                                        id={video.cloudinary_id}
-                                                        url={video.url_video}
-                                                        width="300px"
-                                                        height="180px"
-                                                        controls={true}
-                                                        allowFullScreen={true}
-                                                        loading="lazy"
-                                                        preload="true"
-                                                        loop={true}
-                                                        playing={currentPlayingVideo === video.cloudinary_id}
-                                                        onPlay={() => handleVideoPlay(video.cloudinary_id)}
-
-                                                    />
-                                                </div>
-                                            </div>
-
-                                            {/* Hiển thị tiêu đề video */}
-                                            <div className="product-name overflow-hidden ml-4 mr-4 line-clamp-2 min-h-[50px]">
-                                                {video.title}
+                            <div className="grid grid-cols-4 gap-4">
+                                {videos.map((video, index) => (
+                                    <div
+                                        className="w-[335px] h-[270px] col-span-1 shadow-xl rounded-xl overflow-hidden ml-2 mr-2 mb-5"
+                                        key={index}
+                                    >
+                                        {/* Hiển thị nội dung video */}
+                                        <div className="py-2 px-4">
+                                            <div className="mt-2 mb-2">
+                                                <ReactPlayer
+                                                    id={video.cloudinary_id}
+                                                    url={video.url_video}
+                                                    width="300px"
+                                                    height="180px"
+                                                    controls={true}
+                                                    allowFullScreen={true}
+                                                    loading="lazy"
+                                                    preload="true"
+                                                    loop={true}
+                                                    playing={currentPlayingVideo === video.cloudinary_id}
+                                                    onPlay={() => handleVideoPlay(video.cloudinary_id)}
+                                                />
                                             </div>
                                         </div>
-                                    ))}
-                                </div>
 
+                                        {/* Hiển thị tiêu đề video */}
+                                        <div className="overflow-hidden ml-4 mr-4 font-bold hover:text-blue-500">
+                                            <button
+                                                className="line-clamp-2 max-h-[50px]"
+                                                onClick={() => handleWatchVideoClick(video.cloudinary_id)}
+                                            >
+                                                {video.title}
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     )

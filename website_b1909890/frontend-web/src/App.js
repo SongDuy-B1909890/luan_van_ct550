@@ -18,6 +18,7 @@ import UploadVideoPage from './components/layout/uploadVideo';
 import CategoryVideoPage from './components/layout/categoryVideo';
 import SearchVideoPage from './components/layout/searchVideo';
 import FavoriteVideoPage from './components/layout/favoriteVideo';
+import WatchVideoPage from './components/layout/watchVideo';
 
 import StaffGroup01Page from './components/satff/staffGroup01';
 import StaffGroup02Page from './components/satff/staffGroup02';
@@ -54,6 +55,8 @@ function App() {
 
         <Route path="/forgotPassword" element={<ForgotPasswordPage />}></Route>
         <Route path="/video" element={<VideoPage />}></Route>
+        <Route path="/watch/:videoId" element={<WatchVideoPage />}></Route>
+
         <Route path="/category/:categoryId" element={<CategoryVideoPage />}> </Route>
         <Route path="/channel/:channelId" element={<ChannelVideoPage />}> </Route>
         <Route path="/search/:searchValue" element={<SearchVideoPage />}></Route>
