@@ -56,7 +56,6 @@ function App() {
         <Route path="/video" element={<VideoPage />}></Route>
         <Route path="/category/:categoryId" element={<CategoryVideoPage />}> </Route>
         <Route path="/channel/:channelId" element={<ChannelVideoPage />}> </Route>
-
         <Route path="/search/:searchValue" element={<SearchVideoPage />}></Route>
 
         {/* Chỉ cho phép truy cập khi đã đăng nhập */}

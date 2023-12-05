@@ -304,9 +304,8 @@ const VideoPage = () => {
         setIsLoginModal(false);
     };
 
-    const handleChannelClick = (channelName, channelId) => {
-        localStorage.setItem('id_channel', channelId);
-        window.location.href = '/channel/id:' + channelName + channelId;
+    const handleChannelClick = (channel) => {
+        window.location.href = '/channel/id:' + channel.firstname + " " + channel.lastname + "  " + channel.id;
     };
 
     return (
@@ -357,7 +356,7 @@ const VideoPage = () => {
 
                                                         <button
                                                             className="flex items-center"
-                                                            onClick={() => handleChannelClick((user.firstname + " " + user.lastname), user.id)}
+                                                            onClick={() => handleChannelClick(user)} //(user.firstname + " " + user.lastname), user.id
 
                                                         >
                                                             <Avatar
