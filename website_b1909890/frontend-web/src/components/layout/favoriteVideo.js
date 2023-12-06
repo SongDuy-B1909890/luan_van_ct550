@@ -356,7 +356,7 @@ const FavoriteVideoPage = () => {
                                                                 />
                                                                 <div className="flex-wrap">
                                                                     <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
-                                                                    <span className="ml-2 max-w-[180px] text-sm text-red-400 overflow-hidden line-clamp-1">{video.created_at}</span>
+                                                                    <span className="ml-2 max-w-[180px] text-sm text-red-400 overflow-hidden line-clamp-1">Ngày đăng {video.created_at}</span>
                                                                 </div>
                                                             </button>
 

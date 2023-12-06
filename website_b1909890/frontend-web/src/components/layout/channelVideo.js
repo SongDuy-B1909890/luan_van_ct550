@@ -104,12 +104,12 @@ const ChannelVideoPage = () => {
                                                 {channel.firstname + " " + channel.lastname}
                                             </span>
                                             <span
-                                                className="ml-2 font-bold max-w-[550px] text-blue-300 overflow-hidden line-clamp-1"
+                                                className="ml-2 font-bold max-w-[550px] overflow-hidden line-clamp-1"
                                             >
                                                 Mã id: {channel.id},  Giới tính: {channel.gender}, Sinh nhật: {channel.birthday}
                                             </span>
                                             <span
-                                                className="ml-2 font-bold max-w-[300px] text-red-300 overflow-hidden line-clamp-1"
+                                                className="ml-2 font-bold max-w-[300px] overflow-hidden line-clamp-1"
                                             >
                                                 Ngày tham gia: {channel.created_at}
                                             </span>
@@ -145,9 +145,10 @@ const ChannelVideoPage = () => {
                                         </div>
 
                                         {/* Hiển thị tiêu đề video */}
-                                        <div className="overflow-hidden ml-4 mr-4 font-bold hover:text-blue-500">
+                                        <div
+                                            className="overflow-hidden line-clamp-2 max-h-[50px] ml-4 mr-4 font-bold text-blue-500 hover:text-blue-800"
+                                        >
                                             <button
-                                                className="line-clamp-2 max-h-[50px]"
                                                 onClick={() => handleWatchVideoClick(video.cloudinary_id)}
                                             >
                                                 {video.title}
