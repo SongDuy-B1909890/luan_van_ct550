@@ -10,11 +10,10 @@ import SkeletonChildrenDemo from './skeletonChildrenDemo';
 const ChannelVideoPage = () => {
     const { channelId } = useParams();
     const str = channelId;
-    const parts = str.split("-");
-    const id = parts[parts.length - 1].trim();
+    const id = str.substring(str.indexOf("-") + 1);
+    const id_channel = `-${id}`;
 
-    // console.log(`-${id}`); // Output: "-Ni2kLC_X99s1P_mEN3i"
-    // console.log(name); // Output: "DươngHoàng"
+    //console.log(channelId); // Output: "DươngHoàng"
 
     const [videos, setVideos] = useState([]);
 
@@ -26,7 +25,7 @@ const ChannelVideoPage = () => {
         axios.get('http://localhost:5000/api/acceptedVideos')
             .then((videosResponse) => {
                 const videosData = videosResponse.data;
-                const channelVideos = videosData.filter((video) => video.id_user === `-${id}`);
+                const channelVideos = videosData.filter((video) => video.id_user === id_channel);
                 setVideos(channelVideos);
                 setIsLoading(true);
                 //console.log(categoryVideos);
@@ -40,14 +39,14 @@ const ChannelVideoPage = () => {
             .then((response) => {
                 // console.log(response.data);
                 const usersData = response.data;
-                const channel = usersData.filter((user) => user.id === `-${id}`);
+                const channel = usersData.filter((user) => user.id === id_channel);
                 setChannel(channel[0]);
                 //console.log(channel[0].firstname);
             })
             .catch((error) => {
                 console.error(error);
             });
-    }, []);
+    }, [id_channel]);
 
     const [currentPlayingVideo, setCurrentPlayingVideo] = useState(null);
     const playerRef = useRef(null);
@@ -99,9 +98,21 @@ const ChannelVideoPage = () => {
                                     />
                                     <div className="ml-5">
                                         <div className="flex-wrap">
-                                            <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{channel.firstname + " " + channel.lastname}</span>
-                                            <span className="ml-2 max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{channel.firstname + " " + channel.lastname}</span>
-                                            <span className="ml-2 max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{channel.firstname + " " + channel.lastname}</span>
+                                            <span
+                                                className="ml-2 font-bold text-3xl max-w-[500px] h-[50px] text-blue-900 overflow-hidden line-clamp-1"
+                                            >
+                                                {channel.firstname + " " + channel.lastname}
+                                            </span>
+                                            <span
+                                                className="ml-2 max-w-[180px] text-blue-900 overflow-hidden line-clamp-1"
+                                            >
+                                                {channel.firstname + " " + channel.lastname}
+                                            </span>
+                                            <span
+                                                className="ml-2 max-w-[180px] text-blue-900 overflow-hidden line-clamp-1"
+                                            >
+                                                {channel.firstname + " " + channel.lastname}
+                                            </span>
                                         </div>
                                     </div>
 

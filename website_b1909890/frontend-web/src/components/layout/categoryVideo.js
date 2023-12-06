@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import ReactPlayer from 'react-player/lazy';
 import axios from 'axios';
 import { useFormik } from "formik"
+import { useParams } from 'react-router-dom';
 
 import Avatar from '@mui/material/Avatar';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
@@ -16,8 +17,6 @@ import CommentPage from './comment';
 import DescriptionPage from './description';
 import SkeletonChildrenDemo from './skeletonChildrenDemo';
 
-const id_category = localStorage.getItem('id_category');
-
 const userString = localStorage.getItem('user');
 const user = userString ? JSON.parse(userString) : null;
 
@@ -25,6 +24,14 @@ const user = userString ? JSON.parse(userString) : null;
 const login = localStorage.getItem('login');
 
 const CategoryVideoPage = () => {
+    const { categoryId } = useParams();
+    const str = categoryId;
+    const id = str.substring(str.indexOf("-") + 1);
+    const id_category = `-${id}`;
+
+    // const parts = str.split("-");
+    // const id = parts[parts.length - 1].trim();
+
     const [videos, setVideos] = useState([]);
 
     const [users, setUsers] = useState([]);
@@ -118,7 +125,7 @@ const CategoryVideoPage = () => {
             .catch((error) => {
                 console.error(error);
             });
-    }, [reloadFavorites, reloadFollows]);
+    }, [reloadFavorites, reloadFollows, id_category]);
 
     useEffect(() => {
         // Lọc danh sách người dùng dựa trên id_category của video
@@ -132,7 +139,7 @@ const CategoryVideoPage = () => {
             videos.some((video) => video.id_category === category.id)
         );
         setFilteredCategories(filteredCategories);
-    }, [videos, users, categories]);
+    }, [videos, users, categories, id_category]);
 
     const [isSelectVideoDescription, setIsSelectVideoDescription] = useState(null);
     const [isSelectVideoComment, setIsSelectVideoComment] = useState(null);

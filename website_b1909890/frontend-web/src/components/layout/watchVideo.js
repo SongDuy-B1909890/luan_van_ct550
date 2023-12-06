@@ -134,7 +134,7 @@ const WatchVideoPage = () => {
             .catch((error) => {
                 console.error(error);
             });
-    }, [reloadFavorites, reloadFollows]);
+    }, [reloadFavorites, reloadFollows, id_video]);
 
     useEffect(() => {
         // Lọc danh sách người dùng dựa trên id_user của video

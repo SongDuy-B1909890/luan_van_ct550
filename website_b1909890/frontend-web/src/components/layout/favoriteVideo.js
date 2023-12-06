@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import ReactPlayer from 'react-player/lazy';
 import axios from 'axios';
 import { useFormik } from "formik"
+import { useParams } from 'react-router-dom';
 
 import Avatar from '@mui/material/Avatar';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
@@ -15,10 +16,13 @@ import CommentPage from './comment';
 import DescriptionPage from './description';
 import SkeletonChildrenDemo from './skeletonChildrenDemo';
 
-const userString = localStorage.getItem('user');
-const user = userString ? JSON.parse(userString) : null;
-
 const FavoriteVideoPage = () => {
+    const { favoriteId } = useParams();
+    const str = favoriteId;
+    const id = str.substring(str.indexOf("-") + 1);
+    const id_favorite = `-${id}`;
+
+    //console.log(id_favorite);
 
     const [videos, setVideos] = useState([]);
     const [users, setUsers] = useState([]);
@@ -32,11 +36,11 @@ const FavoriteVideoPage = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/follows/${user.id}`)
+        axios.get(`http://localhost:5000/api/follows/${id_favorite}`)
             .then((followsResponse) => {
                 const followsData = followsResponse.data;
 
-                axios.get(`http://localhost:5000/api/favorites/${user.id}`)
+                axios.get(`http://localhost:5000/api/favorites/${id_favorite}`)
                     .then((favoritesResponse) => {
                         const favoritesData = favoritesResponse.data;
 
@@ -108,7 +112,7 @@ const FavoriteVideoPage = () => {
             .catch((error) => {
                 console.error(error);
             });
-    }, [reloadFavorites, reloadFollows]);
+    }, [reloadFavorites, reloadFollows, id_favorite]);
 
     useEffect(() => {
         // Lọc danh sách người dùng dựa trên id_user của video
@@ -189,7 +193,7 @@ const FavoriteVideoPage = () => {
 
     const handleFavoriteClick = (videoId, favorite) => {
         formik.setValues({
-            id: user.id,
+            id: id_favorite,
             id_video: videoId,
         });
         formik.handleSubmit();
@@ -235,7 +239,7 @@ const FavoriteVideoPage = () => {
 
     const handleFollowClick = (followId, follow) => {
         formik01.setValues({
-            id: user.id,
+            id: id_favorite,
             id_follow: followId,
         });
         formik01.handleSubmit();

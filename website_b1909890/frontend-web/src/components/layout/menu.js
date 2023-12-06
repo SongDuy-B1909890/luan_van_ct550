@@ -44,7 +44,6 @@ const MenuPage = ({ closeModal }) => {
     };
 
     const handleCategoryClick = (categoryId, categoryName) => {
-        localStorage.setItem('id_category', categoryId);
         window.location.href = '/category/id:' + categoryName + categoryId;
     };
 
@@ -57,7 +56,6 @@ const MenuPage = ({ closeModal }) => {
     };
 
     const handleChannelFollowedClick = (userId) => {
-        localStorage.setItem('id_user', userId);
         window.location.href = '/channel/followed/id:' + userId;
     };
 

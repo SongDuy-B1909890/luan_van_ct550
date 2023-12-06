@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import ReactPlayer from 'react-player/lazy';
 import axios from 'axios';
 import { useFormik } from "formik"
+import { useParams } from 'react-router-dom';
 
 import Avatar from '@mui/material/Avatar';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
@@ -15,9 +16,13 @@ import CommentPage from './comment';
 import DescriptionPage from './description';
 import SkeletonChildrenDemo from './skeletonChildrenDemo';
 
-const id_user = localStorage.getItem('id_user');
-
 const ChannelFollowedPage = () => {
+    const { followId } = useParams();
+    const str = followId;
+    const id = str.substring(str.indexOf("-") + 1);
+    const id_follow = `-${id}`;
+
+    // console.log(id_follow); // Output: "DươngHoàng"
 
     const [videos, setVideos] = useState([]);
     const [users, setUsers] = useState([]);
@@ -31,11 +36,11 @@ const ChannelFollowedPage = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/follows/${id_user}`)
+        axios.get(`http://localhost:5000/api/follows/${id_follow}`)
             .then((followsResponse) => {
                 const followsData = followsResponse.data;
 
-                axios.get(`http://localhost:5000/api/favorites/${id_user}`)
+                axios.get(`http://localhost:5000/api/favorites/${id_follow}`)
                     .then((favoritesResponse) => {
                         const favoritesData = favoritesResponse.data;
 
@@ -107,7 +112,7 @@ const ChannelFollowedPage = () => {
             .catch((error) => {
                 console.error(error);
             });
-    }, [reloadFavorites, reloadFollows]);
+    }, [reloadFavorites, reloadFollows, id_follow]);
 
     useEffect(() => {
         // Lọc danh sách người dùng dựa trên id_user của video
@@ -188,7 +193,7 @@ const ChannelFollowedPage = () => {
 
     const handleFavoriteClick = (videoId, favorite) => {
         formik.setValues({
-            id: id_user,
+            id: id_follow,
             id_video: videoId,
         });
         formik.handleSubmit();
@@ -234,7 +239,7 @@ const ChannelFollowedPage = () => {
 
     const handleFollowClick = (followId, follow) => {
         formik01.setValues({
-            id: id_user,
+            id: id_follow,
             id_follow: followId,
         });
         formik01.handleSubmit();

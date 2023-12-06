@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import ReactPlayer from 'react-player/lazy';
 import axios from 'axios';
 import { useFormik } from "formik"
+import { useParams } from 'react-router-dom';
 
 import Avatar from '@mui/material/Avatar';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
@@ -15,10 +16,13 @@ import CommentPage from './comment';
 import DescriptionPage from './description';
 import SkeletonChildrenDemo from './skeletonChildrenDemo';
 
-const userString = localStorage.getItem('user');
-const user = userString ? JSON.parse(userString) : null;
-
 const MyChannel = () => {
+    const { myId } = useParams();
+    const str = myId;
+    const id = str.substring(str.indexOf("-") + 1);
+    const id_my = `-${id}`;
+
+    //console.log(id_my);
 
     const [videos, setVideos] = useState([]);
 
@@ -34,7 +38,7 @@ const MyChannel = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/favorites/${user.id}`)
+        axios.get(`http://localhost:5000/api/favorites/${id_my}`)
             .then((favoritesResponse) => {
                 const favoritesData = favoritesResponse.data;
 
@@ -56,7 +60,7 @@ const MyChannel = () => {
                             };
                         });
                         // Chỉ hiển thị những video có isFavorite === true
-                        const favoriteVideos = filteredVideos.filter((video) => video.id_user === user.id);
+                        const favoriteVideos = filteredVideos.filter((video) => video.id_user === id_my);
                         // Sử dụng danh sách video đã lọc
                         //console.log(favoriteVideos);
                         setVideos(favoriteVideos);
@@ -95,7 +99,7 @@ const MyChannel = () => {
             .catch((error) => {
                 console.error(error);
             });
-    }, [reloadFavorites, reloadDeleteVideos]);
+    }, [reloadFavorites, reloadDeleteVideos, id_my]);
 
     useEffect(() => {
         // Lọc danh sách người dùng dựa trên id_user của video
@@ -176,7 +180,7 @@ const MyChannel = () => {
 
     const handleFavoriteClick = (videoId, favorite) => {
         formik.setValues({
-            id: user.id,
+            id: id_my,
             id_video: videoId,
         });
         formik.handleSubmit();
@@ -235,7 +239,6 @@ const MyChannel = () => {
                 .then((response) => {
                     // console.log(response.data);
                     setReloadDeleteVideos(true);
-
                 })
                 .catch((error) => {
                     console.error(error);
@@ -371,10 +374,10 @@ const MyChannel = () => {
                                                                     >
                                                                         <button
                                                                             type="submit"
-                                                                            className="min-w-[125px] max-w-[125px] h-[50px] bg-red-900 rounded-full hover:bg-yellow-600"
+                                                                            className="min-w-[125px] max-w-[125px] h-[50px] bg-red-900 rounded-full hover:bg-red-800 font-bold text-center"
                                                                             onClick={() => handleDeleteVideoClick(video.cloudinary_id)}
                                                                         >
-                                                                            <DeleteIcon /> Xóa video
+                                                                            <DeleteIcon /> Delete
                                                                         </button>
                                                                     </li>
 
