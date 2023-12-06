@@ -150,8 +150,8 @@ const ProfilePage = () => {
                                                         id="male"
                                                         name="gender"
                                                         type="radio"
-                                                        value="nam"
-                                                        checked={inputGender === "nam"}
+                                                        value="Nam"
+                                                        checked={inputGender === "Nam"}
                                                         onChange={formik.handleChange}
                                                         className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                                                     />
@@ -164,8 +164,8 @@ const ProfilePage = () => {
                                                         id="female"
                                                         name="gender"
                                                         type="radio"
-                                                        value="nữ"
-                                                        checked={inputGender === "nữ"}
+                                                        value="Nữ"
+                                                        checked={inputGender === "Nữ"}
                                                         onChange={formik.handleChange}
                                                         className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                                                     />

@@ -104,12 +104,12 @@ const ChannelVideoPage = () => {
                                                 {channel.firstname + " " + channel.lastname}
                                             </span>
                                             <span
-                                                className="ml-2 font-bold max-w-[550px] text-blue-500 overflow-hidden line-clamp-1"
+                                                className="ml-2 font-bold max-w-[550px] text-blue-300 overflow-hidden line-clamp-1"
                                             >
                                                 Mã id: {channel.id},  Giới tính: {channel.gender}, Sinh nhật: {channel.birthday}
                                             </span>
                                             <span
-                                                className="ml-2 font-bold max-w-[300px] text-red-600 overflow-hidden line-clamp-1"
+                                                className="ml-2 font-bold max-w-[300px] text-red-300 overflow-hidden line-clamp-1"
                                             >
                                                 Ngày tham gia: {channel.created_at}
                                             </span>
@@ -122,7 +122,7 @@ const ChannelVideoPage = () => {
                             <div className="grid grid-cols-4 gap-4">
                                 {videos.map((video, index) => (
                                     <div
-                                        className="w-[335px] h-[270px] col-span-1 shadow-xl rounded-xl overflow-hidden ml-8 mr-8 mb-5"
+                                        className="w-[335px] h-[270px] col-span-1 border-2 shadow-xl rounded-xl overflow-hidden ml-2 mr-2 mb-5"
                                         key={index}
                                     >
                                         {/* Hiển thị nội dung video */}

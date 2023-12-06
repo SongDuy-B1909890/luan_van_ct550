@@ -3,6 +3,9 @@ import ReactPlayer from 'react-player/lazy';
 import axios from 'axios';
 import { useFormik } from "formik"
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import Avatar from '@mui/material/Avatar';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
@@ -294,6 +297,19 @@ const SearchVideoPage = () => {
         window.location.href = '/channel/id:' + channel.lastname + channel.firstname + channel.id;
     };
 
+    const handleSpanClick = (videoId) => {
+        const str = videoId;
+        const id = str.substring(str.indexOf("/") + 1);
+        const text = `http://localhost:3000/watch/id:${id}`;
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                toast.success(`Địa chỉ video đã được sao chép`);
+            })
+            .catch((error) => {
+                console.error('Lỗi khi sao chép địa chỉ', error);
+            });
+    };
+
     return (
         <div>
             <HeaderPage />
@@ -349,7 +365,10 @@ const SearchVideoPage = () => {
                                                                     src={user.avatar}
                                                                     sx={{ width: 50, height: 50 }}
                                                                 />
-                                                                <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                                <div className="flex-wrap">
+                                                                    <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                                    <span className="ml-2 max-w-[180px] text-sm text-red-400 overflow-hidden line-clamp-1">{video.created_at}</span>
+                                                                </div>
                                                             </button>
 
                                                             {video.isFollowed === true && login === "true" ? (
@@ -447,9 +466,15 @@ const SearchVideoPage = () => {
                                                                         className="mr-4"
                                                                     >
                                                                         <button
-                                                                            className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 transform scale-x-[-1]">
+                                                                            className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200 transform scale-x-[-1]"
+                                                                            title='Sao chép địa chỉ'
+                                                                            onClick={() => handleSpanClick(video.cloudinary_id)}
+                                                                        >
                                                                             <ReplyIcon />
                                                                         </button>
+                                                                        <div>
+                                                                            <ToastContainer />
+                                                                        </div>
                                                                     </li>
 
                                                                     <li
@@ -470,7 +495,7 @@ const SearchVideoPage = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage value={video.description} />}
+                                    {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage values={{ description: video.description, cloudinaryId: video.cloudinary_id }} />}
                                     {isSelectVideoComment === video.cloudinary_id && isCommentModal && <CommentPage value={video.cloudinary_id} />}
                                 </div>
                                 {isLoginModal && <LoginPage closeModal={closeLoginModal} />}
