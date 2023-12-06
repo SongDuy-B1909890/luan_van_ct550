@@ -17,10 +17,10 @@ import DescriptionPage from './description';
 import SkeletonChildrenDemo from './skeletonChildrenDemo';
 
 const ChannelFollowedPage = () => {
-    const { followId } = useParams();
-    const str = followId;
+    const { followedId } = useParams();
+    const str = followedId;
     const id = str.substring(str.indexOf("-") + 1);
-    const id_follow = `-${id}`;
+    const id_followed = `-${id}`;
 
     // console.log(id_follow); // Output: "DươngHoàng"
 
@@ -36,11 +36,11 @@ const ChannelFollowedPage = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/follows/${id_follow}`)
+        axios.get(`http://localhost:5000/api/follows/${id_followed}`)
             .then((followsResponse) => {
                 const followsData = followsResponse.data;
 
-                axios.get(`http://localhost:5000/api/favorites/${id_follow}`)
+                axios.get(`http://localhost:5000/api/favorites/${id_followed}`)
                     .then((favoritesResponse) => {
                         const favoritesData = favoritesResponse.data;
 
@@ -112,7 +112,7 @@ const ChannelFollowedPage = () => {
             .catch((error) => {
                 console.error(error);
             });
-    }, [reloadFavorites, reloadFollows, id_follow]);
+    }, [reloadFavorites, reloadFollows, id_followed]);
 
     useEffect(() => {
         // Lọc danh sách người dùng dựa trên id_user của video
@@ -193,7 +193,7 @@ const ChannelFollowedPage = () => {
 
     const handleFavoriteClick = (videoId, favorite) => {
         formik.setValues({
-            id: id_follow,
+            id: id_followed,
             id_video: videoId,
         });
         formik.handleSubmit();
@@ -239,7 +239,7 @@ const ChannelFollowedPage = () => {
 
     const handleFollowClick = (followId, follow) => {
         formik01.setValues({
-            id: id_follow,
+            id: id_followed,
             id_follow: followId,
         });
         formik01.handleSubmit();

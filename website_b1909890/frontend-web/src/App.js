@@ -68,7 +68,7 @@ function App() {
             <Route path="/upload/video" element={<UploadVideoPage />}></Route>
             <Route path="/myChannel/:myId" element={<MyChannel />}> </Route>
             <Route path="/favorite/:favoriteId" element={<FavoriteVideoPage />}></Route>
-            <Route path="/channel/followed/:followId" element={<ChannelFollowedPage />}></Route>
+            <Route path="/channel/followed/:followedId" element={<ChannelFollowedPage />}></Route>
           </>
         )}
 

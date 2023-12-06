@@ -47,7 +47,7 @@ const ChannelVideoPage = () => {
                 console.error(error);
             });
     }, [id_channel]);
-
+    //console.log(channel.birthday);
     const [currentPlayingVideo, setCurrentPlayingVideo] = useState(null);
     const playerRef = useRef(null);
 
@@ -88,7 +88,7 @@ const ChannelVideoPage = () => {
                             )}
                         </React.Fragment>
                     ) : (
-                        <div className=" ml-8 mr-8 ">
+                        <div className=" ml-12 mr-12 ">
                             <div className="w-full h-[150px] border-b-2 mb-5 py-5">
                                 <div className=" items-center flex">
                                     <Avatar
@@ -104,15 +104,16 @@ const ChannelVideoPage = () => {
                                                 {channel.firstname + " " + channel.lastname}
                                             </span>
                                             <span
-                                                className="ml-2 max-w-[180px] text-blue-900 overflow-hidden line-clamp-1"
+                                                className="ml-2 font-bold max-w-[550px] text-blue-500 overflow-hidden line-clamp-1"
                                             >
-                                                {channel.firstname + " " + channel.lastname}
+                                                Mã id: {channel.id},  Giới tính: {channel.gender}, Sinh nhật: {channel.birthday}
                                             </span>
                                             <span
-                                                className="ml-2 max-w-[180px] text-blue-900 overflow-hidden line-clamp-1"
+                                                className="ml-2 font-bold max-w-[300px] text-red-600 overflow-hidden line-clamp-1"
                                             >
-                                                {channel.firstname + " " + channel.lastname}
+                                                Ngày tham gia: {channel.created_at}
                                             </span>
+
                                         </div>
                                     </div>
 
@@ -121,7 +122,7 @@ const ChannelVideoPage = () => {
                             <div className="grid grid-cols-4 gap-4">
                                 {videos.map((video, index) => (
                                     <div
-                                        className="w-[335px] h-[270px] col-span-1 shadow-xl rounded-xl overflow-hidden ml-2 mr-2 mb-5"
+                                        className="w-[335px] h-[270px] col-span-1 shadow-xl rounded-xl overflow-hidden ml-8 mr-8 mb-5"
                                         key={index}
                                     >
                                         {/* Hiển thị nội dung video */}
@@ -153,6 +154,7 @@ const ChannelVideoPage = () => {
                                             </button>
                                         </div>
                                     </div>
+
                                 ))}
                             </div>
                         </div>

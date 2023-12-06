@@ -88,6 +88,24 @@ const register = async (req, res) => {
   }
 };
 
+// const users = async (req, res) => {
+//   try {
+//     const snapshot = await get(child(dbRef, 'users'));
+//     if (snapshot.exists()) {
+//       const usersData = snapshot.val();
+//       const usersArray = Object.values(usersData);
+//       usersArray.forEach((user) => {
+//         delete user.password;
+//       });
+//       res.status(200).json(usersArray);
+//     } else {
+//       res.status(404).json({ message: 'No data available' });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
 const users = async (req, res) => {
   try {
     const snapshot = await get(child(dbRef, 'users'));
@@ -95,6 +113,9 @@ const users = async (req, res) => {
       const usersData = snapshot.val();
       const usersArray = Object.values(usersData);
       usersArray.forEach((user) => {
+        const parts = user.birthday.split('-'); // Tách chuỗi ngày sinh thành mảng các phần tử
+        const formattedBirthday = `${parts[2]}/${parts[1]}/${parts[0]}`; // Định dạng lại chuỗi ngày sinh
+        user.birthday = formattedBirthday; // Gán lại giá trị ngày sinh đã định dạng
         delete user.password;
       });
       res.status(200).json(usersArray);
