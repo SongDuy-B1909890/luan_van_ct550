@@ -231,7 +231,7 @@ const StaffGroup02Page = () => {
         return (
             <div>
 
-                <div className="fixed top-0 left-0 w-full h-[65px] bg-white shadow z-50">
+                <div className="fixed top-0 left-0 w-full h-[65px] bg-gray-50 shadow z-50">
                     <div className="text-center mt-2 ml-8">
                         <b className="text-3xl ml-8 text-blue-800">Trang Nhân Viên Sơ Tuyển - Nội Dung Video Theo Danh Mục</b>
                         <div className="float-right mr-4">
@@ -250,7 +250,7 @@ const StaffGroup02Page = () => {
                 </div>
 
                 {/* Nội dung */}
-                <div className="w-full h-full overflow-auto bg-white">
+                <div className="w-full h-full overflow-auto bg-gray-50">
                     {
                         videosStatus01.length === 0 ? (
                             <div className="w-full h-screen flex justify-center items-center">
@@ -258,9 +258,9 @@ const StaffGroup02Page = () => {
                             </div>
                         ) : (
                             videosStatus01.map((video, index) => (
-                                <div key={index} className="flex justify-center items-center mt-[70px]" >
+                                <div key={index} className="flex justify-center items-center pt-[70px]" >
                                     <div className="flex flex-wrap justify-center items-center mb-8">
-                                        <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl border shadow">
+                                        <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-gray-50 rouder-xl flex justify-center rounded-2xl border shadow">
                                             <div className="overflow-hidden" >
 
                                                 <div className="mt-5" >
@@ -385,7 +385,7 @@ const StaffGroup02Page = () => {
         return (
             <div>
 
-                <div className="fixed top-0 left-0 w-full h-[65px] bg-white shadow z-50">
+                <div className="fixed top-0 left-0 w-full h-[65px] bg-gray-50 shadow z-50">
                     <div className="text-center mt-2 ml-8">
                         <b className="text-3xl ml-8 text-blue-800">Trang Tổ Phản Biện - Nội Dung Video Theo Danh Mục</b>
                         <div className="float-right mr-4">
@@ -403,7 +403,7 @@ const StaffGroup02Page = () => {
                     </div>
                 </div>
                 {/* Nội dung */}
-                <div className="w-full h-full overflow-auto bg-white">
+                <div className="w-full h-full overflow-auto bg-gray-50">
                     {
                         videosStatus02.length === 0 ? (
                             <div className="w-full h-screen flex justify-center items-center">
@@ -411,9 +411,9 @@ const StaffGroup02Page = () => {
                             </div>
                         ) : (
                             videosStatus02.map((video, index) => (
-                                <div key={index} className="flex justify-center items-center mt-[70px]" >
+                                <div key={index} className="flex justify-center items-center pt-[70px]" >
                                     <div className="flex flex-wrap justify-center items-center mb-8">
-                                        <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl border shadow">
+                                        <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-gray-50 rouder-xl flex justify-center rounded-2xl border shadow">
                                             <div className="overflow-hidden" >
 
                                                 <div className="mt-5" >
@@ -531,7 +531,7 @@ const StaffGroup02Page = () => {
         return (
             <div>
 
-                <div className="fixed top-0 left-0 w-full h-[65px] bg-white shadow z-50">
+                <div className="fixed top-0 left-0 w-full h-[65px] bg-gray-50 shadow z-50">
                     <div className="text-center mt-2 ml-8">
                         <b className="text-3xl ml-8 text-blue-800">Trang Quản Lý Trưởng - Nội Dung Video Theo Danh Mục</b>
                         <div className="float-right mr-8">
@@ -550,7 +550,7 @@ const StaffGroup02Page = () => {
                 </div>
 
                 {/* Nội dung */}
-                <div className="w-full h-full overflow-auto bg-white">
+                <div className="w-full h-full overflow-auto bg-gray-50">
                     {
                         videosStatus03.length === 0 ? (
                             <div className="w-full h-screen flex justify-center items-center">
@@ -558,9 +558,9 @@ const StaffGroup02Page = () => {
                             </div>
                         ) : (
                             videosStatus03.map((video, index) => (
-                                <div key={index} className="flex justify-center items-center mt-[70px]" >
+                                <div key={index} className="flex justify-center items-center pt-[70px]" >
                                     <div className="flex flex-wrap justify-center items-center mb-8">
-                                        <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-white rouder-xl flex justify-center rounded-2xl border shadow">
+                                        <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] bg-gray-50 rouder-xl flex justify-center rounded-2xl border shadow">
                                             <div className="overflow-hidden" >
 
                                                 <div className="mt-5" >

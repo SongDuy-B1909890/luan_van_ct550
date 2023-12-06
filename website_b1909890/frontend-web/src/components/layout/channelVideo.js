@@ -71,7 +71,7 @@ const ChannelVideoPage = () => {
     return (
         <div>
             <HeaderPage />
-            <div className="w-full h-full overflow-auto bg-white mt-[70px]">
+            <div className="w-full h-screen overflow-auto bg-gray-50 pt-[70px]">
                 {
                     videos.length === 0 ? (
                         <React.Fragment>
@@ -88,7 +88,7 @@ const ChannelVideoPage = () => {
                             )}
                         </React.Fragment>
                     ) : (
-                        <div className=" ml-12 mr-12 ">
+                        <div className=" ml-12 mr-12">
                             <div className="w-full h-[150px] border-b-2 mb-5 py-5">
                                 <div className=" items-center flex">
                                     <Avatar
@@ -146,7 +146,7 @@ const ChannelVideoPage = () => {
 
                                         {/* Hiển thị tiêu đề video */}
                                         <div
-                                            className="overflow-hidden line-clamp-2 max-h-[50px] ml-4 mr-4 font-bold text-blue-500 hover:text-blue-800"
+                                            className="overflow-hidden line-clamp-2 max-h-[50px] ml-4 mr-4 font-bold text-blue-900 hover:text-blue-500"
                                         >
                                             <button
                                                 onClick={() => handleWatchVideoClick(video.cloudinary_id)}

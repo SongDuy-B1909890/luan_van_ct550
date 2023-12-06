@@ -249,6 +249,10 @@ const MyChannel = () => {
         }
     });
 
+    const handleChannelClick = (channel) => {
+        window.location.href = '/channel/id:' + channel.lastname + channel.firstname + channel.id;
+    };
+
     const handleSpanClick = (videoId) => {
         const str = videoId;
         const id = str.substring(str.indexOf("/") + 1);
@@ -265,7 +269,7 @@ const MyChannel = () => {
     return (
         <div>
             <HeaderPage />
-            <div className="w-full h-full overflow-auto bg-white mt-[70px]">
+            <div className="w-full h-full overflow-auto bg-gray-50 pt-[70px]">
                 {
                     videos.length === 0 ? (
                         <React.Fragment>
@@ -283,7 +287,7 @@ const MyChannel = () => {
                         videos.map((video, index) => (
                             <div key={index} className="flex justify-center items-center" >
                                 <div className="flex flex-wrap justify-center items-center mb-8">
-                                    <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] px-5 bg-white rouder-xl flex justify-center rounded-2xl border shadow">
+                                    <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] px-5 bg-gray-50 rouder-xl flex justify-center rounded-2xl border shadow">
                                         <div className="overflow-hidden" >
 
                                             <div className="mt-5" >
@@ -308,7 +312,10 @@ const MyChannel = () => {
                                                     .map((user) => (
                                                         <div key={user.id} className="flex items-center mt-2">
 
-                                                            <button className="flex items-center">
+                                                            <button
+                                                                className="flex items-center"
+                                                                onClick={() => handleChannelClick(user)}
+                                                            >
                                                                 <Avatar
                                                                     alt="Remy Sharp"
                                                                     src={user.avatar}
@@ -332,6 +339,7 @@ const MyChannel = () => {
 
                                                                             >
                                                                                 <button
+                                                                                    type="button"
                                                                                     className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
                                                                                 >
                                                                                     {category.name}

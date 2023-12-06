@@ -83,7 +83,7 @@ const HeaderPage = () => {
     if (login === "true") {
         return (
 
-            <div className="flex items-center w-full h-[60px] bg-white fixed inset-x-0 top-0 shadow z-50">
+            <div className="flex items-center w-full h-[60px] bg-gray-50 fixed inset-x-0 top-0 shadow z-50">
                 <div className="w-max-[180px] mr-[180px]">
                     <button
                         className="flex justify-center items-center ml-5 mt-1 w-10 h-10 hover:bg-gray-100 rounded-full"

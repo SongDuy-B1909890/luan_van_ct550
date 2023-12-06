@@ -48,6 +48,8 @@ const WatchVideoPage = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
+    const [isMyUser, setIsMyUser] = useState();
+
     useEffect(() => {
         if (login === "true") {
             axios.get(`http://localhost:5000/api/follows/${user.id}`)
@@ -90,6 +92,7 @@ const WatchVideoPage = () => {
                                     const watchVideo = filteredVideos.filter((video) => video.cloudinary_id === id_video);
                                     setVideos(watchVideo);
                                     setIsLoading(true);
+                                    setIsMyUser(user.id);
                                     //console.log(filteredVideos);
                                 })
                                 .catch((error) => {
@@ -321,6 +324,10 @@ const WatchVideoPage = () => {
         window.location.href = '/channel/id:' + channel.firstname + " " + channel.lastname + "  " + channel.id;
     };
 
+    const handleMyChannelClick = (userId) => {
+        window.location.href = '/myChannel/id:' + userId;
+    };
+
     const handleSpanClick = (videoId) => {
         const str = videoId;
         const id = str.substring(str.indexOf("/") + 1);
@@ -337,7 +344,7 @@ const WatchVideoPage = () => {
     return (
         <div>
             <HeaderPage />
-            <div className="w-full h-full overflow-auto bg-white pt-[70px]">
+            <div className="w-full h-full overflow-auto bg-gray-50 pt-[70px]">
                 {
                     videos.length === 0 ? (
                         <React.Fragment>
@@ -357,7 +364,7 @@ const WatchVideoPage = () => {
                         videos.map((video, index) => (
                             <div key={index} className="flex justify-center items-center mb-2" >
                                 <div className="flex flex-wrap justify-center items-center">
-                                    <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] px-5 bg-white rouder-xl flex justify-center rounded-2xl shadow">
+                                    <div className="min-w-[1000px] min-h-[675px] max-w-[1000px] max-h-[675px] px-5 bg-gray-50 rouder-xl flex justify-center rounded-2xl shadow">
                                         <div className="overflow-hidden" >
 
                                             <div className="mt-5" >
@@ -397,33 +404,48 @@ const WatchVideoPage = () => {
                                                                 </div>
                                                             </button>
 
-                                                            {video.isFollowed === true && login === "true" ? (
-                                                                <div
-                                                                    onSubmit={formik01.handleSubmit}
-                                                                    onClick={openLoginModal}
-                                                                >
-                                                                    <button
-                                                                        type="submit"
-                                                                        className="w-[110px] h-[35px] ml-3 bg-red-100 text-black font-bold rounded-full hover:bg-red-100"
-                                                                        onClick={() => handleFollowClick(user.id, video.isFollowed)}
-                                                                    >
-                                                                        Đã đăng ký
-                                                                    </button>
-                                                                </div>
-                                                            ) : (
-                                                                <div
-                                                                    onSubmit={formik01.handleSubmit}
-                                                                    onClick={openLoginModal}
-                                                                >
-                                                                    <button
-                                                                        type="submit"
-                                                                        className="w-[110px] h-[35px] ml-3 bg-black text-white font-bold rounded-full hover:bg-gray-800"
-                                                                        onClick={() => handleFollowClick(user.id, video.isFollowed)}
-                                                                    >
-                                                                        Đăng ký
-                                                                    </button>
-                                                                </div>
-                                                            )}
+                                                            {
+                                                                isMyUser === user.id ? (
+                                                                    <div>
+                                                                        <button
+                                                                            type="button"
+                                                                            className="w-[125px] h-[35px] ml-3 bg-red-800 text-white font-bold rounded-full hover:bg-gray-800"
+                                                                            onClick={() => handleMyChannelClick(user.id)}
+                                                                        >
+                                                                            Quản lý video
+                                                                        </button>
+                                                                    </div>
+                                                                ) : (
+                                                                    video.isFollowed === true && login === "true" ? (
+                                                                        <div
+                                                                            onSubmit={formik01.handleSubmit}
+                                                                            onClick={openLoginModal}
+                                                                        >
+                                                                            <button
+                                                                                type="submit"
+                                                                                className="w-[110px] h-[35px] ml-3 bg-red-100 text-black font-bold rounded-full hover:bg-red-100"
+                                                                                onClick={() => handleFollowClick(user.id, video.isFollowed)}
+                                                                            >
+                                                                                Đã đăng ký
+                                                                            </button>
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div
+                                                                            onSubmit={formik01.handleSubmit}
+                                                                            onClick={openLoginModal}
+                                                                        >
+                                                                            <button
+                                                                                type="submit"
+                                                                                className="w-[110px] h-[35px] ml-3 bg-black text-white font-bold rounded-full hover:bg-gray-800"
+                                                                                onClick={() => handleFollowClick(user.id, video.isFollowed)}
+                                                                            >
+                                                                                Đăng ký
+                                                                            </button>
+                                                                        </div>
+                                                                    )
+                                                                )
+                                                            }
+
                                                             <div className="text-right ml-auto">
                                                                 <ul className="flex">
                                                                     {filteredCategories
@@ -435,6 +457,7 @@ const WatchVideoPage = () => {
                                                                                 onClick={() => DescriptionModal(video.cloudinary_id)}
                                                                             >
                                                                                 <button
+                                                                                    type="button"
                                                                                     className="min-w-[125px] max-w-[125px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
                                                                                 >
                                                                                     {category.name}
