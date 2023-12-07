@@ -145,6 +145,7 @@ const VideoPage = () => {
             videos.some((video) => video.id_category === category.id)
         );
         setFilteredCategories(filteredCategories);
+        //console.log(filteredUsers)
     }, [videos, users, categories]);
 
     const [isSelectVideoDescription, setIsSelectVideoDescription] = useState(null);
@@ -425,7 +426,7 @@ const VideoPage = () => {
                                                                         >
                                                                             <button
                                                                                 type="submit"
-                                                                                className="w-[110px] h-[35px] ml-3 bg-red-100 text-black font-bold rounded-full hover:bg-red-100"
+                                                                                className="w-[110px] h-[35px] ml-3 bg-red-100 text-black font-bold rounded-full hover:bg-red-200"
                                                                                 onClick={() => handleFollowClick(user.id, video.isFollowed)}
                                                                             >
                                                                                 Đã đăng ký

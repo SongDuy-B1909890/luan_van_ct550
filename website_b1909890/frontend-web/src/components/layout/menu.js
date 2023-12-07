@@ -140,7 +140,8 @@ const MenuPage = ({ closeModal }) => {
                                         Trang Chủ
                                     </li>
 
-                                    <li className="hover:bg-gray-200 hover:text-blue-800 text-white bg-blue-600 py-2 px-2 rounded-xl cursor-pointer text-center"
+                                    <li
+                                        className="hover:bg-gray-200 hover:text-blue-800 text-white bg-blue-600 py-2 px-2 rounded-xl cursor-pointer text-center mb-5"
                                         onClick={openLoginModal}
                                     >
                                         Đăng nhập tài khoản

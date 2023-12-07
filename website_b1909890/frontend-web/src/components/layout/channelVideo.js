@@ -103,16 +103,34 @@ const ChannelVideoPage = () => {
                                             >
                                                 {channel.firstname + " " + channel.lastname}
                                             </span>
-                                            <span
+                                            <div
                                                 className="ml-2 font-bold max-w-[550px] overflow-hidden line-clamp-1"
                                             >
-                                                Mã id: {channel.id},  Giới tính: {channel.gender}, Sinh nhật: {channel.birthday}
-                                            </span>
-                                            <span
-                                                className="ml-2 font-bold max-w-[300px] overflow-hidden line-clamp-1"
+                                                <span>Mã id: </span>
+                                                <button
+                                                    className="bg-red-300 text-white rounded-full px-2 mr-5"
+                                                >
+                                                    {channel.id}
+                                                </button>
+
+                                                <span> Giới tính: </span>
+                                                <button
+                                                    className="bg-red-300 text-white rounded-full px-2"
+                                                >
+                                                    {channel.gender}
+                                                </button>
+                                            </div>
+                                            <div
+                                                className="ml-2 font-bold max-w-[300px] overflow-hidden line-clamp-1 mt-2"
                                             >
-                                                Ngày tham gia: {channel.created_at}
-                                            </span>
+
+                                                <span>Ngày tham gia: </span>
+                                                <button
+                                                    className="bg-red-300 text-white rounded-full px-2"
+                                                >
+                                                    {channel.created_at}
+                                                </button>
+                                            </div>
 
                                         </div>
                                     </div>

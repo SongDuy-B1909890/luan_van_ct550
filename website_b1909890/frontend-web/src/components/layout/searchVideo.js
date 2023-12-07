@@ -421,7 +421,7 @@ const SearchVideoPage = () => {
                                                                             >
                                                                                 <button
                                                                                     type="submit"
-                                                                                    className="w-[110px] h-[35px] ml-3 bg-red-100 text-black font-bold rounded-full hover:bg-red-100"
+                                                                                    className="w-[110px] h-[35px] ml-3 bg-red-100 text-black font-bold rounded-full hover:bg-red-200"
                                                                                     onClick={() => handleFollowClick(user.id, video.isFollowed)}
                                                                                 >
                                                                                     Đã đăng ký

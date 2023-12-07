@@ -6,12 +6,15 @@ import Avatar from '@mui/material/Avatar';
 
 import '../../index.css';
 
-const id_user = localStorage.getItem('id_user');
+const userString = localStorage.getItem('user');
+const user = userString ? JSON.parse(userString) : null;
 
 const login = localStorage.getItem('login');
 
 const CommentPage = (props) => {
     //const [isMyUser, setMyUser] = useState(null);
+    const id_user = user.id;
+    console.log(id_user);
     const [comments, setComments] = useState([]);
     const [users, setUsers] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
@@ -27,10 +30,9 @@ const CommentPage = (props) => {
                 const commentsData = response.data;
 
                 // Giao đoạn nhân viên sơ tuyển
-                const videosComment = commentsData.filter((comment) => comment.id_video === props.value);
-                setComments(videosComment);
-                //setMyUser(user.id);
-                //console.log(videosComment);
+                const comments = commentsData.filter((comment) => comment.id_video === props.value);
+                setComments(comments);
+                //console.log(comments);
             })
             .catch((error) => {
                 console.error(error);
@@ -40,12 +42,13 @@ const CommentPage = (props) => {
                 setReloadChangeComments(false);
                 setReloadDeleteComments(false);
             });
+
         axios
             .get('http://localhost:5000/api/users')
             .then((response) => {
-                // console.log(response.data);
                 const usersData = response.data;
                 setUsers(usersData);
+                //console.log(usersData);
             })
             .catch((error) => {
                 console.error(error);
@@ -62,6 +65,7 @@ const CommentPage = (props) => {
         );
 
         setFilteredUsers(filteredUsers);
+        //console.log(filteredUsers);
 
     }, [comments, users]);
 
@@ -73,7 +77,7 @@ const CommentPage = (props) => {
             content: '',
         },
         onSubmit: (values) => {
-            // console.log(values);
+            console.log(values.id_user);
             axios
                 .post('http://localhost:5000/api/createComment', values)
                 .then((response) => {
@@ -154,6 +158,11 @@ const CommentPage = (props) => {
         formik.resetForm(); // Đặt lại giá trị của form về giá trị ban đầu
     };
 
+    const handleChannelClick = (channel) => {
+        window.location.href = '/channel/id:' + channel.firstname + " " + channel.lastname + "  " + channel.id;
+        console.log(channel)
+    };
+
     if (login === "true") {
         return (
             <div className="flex w-[450px] h-[675px] py-5 bg-gray-50 rounded-xl shadow overflow-auto">
@@ -180,12 +189,18 @@ const CommentPage = (props) => {
                                                                 src={user.avatar}
                                                                 sx={{ width: 40, height: 40 }}
                                                             />
-                                                            <span className="ml-2 font-bold min-w-[150px] max-h-[150px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                            <button
+                                                                className="ml-2 font-bold min-w-[150px] max-h-[150px] text-blue-900 overflow-hidden line-clamp-1"
+                                                                onClick={() => handleChannelClick(user)}
+                                                            >
+                                                                {user.firstname + " " + user.lastname}
+                                                            </button>
                                                             <span className="ml-2 text-gray-500">{comment.created_at}</span>
-                                                        </div>
-                                                        <div className="mt-2 mb-12">
 
-                                                            {(id_user === `"${user.id}"` && login === "true") ?
+                                                        </div>
+
+                                                        <div className="mt-2 mb-12">
+                                                            {(id_user === user.id && login === "true") ?
                                                                 (
                                                                     <div>
                                                                         {editingCommentId !== comment.id ? (
@@ -278,7 +293,6 @@ const CommentPage = (props) => {
 
                                                 ))
                                         }
-
                                     </div>
                                 ))
                             }
@@ -354,7 +368,12 @@ const CommentPage = (props) => {
                                                                 src={user.avatar}
                                                                 sx={{ width: 40, height: 40 }}
                                                             />
-                                                            <span className="ml-2 font-bold min-w-[150px] max-h-[150px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
+                                                            <button
+                                                                className="ml-2 font-bold min-w-[150px] max-h-[150px] text-blue-900 overflow-hidden line-clamp-1"
+                                                                onClick={() => handleChannelClick(user)}
+                                                            >
+                                                                {user.firstname + " " + user.lastname}
+                                                            </button>
                                                             <span className="ml-2 text-gray-500">{comment.created_at}</span>
                                                         </div>
                                                         <div className="mt-2 mb-12">
