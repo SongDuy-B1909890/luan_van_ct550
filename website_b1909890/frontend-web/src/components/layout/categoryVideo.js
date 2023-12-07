@@ -49,65 +49,83 @@ const CategoryVideoPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isMyUser, setIsMyUser] = useState();
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/follows/${user.id}`)
-            .then((followsResponse) => {
-                const followsData = followsResponse.data;
+        if (login === "true") {
+            axios
+                .get(`http://localhost:5000/api/follows/${user.id}`)
+                .then((followsResponse) => {
+                    const followsData = followsResponse.data;
 
-                axios.get(`http://localhost:5000/api/favorites/${user.id}`)
-                    .then((favoritesResponse) => {
-                        const favoritesData = favoritesResponse.data;
+                    axios
+                        .get(`http://localhost:5000/api/favorites/${user.id}`)
+                        .then((favoritesResponse) => {
+                            const favoritesData = favoritesResponse.data;
 
-                        axios.get('http://localhost:5000/api/acceptedVideos')
-                            .then((videosResponse) => {
-                                const videosData = videosResponse.data;
+                            axios
+                                .get('http://localhost:5000/api/acceptedVideos')
+                                .then((videosResponse) => {
+                                    const videosData = videosResponse.data;
 
-                                // Lọc danh sách video dựa trên id_videos và cloudinary_id
-                                const filteredVideos = videosData.map((video) => {
-                                    // Kiểm tra điều kiện lọc theo id_videos và cloudinary_id
-                                    const isFavorite = favoritesData.some((favorite) =>
-                                        favorite.id_videos &&
-                                        Array.isArray(favorite.id_videos) &&
-                                        favorite.id_videos.includes(video.cloudinary_id)
-                                    );
+                                    // Lọc danh sách video dựa trên id_videos và cloudinary_id
+                                    const filteredVideos = videosData.map((video) => {
+                                        // Kiểm tra điều kiện lọc theo id_videos và cloudinary_id
+                                        const isFavorite = favoritesData.some((favorite) =>
+                                            favorite.id_videos &&
+                                            Array.isArray(favorite.id_videos) &&
+                                            favorite.id_videos.includes(video.cloudinary_id)
+                                        );
 
-                                    // Kiểm tra điều kiện lọc theo id_user
-                                    const isFollowed = followsData.some((followed) =>
-                                        followed.id_follows &&
-                                        Array.isArray(followed.id_follows) &&
-                                        followed.id_follows.includes(video.id_user)
-                                    );
+                                        // Kiểm tra điều kiện lọc theo id_user
+                                        const isFollowed = followsData.some((followed) =>
+                                            followed.id_follows &&
+                                            Array.isArray(followed.id_follows) &&
+                                            followed.id_follows.includes(video.id_user)
+                                        );
 
-                                    // Trả về video với thuộc tính isFavorite và isFollowed
-                                    return {
-                                        ...video,
-                                        isFavorite: isFavorite,
-                                        isFollowed: isFollowed
-                                    };
+                                        // Trả về video với thuộc tính isFavorite và isFollowed
+                                        return {
+                                            ...video,
+                                            isFavorite: isFavorite,
+                                            isFollowed: isFollowed
+                                        };
+                                    });
+
+                                    // Sử dụng danh sách video đã lọc
+
+                                    const categoryVideos = filteredVideos.filter((video) => video.id_category === id_category);
+                                    setVideos(categoryVideos);
+                                    setIsLoading(true);
+                                    setIsMyUser(user.id);
+                                    //console.log(categoryVideos);
+                                })
+                                .catch((error) => {
+                                    console.error(error);
+                                })
+                                .finally(() => {
+                                    setReloadFavorites(false);
+                                    setReloadFollows(false);
                                 });
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        } else {
+            axios
+                .get('http://localhost:5000/api/acceptedVideos')
+                .then((videosResponse) => {
+                    const videosData = videosResponse.data;
+                    const categoryVideos = videosData.filter((video) => video.id_category === id_category);
 
-                                // Sử dụng danh sách video đã lọc
-
-                                const categoryVideos = filteredVideos.filter((video) => video.id_category === id_category);
-                                setVideos(categoryVideos);
-                                setIsLoading(true);
-                                setIsMyUser(user.id);
-                                //console.log(categoryVideos);
-                            })
-                            .catch((error) => {
-                                console.error(error);
-                            })
-                            .finally(() => {
-                                setReloadFavorites(false);
-                                setReloadFollows(false);
-                            });
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+                    setVideos(categoryVideos);
+                    //console.log(filteredVideos);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
 
         axios
             .get('http://localhost:5000/api/users')
@@ -337,7 +355,7 @@ const CategoryVideoPage = () => {
                 {
                     videos.length === 0 ? (
                         <React.Fragment>
-                            {isLoading ? (
+                            {isLoading || login !== "true" ? (
                                 <div className="w-full h-screen flex items-center justify-center ">
                                     <div>
                                         <h1 className="text-2xl text-gray-500">Danh mục không có nội dung phù hợp</h1>
@@ -394,43 +412,56 @@ const CategoryVideoPage = () => {
                                                             </button>
 
                                                             {
-                                                                isMyUser === user.id ? (
-                                                                    <div>
+                                                                login !== "true" ? (
+                                                                    <div
+                                                                        onClick={openLoginModal}
+                                                                    >
                                                                         <button
-                                                                            type="button"
-                                                                            className="w-[125px] h-[35px] ml-3 bg-red-800 text-white font-bold rounded-full hover:bg-gray-800"
-                                                                            onClick={() => handleMyChannelClick(user.id)}
+                                                                            type="submit"
+                                                                            className="w-[110px] h-[35px] ml-3 bg-black text-white font-bold rounded-full hover:bg-gray-800"
                                                                         >
-                                                                            Quản lý video
+                                                                            Đăng ký
                                                                         </button>
                                                                     </div>
                                                                 ) : (
-                                                                    video.isFollowed === true && login === "true" ? (
-                                                                        <div
-                                                                            onSubmit={formik01.handleSubmit}
-                                                                            onClick={openLoginModal}
-                                                                        >
+                                                                    isMyUser === user.id && login === "true" ? (
+                                                                        <div>
                                                                             <button
-                                                                                type="submit"
-                                                                                className="w-[110px] h-[35px] ml-3 bg-red-100 text-black font-bold rounded-full hover:bg-red-100"
-                                                                                onClick={() => handleFollowClick(user.id, video.isFollowed)}
+                                                                                type="button"
+                                                                                className="w-[125px] h-[35px] ml-3 bg-red-800 text-white font-bold rounded-full hover:bg-gray-800"
+                                                                                onClick={() => handleMyChannelClick(user.id)}
                                                                             >
-                                                                                Đã đăng ký
+                                                                                Quản lý video
                                                                             </button>
                                                                         </div>
                                                                     ) : (
-                                                                        <div
-                                                                            onSubmit={formik01.handleSubmit}
-                                                                            onClick={openLoginModal}
-                                                                        >
-                                                                            <button
-                                                                                type="submit"
-                                                                                className="w-[110px] h-[35px] ml-3 bg-black text-white font-bold rounded-full hover:bg-gray-800"
-                                                                                onClick={() => handleFollowClick(user.id, video.isFollowed)}
+                                                                        video.isFollowed === true && login === "true" ? (
+                                                                            <div
+                                                                                onSubmit={formik01.handleSubmit}
+                                                                                onClick={openLoginModal}
                                                                             >
-                                                                                Đăng ký
-                                                                            </button>
-                                                                        </div>
+                                                                                <button
+                                                                                    type="submit"
+                                                                                    className="w-[110px] h-[35px] ml-3 bg-red-100 text-black font-bold rounded-full hover:bg-red-100"
+                                                                                    onClick={() => handleFollowClick(user.id, video.isFollowed)}
+                                                                                >
+                                                                                    Đã đăng ký
+                                                                                </button>
+                                                                            </div>
+                                                                        ) : (
+                                                                            <div
+                                                                                onSubmit={formik01.handleSubmit}
+                                                                                onClick={openLoginModal}
+                                                                            >
+                                                                                <button
+                                                                                    type="submit"
+                                                                                    className="w-[110px] h-[35px] ml-3 bg-black text-white font-bold rounded-full hover:bg-gray-800"
+                                                                                    onClick={() => handleFollowClick(user.id, video.isFollowed)}
+                                                                                >
+                                                                                    Đăng ký
+                                                                                </button>
+                                                                            </div>
+                                                                        )
                                                                     )
                                                                 )
                                                             }
@@ -455,37 +486,55 @@ const CategoryVideoPage = () => {
 
                                                                         ))}
 
-                                                                    {video.isFavorite === true && login === "true" ? (
-                                                                        <li
-                                                                            className="mr-4 text-red-500"
-                                                                            onSubmit={formik.handleSubmit}
-                                                                            onClick={openLoginModal}
-                                                                        >
-                                                                            <button
-                                                                                type="submit"
-                                                                                className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                                title="Yêu thích"
-                                                                                onClick={() => handleFavoriteClick(video.cloudinary_id, video.isFavorite)}
-                                                                            >
-                                                                                <FavoriteRoundedIcon />
-                                                                            </button>
-                                                                        </li>
-                                                                    ) : (
-                                                                        <li
-                                                                            className="mr-4"
-                                                                            onSubmit={formik.handleSubmit}
-                                                                            onClick={openLoginModal}
-                                                                        >
-                                                                            <button
-                                                                                type="submit"
-                                                                                className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                                title="Yêu thích"
-                                                                                onClick={() => handleFavoriteClick(video.cloudinary_id, video.isFavorite)}
-                                                                            >
-                                                                                <FavoriteBorderRoundedIcon />
-                                                                            </button>
-                                                                        </li>
-                                                                    )}
+                                                                    {
+                                                                        login !== "true" ?
+                                                                            (
+                                                                                <li
+                                                                                    className="mr-4"
+                                                                                    onClick={openLoginModal}
+                                                                                >
+                                                                                    <button
+                                                                                        type="submit"
+                                                                                        className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                                        title="Chưa yêu thích"
+                                                                                    >
+                                                                                        <FavoriteBorderRoundedIcon />
+                                                                                    </button>
+                                                                                </li>
+                                                                            ) : (
+                                                                                video.isFavorite === true && login === "true" ? (
+                                                                                    <li
+                                                                                        className="mr-4 text-red-500"
+                                                                                        onSubmit={formik.handleSubmit}
+                                                                                        onClick={openLoginModal}
+                                                                                    >
+                                                                                        <button
+                                                                                            type="submit"
+                                                                                            className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                                            title="Yêu thích"
+                                                                                            onClick={() => handleFavoriteClick(video.cloudinary_id, video.isFavorite)}
+                                                                                        >
+                                                                                            <FavoriteRoundedIcon />
+                                                                                        </button>
+                                                                                    </li>
+                                                                                ) : (
+                                                                                    <li
+                                                                                        className="mr-4"
+                                                                                        onSubmit={formik.handleSubmit}
+                                                                                        onClick={openLoginModal}
+                                                                                    >
+                                                                                        <button
+                                                                                            type="submit"
+                                                                                            className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
+                                                                                            title="Chưa yêu thích"
+                                                                                            onClick={() => handleFavoriteClick(video.cloudinary_id, video.isFavorite)}
+                                                                                        >
+                                                                                            <FavoriteBorderRoundedIcon />
+                                                                                        </button>
+                                                                                    </li>
+                                                                                )
+                                                                            )
+                                                                    }
 
                                                                     <li
                                                                         className="mr-4"
