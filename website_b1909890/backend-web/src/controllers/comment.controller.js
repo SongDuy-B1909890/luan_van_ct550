@@ -91,7 +91,10 @@ const comments = async (req, res) => {
         if (snapshot.exists()) {
             const commentsData = snapshot.val();
             const commentsArray = Object.values(commentsData);
-            res.status(200).json(commentsArray);
+            //res.status(200).json(commentsArray);
+
+            const reversedCommentsArray = commentsArray.reverse();
+            res.status(200).json(reversedCommentsArray);
         } else {
             res.status(404).json({ message: 'No data available' });
         }

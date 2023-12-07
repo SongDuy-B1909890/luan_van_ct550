@@ -20,7 +20,7 @@ import DescriptionPage from './description';
 import SkeletonChildrenDemo from './skeletonChildrenDemo';
 
 const userString = localStorage.getItem('user');
-const user = userString ? JSON.parse(userString) : null;
+const user = userString ? JSON.parse(userString) : " ";
 
 const ChannelFollowedPage = () => {
     const { followedId } = useParams();

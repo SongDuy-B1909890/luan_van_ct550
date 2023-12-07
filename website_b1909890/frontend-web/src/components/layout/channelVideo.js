@@ -76,9 +76,59 @@ const ChannelVideoPage = () => {
                     videos.length === 0 ? (
                         <React.Fragment>
                             {isLoading ? (
-                                <div className="w-full h-screen flex items-center justify-center ">
-                                    <div>
-                                        <h1 className="text-2xl text-gray-500">Danh mục không có nội dung phù hợp</h1>
+                                <div className="ml-12 mr-12">
+                                    <div className="w-full h-[150px] border-b-2 mb-5 py-5">
+                                        <div className=" items-center flex">
+                                            <Avatar
+                                                alt="Remy Sharp"
+                                                src={channel.avatar}
+                                                sx={{ width: 100, height: 100 }}
+                                            />
+                                            <div className="ml-5">
+                                                <div className="flex-wrap">
+                                                    <span
+                                                        className="ml-2 font-bold text-3xl max-w-[500px] h-[50px] text-blue-900 overflow-hidden line-clamp-1"
+                                                    >
+                                                        {channel.firstname + " " + channel.lastname}
+                                                    </span>
+                                                    <div
+                                                        className="ml-2 font-bold max-w-[550px] overflow-hidden line-clamp-1"
+                                                    >
+                                                        <span>Mã id: </span>
+                                                        <button
+                                                            className="bg-red-300 w-[215px] text-white rounded-full px-2 mr-5"
+                                                        >
+                                                            {channel.id}
+                                                        </button>
+
+                                                        <span> Giới tính: </span>
+                                                        <button
+                                                            className="bg-red-300 w-[50px] text-white rounded-full px-2"
+                                                        >
+                                                            {channel.gender}
+                                                        </button>
+                                                    </div>
+                                                    <div
+                                                        className="ml-2 font-bold max-w-[300px] overflow-hidden line-clamp-1 mt-2"
+                                                    >
+
+                                                        <span>Ngày tham gia: </span>
+                                                        <button
+                                                            className="bg-red-300 w-[125px] text-white rounded-full px-2"
+                                                        >
+                                                            {channel.created_at}
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                    <div className="text-center">
+                                        <span>Danh sách video trống</span>
                                     </div>
                                 </div>
                             ) : (

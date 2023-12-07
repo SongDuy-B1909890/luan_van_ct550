@@ -19,7 +19,7 @@ import DescriptionPage from './description';
 import SkeletonChildrenDemo from './skeletonChildrenDemo';
 
 const userString = localStorage.getItem('user');
-const user = userString ? JSON.parse(userString) : null;
+const user = userString ? JSON.parse(userString) : " ";
 
 // Trả về giá trị đăng nhập
 const login = localStorage.getItem('login');
