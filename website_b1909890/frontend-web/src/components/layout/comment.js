@@ -355,9 +355,14 @@ const CommentPage = (props) => {
         return (
             <div className="flex w-[450px] h-[675px] py-5 bg-white rounded-xl border shadow overflow-auto ">
                 <div className="w-full h-full custom-scrollbar-content custom-scrollbar ml-5">
+                    <div className="text-center flex mb-2">
+                        <span className="font-bold bg-blue-800 text-white px-3 py-1 rounded-full">Bình luận </span>
+                        <span className="font-bold rounded-full bg-gray-200 px-3 py-1 text-right ml-auto text-blue-900"> ID: {props.value}</span>
+                    </div>
+
                     <div className="box-container">
 
-                        <div className="h-[600px] custom-scrollbar-content custom-scrollbar z-10">
+                        <div className="h-[550px] custom-scrollbar-content custom-scrollbar z-10">
 
                             {
                                 comments.map((comment, index) => (

@@ -114,8 +114,9 @@ const WatchVideoPage = () => {
             axios.get('http://localhost:5000/api/acceptedVideos')
                 .then((videosResponse) => {
                     const videosData = videosResponse.data;
+                    const watchVideo = videosData.filter((video) => video.cloudinary_id === id_video);
 
-                    setVideos(videosData);
+                    setVideos(watchVideo);
                     //console.log(filteredVideos);
                 })
                 .catch((error) => {
