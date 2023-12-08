@@ -4,6 +4,7 @@ import { useFormik } from "formik"
 
 import Avatar from '@mui/material/Avatar';
 
+import LoginPage from '../auth/login';
 import '../../index.css';
 
 const userString = localStorage.getItem('user');
@@ -154,6 +155,20 @@ const CommentPage = (props) => {
                 });
         },
     })
+
+    const [isLoginModal, setIsLoginModal] = useState(false);
+    const openLoginModal = () => {
+        if (login === "true") {
+            setIsLoginModal(false);
+        } else {
+            setIsLoginModal(true);
+        }
+
+    };
+
+    const closeLoginModal = () => {
+        setIsLoginModal(false);
+    };
 
     const handleCancel = () => {
         formik.resetForm(); // Đặt lại giá trị của form về giá trị ban đầu
@@ -410,11 +425,17 @@ const CommentPage = (props) => {
                             className="box w-full h-full text-center"
                         >
 
-                            <span className="text-blue-500"> Cần đăng nhập để bình luận</span>
+                            <button
+                                className="text-blue-500"
+                                onClick={openLoginModal}
+                            >
+                                Cần đăng nhập để bình luận
+                            </button>
 
                         </div>
                     </div>
                 </div>
+                {isLoginModal && <LoginPage closeModal={closeLoginModal} />}
             </div >
         );
     };
