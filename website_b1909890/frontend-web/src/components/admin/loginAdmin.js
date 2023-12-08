@@ -24,6 +24,9 @@ const LoginAdminPage = ({ closeModal }) => {
                 .then((response) => {
                     // Xử lý thành công
                     console.log(response.data);
+
+                    localStorage.setItem('loginAdmin', 'true');
+
                     // Hiển thị thông báo đăng ký thành công
                     alert('Đăng nhập thành công')
                     window.location.href = '/admin';

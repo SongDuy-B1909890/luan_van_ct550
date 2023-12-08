@@ -5,7 +5,8 @@ import { useParams } from 'react-router-dom';
 
 import Avatar from '@mui/material/Avatar';
 import HeaderPage from './header';
-import SkeletonChildrenDemo from './skeletonChildrenDemo';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const ChannelVideoPage = () => {
     const { channelId } = useParams();
@@ -132,8 +133,10 @@ const ChannelVideoPage = () => {
                                     </div>
                                 </div>
                             ) : (
-                                <div className="w-full h-screen flex justify-center">
-                                    <SkeletonChildrenDemo />
+                                <div className="w-full h-screen flex justify-center items-center">
+                                    <Box sx={{ display: 'flex' }}>
+                                        <CircularProgress />
+                                    </Box>
                                 </div>
                             )}
                         </React.Fragment>

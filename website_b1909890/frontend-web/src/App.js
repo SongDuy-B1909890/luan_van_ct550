@@ -37,6 +37,8 @@ const isLoggedIn = localStorage.getItem('login');
 const isLoggedInStaffGroup01 = localStorage.getItem('loginStaffGroup01');
 const isLoggedInStaffGroup02 = localStorage.getItem('loginStaffGroup02');
 const isLoggedInStaffGroup03 = localStorage.getItem('loginStaffGroup03');
+
+const isLoggedInAdmin = localStorage.getItem('loginAdmin');
 //console.log(isLoggedIn);
 
 function App() {
@@ -50,8 +52,6 @@ function App() {
 
         <Route path="/login/admin" element={<LoginAdminPage />}></Route>
         <Route path="/login/staff" element={<LoginStaffPage />}></Route>
-
-        <Route path="/admin" element={<AdminPage />}></Route>
 
         <Route path="/forgotPassword" element={<ForgotPasswordPage />}></Route>
         <Route path="/video" element={<VideoPage />}></Route>
@@ -93,6 +93,13 @@ function App() {
           <>
             <Route path="/staff/group03/:staffId" element={<StaffGroup03Page />}></Route>
 
+          </>
+        )}
+
+        {/* Chỉ cho phép truy cập khi đã đăng nhập tài khoản Admin */}
+        {isLoggedInAdmin === "true" && (
+          <>
+            <Route path="/admin" element={<AdminPage />}></Route>
           </>
         )}
 
