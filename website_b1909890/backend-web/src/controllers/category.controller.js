@@ -21,9 +21,10 @@ const createCategory = async (req, res) => {
         await set(newCategoryRef, {
             id: newCategoryId,
             name: req.body.name,
-            description: req.body.description,
+            motto: req.body.motto,
             suggestion: '',
             modification: '',
+            description: '',
             created_at: reversedDate,
         });
 
@@ -54,7 +55,7 @@ const changeCategory = async (req, res) => {
             const categoriesRef = child(dbRef, `categories/${existingCategoryKey}`);
             update(categoriesRef, {
                 name: req.body.name,
-                description: req.body.description,
+                motto: req.body.motto,
             });
 
             res.status(200).json({ message: 'Danh mục đã được thay đổi thành công' });

@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
@@ -20,6 +21,35 @@ const AdminPage = () => {
         setValue(newValue);
     };
 
+    const [staffs, setStaffs] = useState([]);
+
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get('http://localhost:5000/api/staffs')
+            .then((response) => {
+                // console.log(response.data);
+                const staffsData = response.data;
+                setStaffs(staffsData);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+
+        axios
+            .get('http://localhost:5000/api/admin/categories')
+            .then((response) => {
+                // console.log(response.data);
+                const categoriesData = response.data;
+                setCategories(categoriesData);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+
+    }, []);
+
     return (
         <div>
             <div className="text-center mt-5 ml-8">
@@ -39,7 +69,7 @@ const AdminPage = () => {
                 </div>
             </div>
 
-            <div className='px-12 w-full'>
+            <div className='w-full px-12 mt-5'>
                 <Box sx={{ width: '100%', typography: 'body1' }}>
                     <TabContext value={value}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -69,13 +99,31 @@ const AdminPage = () => {
 
                         <TabPanel value="1">
                             <div className="text-red-500">
-                                Item One
+                                {staffs.map((staff) => (
+                                    <div key={staff.id}>
+                                        <ul className="mt-2">
+                                            <li className="hover:bg-gray-200 hover:text-blue-500 py-2 px-2 rounded-xl cursor-pointer text-blue-900 font-bold"
+                                            >
+                                                {staff.name}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                ))}
                             </div>
                         </TabPanel>
 
                         <TabPanel value="2">
                             <div className="text-red-500">
-                                Item One
+                                {categories.map((category) => (
+                                    <div key={category.id}>
+                                        <ul className="mt-2">
+                                            <li className="hover:bg-gray-200 hover:text-blue-500 py-2 px-2 rounded-xl cursor-pointer text-blue-900 font-bold"
+                                            >
+                                                {category.name}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                ))}
                             </div>
                         </TabPanel>
                         <TabPanel value="3">

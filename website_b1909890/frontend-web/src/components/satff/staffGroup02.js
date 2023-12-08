@@ -227,7 +227,7 @@ const StaffGroup02Page = () => {
             });
     };
 
-    if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 02
+    if (staff.level === "1") { // giao diện trang nhân viên sơ tuyển nhóm 02
         return (
             <div>
 
@@ -381,7 +381,7 @@ const StaffGroup02Page = () => {
             </div>
         );
 
-    } if (staff.level === 2) { // Giao diện trang tổ phản biện nhóm 02
+    } if (staff.level === "2") { // Giao diện trang tổ phản biện nhóm 02
         return (
             <div>
 

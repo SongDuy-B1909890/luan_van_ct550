@@ -197,7 +197,7 @@ const StaffGroup03Page = () => {
         }
     });
 
-    if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 03
+    if (staff.level === "1") { // giao diện trang nhân viên sơ tuyển nhóm 03
         return (
             <div>
 
@@ -337,7 +337,7 @@ const StaffGroup03Page = () => {
             </div>
         );
 
-    } if (staff.level === 2) { // Giao diện trang tổ phản biện nhóm 03
+    } if (staff.level === "2") { // Giao diện trang tổ phản biện nhóm 03
         return (
             <div>
 

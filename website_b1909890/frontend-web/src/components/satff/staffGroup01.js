@@ -183,7 +183,7 @@ const StaffGroup01Page = () => {
 
     //const inputFirstName = formik.values.firstname === user.firstname ? user.firstname : formik.values.firstname;
 
-    if (staff.level === 1) { // giao diện trang nhân viên sơ tuyển nhóm 01
+    if (staff.level === "1") { // giao diện trang nhân viên sơ tuyển nhóm 01
         return (
             <div className="mb-8 ml-8 mr-8">
                 {/* HeaderPage  */}
@@ -250,7 +250,7 @@ const StaffGroup01Page = () => {
             </div>
         );
 
-    } if (staff.level === 2) { // Giao diện trang tổ phản biện nhóm 01
+    } if (staff.level === "2") { // Giao diện trang tổ phản biện nhóm 01
         return (
             <div className="mb-8 ml-8 mr-8">
 

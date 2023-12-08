@@ -28,7 +28,7 @@ const LoginStaffPage = () => {
                     // Hiển thị thông báo đăng ký thành công
                     alert('Đăng nhập thành công')
 
-                    if (response.data.staff.group === 1) {
+                    if (response.data.staff.group === "1") {
                         // Đăng nhập thành công
                         localStorage.setItem('loginStaffGroup01', 'true');
                         window.location.href = '/staff/group01/id:' + response.data.staff.id;
@@ -36,7 +36,7 @@ const LoginStaffPage = () => {
                         localStorage.setItem('staff', JSON.stringify(response.data.staff));
                         console.log(localStorage.getItem('staff'))
 
-                    } else if (response.data.staff.group === 2) {
+                    } else if (response.data.staff.group === "2") {
                         // Đăng nhập thành công
                         localStorage.setItem('loginStaffGroup02', 'true');
                         window.location.href = '/staff/group02/id:' + response.data.staff.id;

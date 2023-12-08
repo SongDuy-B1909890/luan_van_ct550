@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useFormik } from "formik"
 import * as Yup from "yup"
 
-const LoginAdminPage = ({ closeModal }) => {
+const LoginAdminPage = () => {
 
     const validationSchema = Yup.object({
         email: Yup.string().email('Địa chỉ email không hợp lệ').required('Vui lòng nhập email'),
