@@ -36,6 +36,8 @@ const AdminPage = () => {
 
     const [categories, setCategories] = useState([]);
 
+    const [comments, setComments] = useState([]);
+
     const [videos, setVideos] = useState([]);
 
     const [reloadStaffs, setReloadStaffs] = useState(false);
@@ -43,6 +45,8 @@ const AdminPage = () => {
     const [reloadCategories, setReloadCategories] = useState(false);
 
     const [reloadVideos, setReloadVideos] = useState(false);
+
+    const [reloadComments, setReloadComments] = useState(false);
 
     useEffect(() => {
         axios
@@ -87,7 +91,21 @@ const AdminPage = () => {
                 setReloadVideos(false); // Đặt lại giá trị reloadComments thành false sau khi tải xong
             });
 
-    }, [reloadStaffs, reloadCategories, reloadVideos]);
+        axios
+            .get('http://localhost:5000/api/comments')
+            .then((response) => {
+                // console.log(response.data);
+                const commentsData = response.data;
+                setComments(commentsData);
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+            .finally(() => {
+                setReloadComments(false); // Đặt lại giá trị reloadComments thành false sau khi tải xong
+            });
+
+    }, [reloadStaffs, reloadCategories, reloadVideos, reloadComments]);
 
     // const columns = [
     //     { field: 'id', headerName: 'ID', width: 200, align: 'center', headerAlign: 'center' },
@@ -251,6 +269,7 @@ const AdminPage = () => {
     const columnsCategories = [
         { field: 'id', headerName: 'ID', width: 200, align: 'center', headerAlign: 'center' },
         { field: 'name', headerName: 'Tên Danh Mục', width: 200, align: 'center', headerAlign: 'center' },
+
         {
             field: 'motto',
             headerName: 'Phương Châm Danh Mục',
@@ -258,7 +277,17 @@ const AdminPage = () => {
             align: 'center',
             headerAlign: 'center',
             renderCell: (params) => (
-                <div style={{ whiteSpace: 'pre-wrap', overflowWrap: 'break-word' }}>
+                <div
+                    style={{
+                        height: '100%', // Đặt chiều cao cố định cho div chứa nội dung
+                        overflow: 'auto', // Sử dụng 'auto' để cho phép cuộn khi nội dung vượt quá kích thước
+                        display: 'flex', // Sử dụng flexbox để căn giữ theo chiều dọc
+                        alignItems: 'center', // Căn giữ theo chiều dọc (vertical center)
+                        whiteSpace: 'pre-wrap',
+                        overflowWrap: 'break-word',
+                    }}
+                    title={params.value}
+                >
                     {params.value}
                 </div>
             ),
@@ -351,15 +380,16 @@ const AdminPage = () => {
         {
             field: 'title',
             headerName: 'Tiêu Đề Video',
-            width: 200,
+            width: 300,
             align: 'center',
             headerAlign: 'center',
             renderCell: (params) => (
                 <div
                     style={{
-                        maxHeight: '3.0 em', // Chiều cao tương ứng với 2 dòng văn bản với font-size và line-height cụ thể
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
+                        maxHeight: '100%', // Tăng giá trị maxHeight để hiển thị nội dung đầy đủ
+                        overflow: 'auto',
+                        display: 'flex', // Sử dụng flexbox để căn giữ theo chiều dọc
+                        alignItems: 'center', // Căn giữ theo chiều dọc (vertical center)
                         whiteSpace: 'pre-wrap',
                         overflowWrap: 'break-word',
                     }}
@@ -369,6 +399,8 @@ const AdminPage = () => {
                 </div>
             ),
         },
+
+        { field: 'id_user', headerName: 'Mã User', width: 250, align: 'center', headerAlign: 'center' },
 
         { field: 'status', headerName: 'Trạng Thái', width: 150, align: 'center', headerAlign: 'center' },
 
@@ -409,9 +441,105 @@ const AdminPage = () => {
     const rowsVideos = videos.map((video) => ({
         id: video.cloudinary_id,
         title: video.title,
+        id_user: video.id_user,
         status: video.status,
         created_at: video.created_at,
 
+    }));
+
+    // Phần Quản Lý Bình Luận
+    const handleEditComment = (commentId) => {
+    }
+
+    const handleDeleteComment = (commentId) => {
+        formik04.setValues({
+            id: commentId,
+        });
+        formik04.handleSubmit();
+    };
+
+    const formik04 = useFormik({
+        initialValues: {
+            id: '',
+        },
+        onSubmit: (values) => {
+            axios
+                .delete('http://localhost:5000/api/deleteComment', { data: values })
+                .then((response) => {
+                    // console.log(response.data);
+                    setReloadVideos(true);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+    });
+
+    const columnsComments = [
+        { field: 'id', headerName: 'ID', width: 200, align: 'center', headerAlign: 'center' },
+        { field: 'id_video', headerName: 'Mã Video', width: 220, align: 'center', headerAlign: 'center' },
+        { field: 'id_user', headerName: 'Mã Tài Khoản Người Dùng', width: 200, align: 'center', headerAlign: 'center' },
+        {
+            field: 'content',
+            headerName: 'Nội Dung Bình Luận',
+            width: 400,
+            align: 'center',
+            headerAlign: 'center',
+            renderCell: (params) => (
+                <div
+                    style={{
+                        height: '100%', // Đặt chiều cao cố định cho div chứa nội dung
+                        overflow: 'auto', // Sử dụng 'auto' để cho phép cuộn khi nội dung vượt quá kích thước
+                        display: 'flex', // Sử dụng flexbox để căn giữ theo chiều dọc
+                        alignItems: 'center', // Căn giữ theo chiều dọc (vertical center)
+                        whiteSpace: 'pre-wrap',
+                        overflowWrap: 'break-word',
+                    }}
+                    title={params.value}
+                >
+                    {params.value}
+                </div>
+            ),
+        },
+        { field: 'created_at', headerName: 'Ngày Bình Luận', width: 150, align: 'center', headerAlign: 'center' },
+
+        {
+            field: 'actions',
+            headerName: 'Quản Lý Bình Luận',
+            width: 150,
+            align: 'center',
+            headerAlign: 'center',
+            renderCell: (params) => (
+                <div
+                    className="button-group"
+                    onSubmit={formik02.handleSubmit}
+                >
+                    <IconButton
+                        className="px-5"
+                        onClick={() => handleEditComment(params.row.id)}
+                        color="primary"
+                        type="submit"
+                    >
+                        <EditIcon />
+                    </IconButton>
+                    <IconButton
+                        onClick={() => handleDeleteComment(params.row.id)}
+                        color="error"
+                        type="submit"
+                    >
+                        <DeleteIcon />
+                    </IconButton>
+                </div>
+            ),
+        },
+    ];
+
+    const rowsComments = comments.map((comment) => ({
+        id: comment.id,
+        id_video: comment.id_video,
+        id_user: comment.id_user,
+        content: comment.content,
+        created_at: comment.created_at,
     }));
 
     return (
@@ -529,6 +657,7 @@ const AdminPage = () => {
                                         }}
                                         pageSizeOptions={[10, 20]}
                                         checkboxSelection
+                                        rowHeight={100} // Đặt chiều cao cố định cho mỗi dòng là 150px
                                     />
                                 </div>
                             </div>
@@ -548,12 +677,27 @@ const AdminPage = () => {
                                     }}
                                     pageSizeOptions={[10, 20]}
                                     checkboxSelection
+                                    rowHeight={100} // Đặt chiều cao cố định cho mỗi dòng là 150px
                                 />
                             </div>
                         </TabPanel>
                         <TabPanel value="4">
-                            <div className="text-red-500">
-                                Item One
+                            <div
+                                style={{ height: 500, width: '100%' }}
+                                className="text-center"
+                            >
+                                <DataGrid
+                                    rows={rowsComments}
+                                    columns={columnsComments}
+                                    initialState={{
+                                        pagination: {
+                                            paginationModel: { page: 0, pageSize: 10 },
+                                        },
+                                    }}
+                                    pageSizeOptions={[10, 20]}
+                                    checkboxSelection
+                                    rowHeight={100} // Đặt chiều cao cố định cho mỗi dòng là 150px
+                                />
                             </div>
                         </TabPanel>
                         <TabPanel value="5">
