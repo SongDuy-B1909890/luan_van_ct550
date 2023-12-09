@@ -206,18 +206,21 @@ const CommentPage = (props) => {
                                                 .map((user) => (
                                                     <div key={user.id} className=" mt-3 ">
                                                         <div className="flex items-center">
-                                                            <Avatar
-                                                                alt="Remy Sharp"
-                                                                src={user.avatar}
-                                                                sx={{ width: 40, height: 40 }}
-                                                            />
-                                                            <button
-                                                                className="ml-2 font-bold min-w-[150px] max-h-[150px] text-blue-900 overflow-hidden line-clamp-1"
-                                                                onClick={() => handleChannelClick(user)}
-                                                            >
-                                                                {user.firstname + " " + user.lastname}
+                                                            <button className="flex items-center">
+                                                                <Avatar
+                                                                    alt="Remy Sharp"
+                                                                    src={user.avatar}
+                                                                    sx={{ width: 40, height: 40 }}
+                                                                />
+                                                                <span
+                                                                    className="ml-2 font-bold min-w-[150px] max-h-[150px] text-blue-900 overflow-hidden line-clamp-1"
+                                                                    onClick={() => handleChannelClick(user)}
+                                                                >
+                                                                    {user.firstname + " " + user.lastname}
+                                                                </span>
+                                                                <span className="ml-2 text-gray-500">{comment.created_at}</span>
                                                             </button>
-                                                            <span className="ml-2 text-gray-500">{comment.created_at}</span>
+
 
                                                         </div>
 
@@ -392,18 +395,20 @@ const CommentPage = (props) => {
                                                 .map((user) => (
                                                     <div key={user.id} className=" mt-3 ">
                                                         <div className="flex items-center">
-                                                            <Avatar
-                                                                alt="Remy Sharp"
-                                                                src={user.avatar}
-                                                                sx={{ width: 40, height: 40 }}
-                                                            />
-                                                            <button
-                                                                className="ml-2 font-bold min-w-[150px] max-h-[150px] text-blue-900 overflow-hidden line-clamp-1"
-                                                                onClick={() => handleChannelClick(user)}
-                                                            >
-                                                                {user.firstname + " " + user.lastname}
+                                                            <button className="flex items-center">
+                                                                <Avatar
+                                                                    alt="Remy Sharp"
+                                                                    src={user.avatar}
+                                                                    sx={{ width: 40, height: 40 }}
+                                                                />
+                                                                <span
+                                                                    className="ml-2 font-bold min-w-[150px] max-h-[150px] text-blue-900 overflow-hidden line-clamp-1"
+                                                                    onClick={() => handleChannelClick(user)}
+                                                                >
+                                                                    {user.firstname + " " + user.lastname}
+                                                                </span>
+                                                                <span className="ml-2 text-gray-500">{comment.created_at}</span>
                                                             </button>
-                                                            <span className="ml-2 text-gray-500">{comment.created_at}</span>
                                                         </div>
                                                         <div className="mt-2 mb-12">
                                                             <div className="w-full max-h-[150px]">
