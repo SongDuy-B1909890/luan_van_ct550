@@ -4,6 +4,7 @@ import { useFormik } from "formik"
 import * as Yup from "yup"
 
 const AdminAddCategoryPage = ({ closeModal }) => {
+
     const validationSchema = Yup.object({
         name: Yup.string().required('Vui lòng nhập tên'),
         motto: Yup.string().required('Vui lòng nhập phương châm danh mục'),
@@ -24,7 +25,7 @@ const AdminAddCategoryPage = ({ closeModal }) => {
                     console.log(response.data);
                     // Hiển thị thông báo đăng ký thành công
                     alert('Tạo danh mục thành công')
-                    window.location.href = '/admin';
+                    //window.location.href = '/admin';
 
                 })
                 .catch((error) => {
@@ -106,7 +107,14 @@ const AdminAddCategoryPage = ({ closeModal }) => {
                             {formik.errors.motto && formik.touched.motto && <div>{formik.errors.motto}</div>}
                         </div>
 
-                        <div className="py-6 flex justify-center  space-x-36 ">
+                        <div className="py-6 flex justify-center  space-x-50 ">
+                            <button
+                                type="button"
+                                className=" py-2 mr-8 px-4 w-full border border-transparent text-sm font-medium rounded-md text-black bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                onClick={closeModal}
+                            >
+                                Thoát
+                            </button>
                             <button
                                 type="submit"
                                 className=" py-2 px-4 w-full border border-transparent text-sm font-medium rounded-md text-black bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

@@ -1,5 +1,5 @@
 
-const { ref, child, set, get, push, update } = require('firebase/database');
+const { ref, child, set, get, push, update, remove } = require('firebase/database');
 const { database } = require('../models/database');
 const dbRef = ref(database);
 
@@ -111,6 +111,29 @@ const changePassword = async (req, res) => {
   }
 };
 
+const deleteStaff = async (req, res) => {
+  try {
+    const staffsSnapshot = await get(child(dbRef, 'staffs'));
+    const staffs = staffsSnapshot.val();
+
+    const existingStaffKey = Object.keys(staffs).find(
+      (staffKey) => staffs[staffKey].id === req.body.id
+    );
+
+    if (!existingStaffKey) {
+      res.status(401).json({ error: 'Sai thông tin ID' });
+      return;
+    } else {
+      const staffsRef = child(dbRef, `staffs/${existingStaffKey}`);
+      await remove(staffsRef);
+
+      res.status(200).json({ message: 'Tài khoản nhân viên đã được xóa thành công' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Đã xảy ra lỗi khi xóa tài khoản nhân viên', errorMessage: error.message });
+  }
+};
+
 const staffs = async (req, res) => {
   try {
     const snapshot = await get(child(dbRef, 'staffs'));
@@ -134,4 +157,5 @@ module.exports = {
   register,
   changePassword,
   staffs,
+  deleteStaff
 };

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useFormik } from "formik"
 
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
@@ -13,6 +14,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
+import AdminAddStaffPage from './adminAddStaff';
+import AdminAddCategoryPage from './adminAddCategory';
 
 import '../../index.css';
 
@@ -34,6 +38,11 @@ const AdminPage = () => {
 
     const [videos, setVideos] = useState([]);
 
+    const [reloadStaffs, setReloadStaffs] = useState(false);
+
+    const [reloadCategories, setReloadCategories] = useState(false);
+
+    const [reloadVideos, setReloadVideos] = useState(false);
 
     useEffect(() => {
         axios
@@ -45,6 +54,9 @@ const AdminPage = () => {
             })
             .catch((error) => {
                 console.error(error);
+            })
+            .finally(() => {
+                setReloadStaffs(false); // Đặt lại giá trị reloadComments thành false sau khi tải xong
             });
 
         axios
@@ -56,6 +68,9 @@ const AdminPage = () => {
             })
             .catch((error) => {
                 console.error(error);
+            })
+            .finally(() => {
+                setReloadCategories(false); // Đặt lại giá trị reloadComments thành false sau khi tải xong
             });
 
         axios
@@ -67,9 +82,12 @@ const AdminPage = () => {
             })
             .catch((error) => {
                 console.error(error);
+            })
+            .finally(() => {
+                setReloadVideos(false); // Đặt lại giá trị reloadComments thành false sau khi tải xong
             });
 
-    }, []);
+    }, [reloadStaffs, reloadCategories, reloadVideos]);
 
     // const columns = [
     //     { field: 'id', headerName: 'ID', width: 200, align: 'center', headerAlign: 'center' },
@@ -95,13 +113,39 @@ const AdminPage = () => {
     const handleEditStaff = (id) => {
         console.log(id);
     }
-    const handleDeleteStaff = (id) => {
 
+    const handleDeleteStaff = (staffId) => {
+        formik01.setValues({
+            id: staffId,
+        });
+        formik01.handleSubmit();
+    };
+
+    const formik01 = useFormik({
+        initialValues: {
+            id: '',
+        },
+        onSubmit: (values) => {
+            axios
+                .delete('http://localhost:5000/api/admin/deleteStaff', { data: values })
+                .then((response) => {
+                    // console.log(response.data);
+                    setReloadStaffs(true);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+    });
+
+    const handleReloadStaffs = () => {
+        setReloadStaffs(true)
+        console.log(reloadStaffs);
     }
 
     const columnsStaffs = [
         { field: 'id', headerName: 'ID', width: 200, align: 'center', headerAlign: 'center' },
-        { field: 'name', headerName: 'Họ Tên', width: 200, align: 'center', headerAlign: 'center' },
+        { field: 'name', headerName: 'Họ Tên', width: 250, align: 'center', headerAlign: 'center' },
         { field: 'email', headerName: 'Email', width: 200, align: 'center', headerAlign: 'center', },
         { field: 'group', headerName: 'Nhóm Nhân Viên', width: 200, align: 'center', headerAlign: 'center', },
         { field: 'level', headerName: 'Cấp Bậc Nhân Viên', type: 'number', width: 200, align: 'center', headerAlign: 'center', },
@@ -112,17 +156,22 @@ const AdminPage = () => {
             align: 'center',
             headerAlign: 'center',
             renderCell: (params) => (
-                <div className="button-group">
+                <div
+                    className="button-group"
+                    onSubmit={formik01.handleSubmit}
+                >
                     <IconButton
                         className="px-5"
                         onClick={() => handleEditStaff(params.row.id)}
                         color="primary"
+                        type="submit"
                     >
                         <EditIcon />
                     </IconButton>
                     <IconButton
                         onClick={() => handleDeleteStaff(params.row.id)}
                         color="error"
+                        type="submit"
                     >
                         <DeleteIcon />
                     </IconButton>
@@ -151,13 +200,52 @@ const AdminPage = () => {
         };
     });
 
+    // Thêm nhân viên
+    const [isAddStaffModal, setIsAddStaffModal] = useState(false);
+    const openAddStaffModal = () => {
+        if (isAddStaffModal === true) {
+            setIsAddStaffModal(false);
+        } else {
+            setIsAddStaffModal(true);
+        }
+
+    };
+
+    const closeAddStaffModal = () => {
+        setIsAddStaffModal(false);
+    };
+
     // Phần Quản Lý Danh Mục
 
     const handleEditCategory = (id) => {
         console.log(id);
     }
-    const handleDeleteCategory = (id) => {
+    const handleDeleteCategory = (categoryId) => {
+        formik02.setValues({
+            id: categoryId,
+        });
+        formik02.handleSubmit();
+    }
 
+    const formik02 = useFormik({
+        initialValues: {
+            id: '',
+        },
+        onSubmit: (values) => {
+            axios
+                .delete('http://localhost:5000/api/admin/deleteCategory', { data: values })
+                .then((response) => {
+                    // console.log(response.data);
+                    setReloadCategories(true);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+    });
+    const handleReloadCategories = () => {
+        setReloadCategories(true)
+        console.log(reloadCategories);
     }
 
     const columnsCategories = [
@@ -182,17 +270,22 @@ const AdminPage = () => {
             align: 'center',
             headerAlign: 'center',
             renderCell: (params) => (
-                <div className="button-group">
+                <div
+                    className="button-group"
+                    onSubmit={formik02.handleSubmit}
+                >
                     <IconButton
                         className="px-5"
                         onClick={() => handleEditCategory(params.row.id)}
                         color="primary"
+                        type="submit"
                     >
                         <EditIcon />
                     </IconButton>
                     <IconButton
                         onClick={() => handleDeleteCategory(params.row.id)}
                         color="error"
+                        type="submit"
                     >
                         <DeleteIcon />
                     </IconButton>
@@ -208,17 +301,53 @@ const AdminPage = () => {
 
     }));
 
+    // Thêm danh mục
+    const [isAddCategoryModal, setIsAddCategoryModal] = useState(false);
+    const openAddCategoryModal = () => {
+        if (isAddCategoryModal === true) {
+            setIsAddCategoryModal(false);
+        } else {
+            setIsAddCategoryModal(true);
+        }
+
+    };
+
+    const closeAddCategoryModal = () => {
+        setIsAddCategoryModal(false);
+    };
+
     // Phần Quản Lý Video
 
-    const handleEditVideo = (id) => {
-        console.log(id);
+    const handleEditVideo = (videoId) => {
+        console.log(videoId);
     }
-    const handleDeleteVideo = (id) => {
+    const handleDeleteVideo = (videoId) => {
+        formik03.setValues({
+            cloudinary_id: videoId,
+        });
+        formik03.handleSubmit();
+    };
 
-    }
+    const formik03 = useFormik({
+        initialValues: {
+            cloudinary_id: '',
+        },
+        onSubmit: (values) => {
+            axios
+                .delete('http://localhost:5000/api/deleteVideo', { data: values })
+                .then((response) => {
+                    // console.log(response.data);
+                    setReloadVideos(true);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+    });
 
     const columnsVideos = [
-        { field: 'id', headerName: 'ID', width: 100, align: 'center', headerAlign: 'center' },
+        { field: 'id', headerName: 'ID', width: 250, align: 'center', headerAlign: 'center' },
+
         {
             field: 'title',
             headerName: 'Tiêu Đề Video',
@@ -241,6 +370,11 @@ const AdminPage = () => {
             ),
         },
 
+        { field: 'status', headerName: 'Trạng Thái', width: 150, align: 'center', headerAlign: 'center' },
+
+        { field: 'created_at', headerName: 'Ngày Tải Lên', width: 150, align: 'center', headerAlign: 'center' },
+
+
         {
             field: 'actions',
             headerName: 'Quản Lý Video',
@@ -248,17 +382,22 @@ const AdminPage = () => {
             align: 'center',
             headerAlign: 'center',
             renderCell: (params) => (
-                <div className="button-group">
+                <div
+                    className="button-group"
+                    onSubmit={formik02.handleSubmit}
+                >
                     <IconButton
                         className="px-5"
                         onClick={() => handleEditVideo(params.row.id)}
                         color="primary"
+                        type="submit"
                     >
                         <EditIcon />
                     </IconButton>
                     <IconButton
                         onClick={() => handleDeleteVideo(params.row.id)}
                         color="error"
+                        type="submit"
                     >
                         <DeleteIcon />
                     </IconButton>
@@ -270,6 +409,8 @@ const AdminPage = () => {
     const rowsVideos = videos.map((video) => ({
         id: video.cloudinary_id,
         title: video.title,
+        status: video.status,
+        created_at: video.created_at,
 
     }));
 
@@ -321,45 +462,80 @@ const AdminPage = () => {
                         </Box>
 
                         <TabPanel value="1">
-                            <div
-                                style={{ height: 550, width: '100%' }}
-                                className="text-center"
-                            >
-                                <DataGrid
-                                    rows={rowsStaffs}
-                                    columns={columnsStaffs}
-                                    initialState={{
-                                        pagination: {
-                                            paginationModel: { page: 0, pageSize: 10 },
-                                        },
-                                    }}
-                                    pageSizeOptions={[10, 20]}
-                                    checkboxSelection
-                                />
+                            <div>
+                                <div>
+                                    <button
+                                        type="button"
+                                        className="w-[150px] py-1 bg-blue-800 hover:bg-blue-600 text-white rounded-lg font-bold"
+                                        onClick={openAddStaffModal}
+                                    >
+                                        Thêm Nhân Viên
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="w-[150px] ml-8 py-1 bg-blue-800 hover:bg-blue-600 text-white rounded-lg font-bold"
+                                        onClick={() => handleReloadStaffs()}
+                                    >
+                                        Tải lại trang
+                                    </button>
+                                </div>
+                                <div
+                                    style={{ height: 500, width: '100%' }}
+                                    className="text-center mt-5"
+                                >
+                                    <DataGrid
+                                        rows={rowsStaffs}
+                                        columns={columnsStaffs}
+                                        initialState={{
+                                            pagination: {
+                                                paginationModel: { page: 0, pageSize: 10 },
+                                            },
+                                        }}
+                                        pageSizeOptions={[10, 20]}
+                                        checkboxSelection
+                                    />
+                                </div>
                             </div>
                         </TabPanel>
 
                         <TabPanel value="2">
-                            <div
-                                style={{ height: 550, width: '100%' }}
-                                className="text-center"
-                            >
-                                <DataGrid
-                                    rows={rowsCategories}
-                                    columns={columnsCategories}
-                                    initialState={{
-                                        pagination: {
-                                            paginationModel: { page: 0, pageSize: 10 },
-                                        },
-                                    }}
-                                    pageSizeOptions={[10, 20]}
-                                    checkboxSelection
-                                />
+                            <div>
+                                <div>
+                                    <button
+                                        className="w-[150px] py-1 bg-blue-800 hover:bg-blue-600 text-white rounded-lg font-bold"
+                                        onClick={openAddCategoryModal}
+                                    >
+                                        Thêm Danh Mục
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="w-[150px] ml-8 py-1 bg-blue-800 hover:bg-blue-600 text-white rounded-lg font-bold"
+                                        onClick={() => handleReloadCategories()}
+                                    >
+                                        Tải lại trang
+                                    </button>
+                                </div>
+                                <div
+                                    style={{ height: 500, width: '100%' }}
+                                    className="text-center mt-5"
+                                >
+                                    <DataGrid
+                                        rows={rowsCategories}
+                                        columns={columnsCategories}
+                                        initialState={{
+                                            pagination: {
+                                                paginationModel: { page: 0, pageSize: 10 },
+                                            },
+                                        }}
+                                        pageSizeOptions={[10, 20]}
+                                        checkboxSelection
+                                    />
+                                </div>
                             </div>
                         </TabPanel>
                         <TabPanel value="3">
                             <div
-                                style={{ height: 550, width: '100%' }}
+                                style={{ height: 500, width: '100%' }}
                                 className="text-center"
                             >
                                 <DataGrid
@@ -388,6 +564,8 @@ const AdminPage = () => {
                     </TabContext>
                 </Box>
             </div>
+            {isAddStaffModal && <AdminAddStaffPage closeModal={closeAddStaffModal} />}
+            {isAddCategoryModal && <AdminAddCategoryPage closeModal={closeAddCategoryModal} />}
         </div>
 
     );

@@ -9,7 +9,7 @@ const AdminAddStaffPage = ({ closeModal }) => {
         email: Yup.string().email('Địa chỉ email không hợp lệ').required('Vui lòng nhập email'),
         password: Yup.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').required('Vui lòng nhập mật khẩu'),
         group: Yup.string().required('Vui lòng chọn nhóm'),
-        level: Yup.string().required('Vui lòng chọn cấp'),
+        level: Yup.string().required('Vui lòng chọn cấp bậc'),
     });
 
     const formik = useFormik({
@@ -30,7 +30,7 @@ const AdminAddStaffPage = ({ closeModal }) => {
                     console.log(response.data);
                     // Hiển thị thông báo đăng ký thành công
                     alert('Đăng ký thành công')
-                    window.location.href = '/admin';
+                    //window.location.href = '/admin';
 
                 })
                 .catch((error) => {
@@ -155,9 +155,9 @@ const AdminAddStaffPage = ({ closeModal }) => {
                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                 >
                                     <option className="text-center" value=""> --- Chọn Nhóm Nhân Viên --- </option>
-                                    <option value="1">Nhóm 1 </option>
-                                    <option value="2">Nhóm 2</option>
-                                    <option value="3">Nhóm 3</option>
+                                    <option value="1">Nhóm Ban Hành Quy Định </option>
+                                    <option value="2">Nhóm Phát Hành Video</option>
+                                    <option value="3">Nhóm Kiểm Tra Giám Sát</option>
                                 </select>
 
                             </div>
@@ -182,7 +182,7 @@ const AdminAddStaffPage = ({ closeModal }) => {
                                     className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                 >
                                     <option className="text-center" value=""> --- Chọn Cấp Bậc Nhân Viên Trong Nhóm --- </option>
-                                    <option value="1">Cấp 1 </option>
+                                    <option value="1">Cấp 1</option>
                                     <option value="2">Cấp 2</option>
                                     <option value="3">Cấp 3</option>
                                 </select>
@@ -193,7 +193,14 @@ const AdminAddStaffPage = ({ closeModal }) => {
 
 
 
-                        <div className="py-6 flex justify-center  space-x-36 ">
+                        <div className="py-6 flex justify-center  space-x-50 ">
+                            <button
+                                type="button"
+                                className=" py-2 mr-8 px-4 w-full border border-transparent text-sm font-medium rounded-md text-black bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                onClick={closeModal}
+                            >
+                                Thoát
+                            </button>
                             <button
                                 type="submit"
                                 className=" py-2 px-4 w-full border border-transparent text-sm font-medium rounded-md text-black bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

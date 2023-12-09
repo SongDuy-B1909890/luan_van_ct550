@@ -14,4 +14,7 @@ router.put('/changePassword/staff', StaffController.changePassword);
 // Danh sách nhân viên
 router.get('/staffs', StaffController.staffs);
 
+// Xóa nhân viên
+router.delete('/admin/deleteStaff', StaffController.deleteStaff);
+
 module.exports = router;

@@ -402,7 +402,7 @@ const MyChannel = () => {
 
                                                                     <li
                                                                         className="mr-auto text-white"
-                                                                        onSubmit={formik.handleSubmit}
+                                                                        onSubmit={formik01.handleSubmit}
                                                                     >
                                                                         <button
                                                                             type="submit"
