@@ -53,3 +53,16 @@ code {
   background-color: white;
   border-radius: 4px;
 }
+
+/* Căn giữa columns */
+.centered-header {
+  text-align: center;
+}
+
+.button-group {
+  display: flex;
+}
+
+.button-group > *:not(:last-child) {
+  margin-right: 20px; /* Thay đổi giá trị này để tăng hoặc giảm khoảng cách */
+}
