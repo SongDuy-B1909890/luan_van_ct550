@@ -24,9 +24,6 @@ import StaffGroup01Page from './components/satff/staffGroup01';
 import StaffGroup02Page from './components/satff/staffGroup02';
 import StaffGroup03Page from './components/satff/staffGroup03';
 
-import AdminAddStaffPage from './components/admin/adminAddStaff';
-import AdminAddCategoryPage from './components/admin/adminAddCategory';
-
 // Thành phần hiển thị trang không tồn tại
 const NotFoundPage = () => {
   return (
@@ -64,9 +61,6 @@ function App() {
         <Route path="/category/:categoryId" element={<CategoryVideoPage />}> </Route>
         <Route path="/channel/:channelId" element={<ChannelVideoPage />}> </Route>
         <Route path="/search/:searchValue" element={<SearchVideoPage />}></Route>
-
-        <Route path="/admin/addStaff" element={<AdminAddStaffPage />}></Route>
-        <Route path="/admin/addCategory" element={<AdminAddCategoryPage />}></Route>
 
         {/* Chỉ cho phép truy cập khi đã đăng nhập */}
         {isLoggedIn === "true" && (

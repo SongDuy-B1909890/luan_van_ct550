@@ -11,6 +11,7 @@ const userString = localStorage.getItem('user');
 const user = userString ? JSON.parse(userString) : " ";
 
 const login = localStorage.getItem('login');
+const loginAdmin = localStorage.getItem('loginAdmin');
 
 const CommentPage = (props) => {
 
@@ -179,7 +180,7 @@ const CommentPage = (props) => {
         console.log(channel)
     };
 
-    if (login === "true") {
+    if (login === "true" && loginAdmin !== "true") {
         return (
             <div className="flex w-[450px] h-[675px] py-5 bg-gray-50 rounded-xl shadow overflow-auto">
                 <div className="w-full h-full custom-scrollbar-content custom-scrollbar ml-5 ">
@@ -369,7 +370,8 @@ const CommentPage = (props) => {
                 </div>
             </div >
         );
-    } else {
+    }
+    else {
         return (
             <div className="flex w-[450px] h-[675px] py-5 bg-white rounded-xl border shadow overflow-auto ">
                 <div className="w-full h-full custom-scrollbar-content custom-scrollbar ml-5">

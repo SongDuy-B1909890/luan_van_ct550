@@ -1,24 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ReactPlayer from 'react-player/lazy';
 import axios from 'axios';
-import { useFormik } from "formik"
-import { useParams } from 'react-router-dom';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Avatar from '@mui/material/Avatar';
-import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
-import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 import InsertCommentOutlinedIcon from '@mui/icons-material/InsertCommentOutlined';
 import ReplyIcon from '@mui/icons-material/Reply';
-import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined';
 
-import LoginPage from '../auth/login';
-import CommentPage from './comment';
-import DescriptionPage from './description';
-import SkeletonChildrenDemo from './skeletonChildrenDemo';
-import HeaderPage from './header';
+import CommentPage from '../layout/comment';
+import DescriptionPage from '../layout/description';
+import SkeletonChildrenDemo from '../layout/skeletonChildrenDemo';
 
 const userString = localStorage.getItem('user');
 const user = userString ? JSON.parse(userString) : " ";
@@ -26,15 +19,8 @@ const user = userString ? JSON.parse(userString) : " ";
 // Trả về giá trị đăng nhập
 const login = localStorage.getItem('login');
 
-const WatchVideoPage = () => {
-    const { videoId } = useParams();
-    const str = videoId;
-    const parts = str.split(":");
-    const id = parts[parts.length - 1].trim();
-    const id_video = `video/${id}`;
-    //console.log(id_video); // Output: "-Ni2kLC_X99s1P_mEN3i"
-    // console.log(name); // Output: "DươngHoàng"
-
+const AdminWatchVideoPage = ({ closeModal, value }) => {
+    //console.log(value);
     const [videos, setVideos] = useState([]);
 
     const [users, setUsers] = useState([]);
@@ -47,8 +33,6 @@ const WatchVideoPage = () => {
     const [reloadFollows, setReloadFollows] = useState(false);
 
     const [isLoading, setIsLoading] = useState(false);
-
-    const [isMyUser, setIsMyUser] = useState();
 
     useEffect(() => {
         if (login === "true") {
@@ -89,10 +73,9 @@ const WatchVideoPage = () => {
                                     });
 
                                     // Sử dụng danh sách video đã lọc
-                                    const watchVideo = filteredVideos.filter((video) => video.cloudinary_id === id_video);
+                                    const watchVideo = filteredVideos.filter((video) => video.cloudinary_id === value);
                                     setVideos(watchVideo);
                                     setIsLoading(true);
-                                    setIsMyUser(user.id);
                                     //console.log(filteredVideos);
                                 })
                                 .catch((error) => {
@@ -114,7 +97,7 @@ const WatchVideoPage = () => {
             axios.get('http://localhost:5000/api/videos')
                 .then((videosResponse) => {
                     const videosData = videosResponse.data;
-                    const watchVideo = videosData.filter((video) => video.cloudinary_id === id_video);
+                    const watchVideo = videosData.filter((video) => video.cloudinary_id === value);
 
                     setVideos(watchVideo);
                     //console.log(filteredVideos);
@@ -141,7 +124,7 @@ const WatchVideoPage = () => {
             .catch((error) => {
                 console.error(error);
             });
-    }, [reloadFavorites, reloadFollows, id_video]);
+    }, [reloadFavorites, reloadFollows, value]);
 
     useEffect(() => {
         // Lọc danh sách người dùng dựa trên id_user của video
@@ -218,115 +201,8 @@ const WatchVideoPage = () => {
         setCurrentPlayingVideo(cloudinaryId);
     };
 
-    const [favorites, setFavorites] = useState(false);
-
-    const handleFavoriteClick = (videoId, favorite) => {
-        if (login === "true") {
-            formik.setValues({
-                id: user.id,
-                id_video: videoId,
-            });
-            formik.handleSubmit();
-
-            setFavorites(favorite);
-        }
-    };
-
-    const formik = useFormik({
-        initialValues: {
-            id: '',
-            id_video: '',
-        },
-        onSubmit: (values) => {
-
-            if (favorites !== true) {
-                axios
-                    .post('http://localhost:5000/api/createFavorite', values)
-                    .then((response) => {
-                        //console.log(response.data);
-                        setReloadFavorites(true); // Kích hoạt việc tải lại danh sách bình luận
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            } else {
-                axios
-                    .delete('http://localhost:5000/api/deleteFavorite', { data: values })
-                    .then((response) => {
-                        // console.log(response.data);
-                        setReloadFavorites(true); // Kích hoạt việc tải lại danh sách bình luận
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            }
-
-        }
-
-    });
-
-    const [follows, setFollows] = useState(false);
-
-    const handleFollowClick = (followId, follow) => {
-        formik01.setValues({
-            id: user.id,
-            id_follow: followId,
-        });
-        formik01.handleSubmit();
-        setFollows(follow);
-    };
-
-    const formik01 = useFormik({
-        initialValues: {
-            id: '',
-            id_follow: '',
-        },
-        onSubmit: (values) => {
-            if (follows !== true) {
-                axios
-                    .post('http://localhost:5000/api/createFollow', values)
-                    .then((response) => {
-                        // console.log(response.data);
-                        setReloadFollows(true);
-
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            } else {
-                axios
-                    .delete('http://localhost:5000/api/deleteFollow', { data: values })
-                    .then((response) => {
-                        // console.log(response.data);
-                        setReloadFollows(true);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            }
-        }
-    });
-
-    const [isLoginModal, setIsLoginModal] = useState(false);
-    const openLoginModal = () => {
-        if (login === "true") {
-            setIsLoginModal(false);
-        } else {
-            setIsLoginModal(true);
-        }
-
-    };
-
-    const closeLoginModal = () => {
-        setIsLoginModal(false);
-    };
-
     const handleChannelClick = (channel) => {
         window.location.href = '/channel/id:' + channel.firstname + " " + channel.lastname + "  " + channel.id;
-    };
-
-    const handleMyChannelClick = (userId) => {
-        window.location.href = '/myChannel/id:' + userId;
     };
 
     const handleSpanClick = (videoId) => {
@@ -341,11 +217,16 @@ const WatchVideoPage = () => {
                 console.error('Lỗi khi sao chép địa chỉ', error);
             });
     };
+    const handleBackdropClick = (event) => {
+        if (event.target === event.currentTarget) {
+            // Kiểm tra xem đăng nhập đã thành công hay chưa
+            closeModal(); // Gọi hàm closeModal khi nhấp vào nền và đăng nhập không thành công
+        }
+    };
 
     return (
-        <div>
-            <HeaderPage />
-            <div className="w-full h-full overflow-auto bg-gray-50 pt-[70px]">
+        <div className="min-h-screen bg-black bg-opacity-50 flex flex-col justify-center items-center py-8 sm:px-6 lg:px-8 fixed inset-0 z-50" onClick={handleBackdropClick}> {/* backdrop-blur-sm */}
+            <div className="w-full h-screen overflow-auto">
                 {
                     videos.length === 0 ? (
                         <React.Fragment>
@@ -403,62 +284,16 @@ const WatchVideoPage = () => {
                                                                     <span className="ml-2 font-bold max-w-[180px] text-blue-900 overflow-hidden line-clamp-1">{user.firstname + " " + user.lastname}</span>
                                                                     <span className="ml-2 max-w-[180px] text-sm text-red-400 overflow-hidden line-clamp-1">Ngày đăng {video.created_at}</span>
                                                                 </div>
+
                                                             </button>
 
-                                                            {
-                                                                login !== "true" ? (
-                                                                    <div
-                                                                        onClick={openLoginModal}
-                                                                    >
-                                                                        <button
-                                                                            type="submit"
-                                                                            className="w-[110px] h-[35px] ml-3 bg-black text-white font-bold rounded-full hover:bg-gray-800"
-                                                                        >
-                                                                            Đăng ký
-                                                                        </button>
-                                                                    </div>
-                                                                ) : (
-                                                                    isMyUser === user.id && login === "true" ? (
-                                                                        <div>
-                                                                            <button
-                                                                                type="button"
-                                                                                className="w-[125px] h-[35px] ml-3 bg-red-800 text-white font-bold rounded-full hover:bg-gray-800"
-                                                                                onClick={() => handleMyChannelClick(user.id)}
-                                                                            >
-                                                                                Quản lý video
-                                                                            </button>
-                                                                        </div>
-                                                                    ) : (
-                                                                        video.isFollowed === true && login === "true" ? (
-                                                                            <div
-                                                                                onSubmit={formik01.handleSubmit}
-                                                                                onClick={openLoginModal}
-                                                                            >
-                                                                                <button
-                                                                                    type="submit"
-                                                                                    className="w-[110px] h-[35px] ml-3 bg-red-100 text-black font-bold rounded-full hover:bg-red-200"
-                                                                                    onClick={() => handleFollowClick(user.id, video.isFollowed)}
-                                                                                >
-                                                                                    Đã đăng ký
-                                                                                </button>
-                                                                            </div>
-                                                                        ) : (
-                                                                            <div
-                                                                                onSubmit={formik01.handleSubmit}
-                                                                                onClick={openLoginModal}
-                                                                            >
-                                                                                <button
-                                                                                    type="submit"
-                                                                                    className="w-[110px] h-[35px] ml-3 bg-black text-white font-bold rounded-full hover:bg-gray-800"
-                                                                                    onClick={() => handleFollowClick(user.id, video.isFollowed)}
-                                                                                >
-                                                                                    Đăng ký
-                                                                                </button>
-                                                                            </div>
-                                                                        )
-                                                                    )
-                                                                )
-                                                            }
+                                                            <button
+                                                                type="button"
+                                                                className="w-[250px] h-[35px] ml-3 bg-black text-yellow-500 rounded-full flex justify-center items-center"
+                                                            >
+                                                                {video.cloudinary_id}
+
+                                                            </button>
 
                                                             <div className="text-right ml-auto">
                                                                 <ul className="flex">
@@ -479,55 +314,6 @@ const WatchVideoPage = () => {
                                                                             </li>
 
                                                                         ))}
-                                                                    {
-                                                                        login !== "true" ?
-                                                                            (
-                                                                                <li
-                                                                                    className="mr-4"
-                                                                                    onClick={openLoginModal}
-                                                                                >
-                                                                                    <button
-                                                                                        type="submit"
-                                                                                        className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                                        title="Chưa yêu thích"
-                                                                                    >
-                                                                                        <FavoriteBorderRoundedIcon />
-                                                                                    </button>
-                                                                                </li>
-                                                                            ) : (
-                                                                                video.isFavorite === true && login === "true" ? (
-                                                                                    <li
-                                                                                        className="mr-4 text-red-500"
-                                                                                        onSubmit={formik.handleSubmit}
-                                                                                        onClick={openLoginModal}
-                                                                                    >
-                                                                                        <button
-                                                                                            type="submit"
-                                                                                            className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                                            title="Yêu thích"
-                                                                                            onClick={() => handleFavoriteClick(video.cloudinary_id, video.isFavorite)}
-                                                                                        >
-                                                                                            <FavoriteRoundedIcon />
-                                                                                        </button>
-                                                                                    </li>
-                                                                                ) : (
-                                                                                    <li
-                                                                                        className="mr-4"
-                                                                                        onSubmit={formik.handleSubmit}
-                                                                                        onClick={openLoginModal}
-                                                                                    >
-                                                                                        <button
-                                                                                            type="submit"
-                                                                                            className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                                            title="Chưa yêu thích"
-                                                                                            onClick={() => handleFavoriteClick(video.cloudinary_id, video.isFavorite)}
-                                                                                        >
-                                                                                            <FavoriteBorderRoundedIcon />
-                                                                                        </button>
-                                                                                    </li>
-                                                                                )
-                                                                            )
-                                                                    }
 
                                                                     <li
                                                                         className="mr-4"
@@ -557,18 +343,6 @@ const WatchVideoPage = () => {
                                                                         </div>
                                                                     </li>
 
-                                                                    <li
-                                                                        className="mr-auto"
-                                                                        onClick={openLoginModal}
-                                                                    >
-                                                                        <button
-                                                                            className="w-[50px] h-[50px] bg-gray-100 rounded-full hover:bg-gray-200"
-                                                                            title='Báo cáo'
-                                                                        >
-                                                                            <FlagOutlinedIcon />
-                                                                        </button>
-                                                                    </li>
-
                                                                 </ul>
 
                                                             </div>
@@ -580,7 +354,6 @@ const WatchVideoPage = () => {
                                     {isSelectVideoDescription === video.cloudinary_id && isDescriptionModal && <DescriptionPage values={{ description: video.description, cloudinaryId: video.cloudinary_id }} />}
                                     {isSelectVideoComment === video.cloudinary_id && isCommentModal && <CommentPage value={video.cloudinary_id} />}
                                 </div>
-                                {isLoginModal && <LoginPage closeModal={closeLoginModal} />}
                             </div>
                         ))
                     )}
@@ -589,4 +362,4 @@ const WatchVideoPage = () => {
     );
 };
 
-export default WatchVideoPage;
+export default AdminWatchVideoPage;

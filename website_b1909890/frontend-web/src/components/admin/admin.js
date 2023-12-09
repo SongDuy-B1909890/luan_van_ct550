@@ -12,6 +12,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
@@ -20,6 +21,8 @@ import AdminAddCategoryPage from './adminAddCategory';
 
 import AdminChangeStaffPage from './adminChangeStaff';
 import AdminChangeCategoryPage from './adminChangeCategory';
+
+import AdminWatchVideoPage from './adminWatchVideo';
 
 import '../../index.css';
 
@@ -52,7 +55,8 @@ const AdminPage = () => {
     const [comments, setComments] = useState([]);
 
     const [videos, setVideos] = useState([]);
-
+    const [video_Id, setVideo_Id] = useState();
+    //console.log(video_Id)
     const [reloadStaffs, setReloadStaffs] = useState(false);
 
     const [reloadCategories, setReloadCategories] = useState(false);
@@ -60,8 +64,6 @@ const AdminPage = () => {
     const [reloadVideos, setReloadVideos] = useState(false);
 
     const [reloadComments, setReloadComments] = useState(false);
-
-
 
     useEffect(() => {
         axios
@@ -396,7 +398,8 @@ const AdminPage = () => {
 
     // Phần Quản Lý Video
 
-    const handleEditVideo = (videoId) => {
+    const handleWatchVideo = (videoId) => {
+        setVideo_Id(videoId);
         //console.log(videoId);
     }
     const handleDeleteVideo = (videoId) => {
@@ -467,14 +470,19 @@ const AdminPage = () => {
                     className="button-group"
                     onSubmit={formik02.handleSubmit}
                 >
-                    <IconButton
-                        className="px-5"
-                        onClick={() => handleEditVideo(params.row.id)}
-                        color="primary"
-                        type="submit"
+                    <div
+                        onClick={openWatchVideoModal}
                     >
-                        <EditIcon />
-                    </IconButton>
+                        <IconButton
+                            className="px-5"
+                            onClick={() => handleWatchVideo(params.row.id)}
+                            color="primary"
+                            type="submit"
+                        >
+                            <VisibilityIcon />
+                        </IconButton>
+                    </div>
+
                     <IconButton
                         onClick={() => handleDeleteVideo(params.row.id)}
                         color="error"
@@ -496,9 +504,25 @@ const AdminPage = () => {
 
     }));
 
+    // Xem Video
+    const [isWatchVideoModal, setIsWatchVideoModal] = useState(false);
+    const openWatchVideoModal = () => {
+        if (isWatchVideoModal === true) {
+            setIsWatchVideoModal(false);
+        } else {
+            setIsWatchVideoModal(true);
+        }
+
+    };
+
+    const closeWatchVideoModal = () => {
+        setIsWatchVideoModal(false);
+    };
+
     // Phần Quản Lý Bình Luận
-    const handleEditComment = (commentId) => {
-    }
+    // const handleEditComment = (commentId) => {
+
+    // }
 
     const handleDeleteComment = (commentId) => {
         formik04.setValues({
@@ -563,14 +587,14 @@ const AdminPage = () => {
                     className="button-group"
                     onSubmit={formik02.handleSubmit}
                 >
-                    <IconButton
+                    {/* <IconButton
                         className="px-5"
                         onClick={() => handleEditComment(params.row.id)}
                         color="primary"
                         type="submit"
                     >
                         <EditIcon />
-                    </IconButton>
+                    </IconButton> */}
                     <IconButton
                         onClick={() => handleDeleteComment(params.row.id)}
                         color="error"
@@ -761,6 +785,9 @@ const AdminPage = () => {
             {isAddCategoryModal && <AdminAddCategoryPage closeModal={closeAddCategoryModal} />}
             {isChangeStaffModal && <AdminChangeStaffPage closeModal={closeChangeStaffModal} values={{ id: staff_Id, name: staff_Name, email: staff_Email, group: staff_Group, level: staff_Level }} />}
             {isChangeCategoryModal && <AdminChangeCategoryPage closeModal={closeChangeCategoryModal} values={{ id: category_Id, name: category_Name, motto: category_Motto }} />}
+
+            {isWatchVideoModal && <AdminWatchVideoPage closeModal={closeWatchVideoModal} value={video_Id} />}
+
         </div>
 
     );
