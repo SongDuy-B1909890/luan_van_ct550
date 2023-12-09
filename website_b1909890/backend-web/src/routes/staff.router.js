@@ -9,6 +9,9 @@ router.post('/login/staff', StaffController.login);
 router.post('/register/staff', StaffController.register);
 
 // Thay đổi mật khẩu
+router.put('/admin/changeStaff', StaffController.changeStaff);
+
+// Thay đổi mật khẩu
 router.put('/changePassword/staff', StaffController.changePassword);
 
 // Danh sách nhân viên

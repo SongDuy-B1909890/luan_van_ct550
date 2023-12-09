@@ -5,7 +5,7 @@ import { useFormik } from "formik"
 //import * as Yup from "yup"
 
 const userString = localStorage.getItem('user');
-const user = userString ? JSON.parse(userString) : null;
+const user = userString ? JSON.parse(userString) : " ";
 
 const ProfilePage = () => {
 

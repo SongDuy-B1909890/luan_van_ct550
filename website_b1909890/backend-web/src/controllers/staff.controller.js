@@ -80,6 +80,39 @@ const register = async (req, res) => {
   }
 };
 
+const changeStaff = async (req, res) => {
+  try {
+
+    const staffsSnapshot = await get(child(dbRef, 'staffs'));
+    const staffs = staffsSnapshot.val();
+
+    const existingStaffKey = Object.keys(staffs).find(
+      (staffKey) => staffs[staffKey].id === req.body.id
+    );
+
+    if (!existingStaffKey) {
+      // Sai thông tin đăng nhập
+      res.status(401).json({ error: 'Sai thông tin ID' });
+      return;
+    } else {
+      // const hashedPassword = await bcrypt.hash(req.body.newpassword, 10);
+      // Cập nhật mật khẩu mới
+      const staffsRef = child(dbRef, `staffs/${existingStaffKey}`);
+      update(staffsRef, {
+        name: req.body.name,
+        email: req.body.email,
+        // password: hashedPassword,
+        group: req.body.group,
+        level: req.body.level,
+      });
+
+      res.status(200).json({ message: 'Thông tin nhân viên đã được thay đổi thành công' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Đã xảy ra lỗi khi thay đổi thông tin nhân viên', errorMessage: error.message });
+  }
+};
+
 const changePassword = async (req, res) => {
   try {
     // Kiểm tra email và mật khẩu hiện tại
@@ -155,6 +188,7 @@ const staffs = async (req, res) => {
 module.exports = {
   login,
   register,
+  changeStaff,
   changePassword,
   staffs,
   deleteStaff

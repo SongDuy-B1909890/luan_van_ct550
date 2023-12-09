@@ -18,6 +18,9 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AdminAddStaffPage from './adminAddStaff';
 import AdminAddCategoryPage from './adminAddCategory';
 
+import AdminChangeStaffPage from './adminChangeStaff';
+import AdminChangeCategoryPage from './adminChangeCategory';
+
 import '../../index.css';
 
 const closeLogout = () => {
@@ -34,7 +37,17 @@ const AdminPage = () => {
 
     const [staffs, setStaffs] = useState([]);
 
+    const [staff_Id, setStaff_Id] = useState();
+    const [staff_Name, setStaff_Name] = useState();
+    const [staff_Email, setStaff_Email] = useState();
+    const [staff_Group, setStaff_Group] = useState();
+    const [staff_Level, setStaff_Level] = useState();
+
     const [categories, setCategories] = useState([]);
+
+    const [category_Id, setCategory_Id] = useState();
+    const [category_Name, setCategory_Name] = useState();
+    const [category_Motto, setCategory_Motto] = useState();
 
     const [comments, setComments] = useState([]);
 
@@ -47,6 +60,8 @@ const AdminPage = () => {
     const [reloadVideos, setReloadVideos] = useState(false);
 
     const [reloadComments, setReloadComments] = useState(false);
+
+
 
     useEffect(() => {
         axios
@@ -107,29 +122,16 @@ const AdminPage = () => {
 
     }, [reloadStaffs, reloadCategories, reloadVideos, reloadComments]);
 
-    // const columns = [
-    //     { field: 'id', headerName: 'ID', width: 200, align: 'center', headerAlign: 'center' },
-    //     { field: 'name', headerName: 'First name', width: 130, align: 'center', headerAlign: 'center' },
-    //     { field: 'lastName', headerName: 'Last name', width: 200, align: 'center', headerAlign: 'center', },
-    //     { field: 'age', headerName: 'Age', type: 'number', width: 190, align: 'center', headerAlign: 'center', },
-
-    //     {
-    //         field: 'fullName',
-    //         headerName: 'Full name',
-    //         description: 'This column has a value getter and is not sortable.',
-    //         sortable: false,
-    //         width: 160,
-    //         align: 'center',
-    //         headerAlign: 'center',
-    //         valueGetter: (params) =>
-    //             `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-    //     },
-    // ];
-
     // Phần Quản lý Nhân Viên
 
-    const handleEditStaff = (id) => {
-        console.log(id);
+    const handleEditStaff = (staffId, staffName, staffEmail, staffGroup, staffLevel) => {
+        setStaff_Id(staffId);
+        setStaff_Name(staffName);
+        setStaff_Email(staffEmail);
+        setStaff_Group(staffGroup);
+        setStaff_Level(staffLevel);
+        //console.log(staffId);
+
     }
 
     const handleDeleteStaff = (staffId) => {
@@ -158,7 +160,7 @@ const AdminPage = () => {
 
     const handleReloadStaffs = () => {
         setReloadStaffs(true)
-        console.log(reloadStaffs);
+        //console.log(reloadStaffs);
     }
 
     const columnsStaffs = [
@@ -178,14 +180,19 @@ const AdminPage = () => {
                     className="button-group"
                     onSubmit={formik01.handleSubmit}
                 >
-                    <IconButton
-                        className="px-5"
-                        onClick={() => handleEditStaff(params.row.id)}
-                        color="primary"
-                        type="submit"
+                    <div
+                        onClick={openChangeStaffModal}
                     >
-                        <EditIcon />
-                    </IconButton>
+                        <IconButton
+                            className="px-5"
+                            onClick={() => handleEditStaff(params.row.id, params.row.name, params.row.email, params.row.group, params.row.level)}
+                            color="primary"
+                            type="submit"
+                        >
+                            <EditIcon />
+                        </IconButton>
+                    </div>
+
                     <IconButton
                         onClick={() => handleDeleteStaff(params.row.id)}
                         color="error"
@@ -233,10 +240,31 @@ const AdminPage = () => {
         setIsAddStaffModal(false);
     };
 
+    // Thay đổi thông tin nhân viên
+    const [isChangeStaffModal, setIsChangeStaffModal] = useState(false);
+    const openChangeStaffModal = () => {
+        if (isChangeStaffModal === true) {
+            setIsChangeStaffModal(false);
+        } else {
+            setIsChangeStaffModal(true);
+        }
+
+    };
+
+    const closeChangeStaffModal = () => {
+        setIsChangeStaffModal(false);
+    };
+
     // Phần Quản Lý Danh Mục
 
-    const handleEditCategory = (id) => {
-        console.log(id);
+    const handleEditCategory = (categoryId, categoryName, categoryMotto) => {
+
+        setCategory_Id(categoryId);
+        setCategory_Name(categoryName);
+        setCategory_Motto(categoryMotto);
+
+        setReloadCategories(true);
+        //console.log(categoryId)
     }
     const handleDeleteCategory = (categoryId) => {
         formik02.setValues({
@@ -263,7 +291,7 @@ const AdminPage = () => {
     });
     const handleReloadCategories = () => {
         setReloadCategories(true)
-        console.log(reloadCategories);
+        //console.log(reloadCategories);
     }
 
     const columnsCategories = [
@@ -303,14 +331,20 @@ const AdminPage = () => {
                     className="button-group"
                     onSubmit={formik02.handleSubmit}
                 >
-                    <IconButton
-                        className="px-5"
-                        onClick={() => handleEditCategory(params.row.id)}
-                        color="primary"
-                        type="submit"
+                    <div
+                        onClick={openChangeCategoryModal}
                     >
-                        <EditIcon />
-                    </IconButton>
+
+                        <IconButton
+                            className="px-5"
+                            onClick={() => handleEditCategory(params.row.id, params.row.name, params.row.motto)}
+                            color="primary"
+                            type="submit"
+                        >
+                            <EditIcon />
+                        </IconButton>
+                    </div>
+
                     <IconButton
                         onClick={() => handleDeleteCategory(params.row.id)}
                         color="error"
@@ -345,10 +379,25 @@ const AdminPage = () => {
         setIsAddCategoryModal(false);
     };
 
+    // Thay đổi danh mục
+    const [isChangeCategoryModal, setIsChangeCategoryModal] = useState(false);
+    const openChangeCategoryModal = () => {
+        if (isChangeCategoryModal === true) {
+            setIsChangeCategoryModal(false);
+        } else {
+            setIsChangeCategoryModal(true);
+        }
+
+    };
+
+    const closeChangeCategoryModal = () => {
+        setIsChangeCategoryModal(false);
+    };
+
     // Phần Quản Lý Video
 
     const handleEditVideo = (videoId) => {
-        console.log(videoId);
+        //console.log(videoId);
     }
     const handleDeleteVideo = (videoId) => {
         formik03.setValues({
@@ -664,7 +713,7 @@ const AdminPage = () => {
                         </TabPanel>
                         <TabPanel value="3">
                             <div
-                                style={{ height: 500, width: '100%' }}
+                                style={{ height: 550, width: '100%' }}
                                 className="text-center"
                             >
                                 <DataGrid
@@ -683,7 +732,7 @@ const AdminPage = () => {
                         </TabPanel>
                         <TabPanel value="4">
                             <div
-                                style={{ height: 500, width: '100%' }}
+                                style={{ height: 550, width: '100%' }}
                                 className="text-center"
                             >
                                 <DataGrid
@@ -710,6 +759,8 @@ const AdminPage = () => {
             </div>
             {isAddStaffModal && <AdminAddStaffPage closeModal={closeAddStaffModal} />}
             {isAddCategoryModal && <AdminAddCategoryPage closeModal={closeAddCategoryModal} />}
+            {isChangeStaffModal && <AdminChangeStaffPage closeModal={closeChangeStaffModal} values={{ id: staff_Id, name: staff_Name, email: staff_Email, group: staff_Group, level: staff_Level }} />}
+            {isChangeCategoryModal && <AdminChangeCategoryPage closeModal={closeChangeCategoryModal} values={{ id: category_Id, name: category_Name, motto: category_Motto }} />}
         </div>
 
     );

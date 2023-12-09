@@ -38,9 +38,7 @@ const AdminAddCategoryPage = ({ closeModal }) => {
     const handleBackdropClick = (event) => {
         if (event.target === event.currentTarget) {
             // Kiểm tra xem đăng nhập đã thành công hay chưa
-            if (!formik.isValidating && !formik.isSubmitting && Object.keys(formik.errors).length === 0) {
-                closeModal(); // Gọi hàm closeModal khi nhấp vào nền và đăng nhập không thành công
-            }
+            closeModal(); // Gọi hàm closeModal khi nhấp vào nền và đăng nhập không thành công
         }
     };
 
