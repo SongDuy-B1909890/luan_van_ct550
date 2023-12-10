@@ -225,8 +225,8 @@ const AdminWatchVideoPage = ({ closeModal, value }) => {
     };
 
     return (
-        <div className="min-h-screen bg-black bg-opacity-50 flex flex-col justify-center items-center py-8 sm:px-6 lg:px-8 fixed inset-0 z-50" onClick={handleBackdropClick}> {/* backdrop-blur-sm */}
-            <div className="w-full h-screen overflow-auto">
+        <div className="min-h-screen w-screen bg-black bg-opacity-50 flex flex-col justify-center items-center py-5 sm:px-6 lg:px-8 fixed inset-0 z-50" onClick={handleBackdropClick}> {/* backdrop-blur-sm */}
+            <div className="w-screen h-screen overflow-auto">
                 {
                     videos.length === 0 ? (
                         <React.Fragment>

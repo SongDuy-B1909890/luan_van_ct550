@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { useFormik } from "formik"
 //import * as Yup from "yup"
 
+import Avatar from '@mui/material/Avatar';
+
 const userString = localStorage.getItem('user');
 const user = userString ? JSON.parse(userString) : " ";
 
@@ -97,7 +99,7 @@ const ProfilePage = () => {
                                         >
                                             Họ
                                         </label>
-                                        <div className="mt-1">
+                                        <div className="mt-[10px]">
                                             <input
                                                 id="firstname"
                                                 name="firstname"
@@ -121,7 +123,7 @@ const ProfilePage = () => {
                                         >
                                             Tên
                                         </label>
-                                        <div className="mt-1">
+                                        <div className="mt-[10px]">
                                             <input
                                                 id="lastname"
                                                 name="lastname"
@@ -143,7 +145,7 @@ const ProfilePage = () => {
                                         <label htmlFor="gender" className="block text-sm font-medium text-gray-700">
                                             Giới tính
                                         </label>
-                                        <div className="mt-2 flex">
+                                        <div className="mt-[20px] flex">
                                             <div className="mr-4">
                                                 <label htmlFor="male" className="inline-flex items-center">
                                                     <input
@@ -181,7 +183,7 @@ const ProfilePage = () => {
                                         <label htmlFor="birthday" className="block text-sm font-medium text-gray-700">
                                             Ngày sinh
                                         </label>
-                                        <div className="mt-1">
+                                        <div className="mt-[10px]">
                                             <div className="flex">
                                                 <input
                                                     id="birthday"
@@ -207,8 +209,13 @@ const ProfilePage = () => {
                                         >
                                             Ảnh đại diện
                                         </label>
-                                        <div className="mt-1">
-                                            <input
+                                        <div className="mt-1 flex justify-center items-center">
+                                            <Avatar
+                                                alt="Remy Sharp"
+                                                src={inputAvatar}
+                                                sx={{ width: 50, height: 50 }}
+                                            />
+                                            <select
                                                 id="avatar"
                                                 name="avatar"
                                                 type="avatar"
@@ -217,9 +224,52 @@ const ProfilePage = () => {
                                                 value={inputAvatar}
                                                 onChange={formik.handleChange} // Gọi hàm formik.handleChange khi giá trị thay đổi
                                                 // required
-                                                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                            />
+                                                className="ml-2 appearance-none block w-full h-[38px] border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            >
+                                                <option className="text-center text-blue-600" value=""> Chọn Ảnh Avatar</option>
+                                                <option
+                                                    value="https://internetviettel.vn/wp-content/uploads/2017/05/1-2.jpg"
+                                                    className="text-center"
+                                                >
+                                                    Avatar 01
+                                                </option>
 
+                                                <option
+                                                    value="https://vapa.vn/wp-content/uploads/2022/12/anh-3d-thien-nhien.jpeg"
+                                                    className="text-center"
+                                                >
+                                                    Avatar 02
+                                                </option>
+
+                                                <option
+                                                    value="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrQdrE5Hne0l2Z1UInCTXVse-nQ2m6GVXf0w&usqp=CAU"
+                                                    className="text-center"
+                                                >
+                                                    Avatar 03
+                                                </option>
+
+                                                <option
+                                                    value="https://cdn.sforum.vn/sforum/wp-content/uploads/2023/06/tai-hinh-nen-dep-nhat-the-gioi-43.jpg"
+                                                    className="text-center"
+                                                >
+                                                    Avatar 04
+                                                </option>
+
+                                                <option
+                                                    value="https://didongviet.vn/dchannel/wp-content/uploads/2023/08/dong-vat-hinh-nen-iphone-doc-dep-didongviet-23@2x-min-1-576x1024.jpg"
+                                                    className="text-center"
+                                                >
+                                                    Avatar 05
+                                                </option>
+
+                                                <option
+                                                    value="https://treobangron.com.vn/wp-content/uploads/2022/09/background-dep-5-2.jpg"
+                                                    className="text-center"
+                                                >
+                                                    Avatar 06
+                                                </option>
+
+                                            </select>
                                         </div>
                                         {formik.errors.avatar && formik.touched.avatar && <div>{formik.errors.avatar}</div>}
                                     </div>
@@ -231,7 +281,7 @@ const ProfilePage = () => {
                                         >
                                             Số điện thoại
                                         </label>
-                                        <div className="mt-1">
+                                        <div className="mt-[10px]">
                                             <input
                                                 id="phone"
                                                 name="phone"
@@ -256,7 +306,7 @@ const ProfilePage = () => {
                                     >
                                         Địa chỉ
                                     </label>
-                                    <div className="mt-1">
+                                    <div className="mt-[10px]">
                                         <input
                                             id="address"
                                             name="address"
